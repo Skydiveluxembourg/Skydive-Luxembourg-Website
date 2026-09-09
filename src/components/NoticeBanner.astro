@@ -1,0 +1,129 @@
+---
+/**
+ * NoticeBanner.astro - site-wide service notice.
+ * Rendered by Layout.astro directly below the nav, so it appears on every
+ * page in the visitor's language.
+ *
+ * The link is the ONLY route to the refurbishment news page - that page is
+ * deliberately kept out of the main nav.
+ *
+ * TEMPORARY (2026-2027 runway refurbishment closure).
+ * To take it down once the airfield reopens, set SHOW_NOTICE to false.
+ * The component and its translations can then be deleted along with the
+ * <NoticeBanner /> line in Layout.astro.
+ */
+
+// Master switch - flip to false to hide the banner on every page.
+const SHOW_NOTICE = true;
+
+const lang = Astro.currentLocale ?? 'en';
+
+const notices = {
+  en: {
+    label: 'Important notice',
+    title: 'Airfield closed for runway refurbishment.',
+    body: 'The airfield is closed while the runway is rebuilt, and we expect to reopen by June 2027. You can still buy a tandem jump: you will receive a reservation code, and as soon as reservations reopen you can use it to book the date you want.',
+    link: 'Check here for refurbishment news.',
+  },
+  fr: {
+    label: 'Avis important',
+    title: 'Aérodrome fermé pour réfection de la piste.',
+    body: "L'aérodrome est fermé pendant les travaux de réfection de la piste et nous prévoyons de rouvrir d'ici juin 2027. Vous pouvez toujours acheter un saut en tandem : vous recevrez un code de réservation qui vous permettra de choisir la date de votre choix dès la réouverture des réservations.",
+    link: 'Suivez ici les actualités des travaux.',
+  },
+  de: {
+    label: 'Wichtiger Hinweis',
+    title: 'Flugplatz wegen Pistensanierung geschlossen.',
+    body: 'Der Flugplatz ist während der Sanierung der Piste geschlossen. Die Wiedereröffnung ist für Juni 2027 geplant. Du kannst weiterhin einen Tandemsprung kaufen und erhältst einen Reservierungscode. Sobald die Reservierungen wieder offen sind, kannst du damit deinen Wunschtermin buchen.',
+    link: 'Hier gibt es Neuigkeiten zu den Bauarbeiten.',
+  },
+  lu: {
+    label: 'Wichtegen Hiweis',
+    title: 'Fluchplaz wéinst Pistenerneierung zou.',
+    body: "D'Fluchplaz ass während den Erneierungsaarbechten un der Piste zou. Mir rechne domat, am Juni 2027 erëm opzemaachen. Du kanns weider en Tandemsprong kafen a kriss e Reservatiounscode. Soubal d'Reservatioune erëm op sinn, kanns du domat däin Wonschdatum buchen.",
+    link: 'Hei fanns du Neiegkeeten zu den Aarbechten.',
+  },
+};
+
+const t = notices[lang] ?? notices.en;
+---
+
+{SHOW_NOTICE && (
+  <aside class="notice-banner" aria-label={t.label}>
+    <div class="notice-banner__inner container">
+      <svg
+        class="notice-banner__icon"
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          fill="currentColor"
+          d="M12 2.5a1.6 1.6 0 0 1 1.39.81l9 15.6A1.6 1.6 0 0 1 21 21.3H3a1.6 1.6 0 0 1-1.39-2.39l9-15.6A1.6 1.6 0 0 1 12 2.5Zm0 5.4a1.1 1.1 0 0 0-1.1 1.18l.35 4.9a.75.75 0 0 0 1.5 0l.35-4.9A1.1 1.1 0 0 0 12 7.9Zm0 8.2a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3Z"
+        />
+      </svg>
+      <p class="notice-banner__text">
+        <strong class="notice-banner__title">{t.title}</strong>{' '}
+        <span class="notice-banner__body">{t.body}</span>{' '}
+        <a class="notice-banner__link" href={`/${lang}/news`}>{t.link}</a>
+      </p>
+    </div>
+  </aside>
+)}
+
+<style>
+  .notice-banner {
+    background: var(--color-warning-bg);
+    color: var(--color-warning-fg);
+    border-bottom: 1px solid var(--color-warning-border);
+  }
+
+  .notice-banner__inner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+  }
+
+  .notice-banner__icon {
+    flex-shrink: 0;
+    /* Nudge the icon onto the first line's optical centre. */
+    margin-top: 0.15em;
+  }
+
+  .notice-banner__text {
+    font-size: var(--fs-sm);
+    line-height: var(--lh-base);
+    /* Long-form notice: keep the measure readable on wide screens. */
+    max-width: 92ch;
+  }
+
+  .notice-banner__title {
+    font-weight: var(--fw-bold);
+  }
+
+  /* Inherit the amber foreground rather than the global link blue, which
+     would fail contrast on this background. */
+  .notice-banner__link,
+  .notice-banner__link:hover,
+  .notice-banner__link:focus {
+    color: inherit;
+    font-weight: var(--fw-medium);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .notice-banner__link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  @media (max-width: 700px) {
+    .notice-banner__inner {
+      gap: var(--space-2);
+      padding-block: var(--space-3);
+      padding-inline: max(var(--space-4), env(safe-area-inset-left)) max(var(--space-4), env(safe-area-inset-right));
+    }
+  }
+</style>

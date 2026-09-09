@@ -35,6 +35,12 @@
   --color-cta-hover:   var(--color-red-dark);
   --color-success:     #16A34A;
   --color-error:       #DC2626;
+
+  /* Service notices (airfield closures, disruptions). Amber rather than the
+     CTA red, so a notice never competes with the "Book a tandem" button. */
+  --color-warning-bg:     #FFF3DC;
+  --color-warning-fg:     #5A3B00;
+  --color-warning-border: #E3A53F;
   --color-rating:      #F5A623;   /* review star (amber) - intentionally fixed across themes */
 
 
@@ -121,6 +127,10 @@
 
   --color-blue-dark: #33B6E5;   /* hover state lightens for dark bg */
   --color-link:      #58C7EE;   /* accessible link accent on dark bg */
+
+  --color-warning-bg:     #2C2113;
+  --color-warning-fg:     #FBD89B;
+  --color-warning-border: #6E5122;
 
   --shadow-sm: 0 1px 2px  rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
