@@ -1,0 +1,192 @@
+---
+/**
+ * NewsContent.astro - runway refurbishment news page. Picks copy by `lang` prop.
+ *
+ * Deliberately NOT in the main nav: this page is reached from the site-wide
+ * NoticeBanner link only. To add an update, edit src/data/refurbishmentNews.js.
+ */
+import { Image } from 'astro:assets';
+
+import PageBanner from '../sections/PageBanner.astro';
+import { posts } from '../../data/refurbishmentNews.js';
+
+// Generic 'work in progress' backdrop for the page. Swap this file if a
+// better shot of the works comes along - nothing else needs changing.
+import bannerImg from '../../assets/img/news/2026-09-08-work-area-fenced.webp';
+
+const { lang = 'en' } = Astro.props;
+
+const copy = {
+  en: {
+    bannerEyebrow: 'Runway refurbishment',
+    bannerTitle: 'Refurbishment news.',
+    bannerSubtitle: 'Updates on the works at the airfield, and what they mean for jumping.',
+    bannerAlt: 'The fenced-off work area running alongside the runway at Noertrange airfield',
+    lead: 'We post every update about the runway works here, newest first. Check back for progress, photos and, as soon as we have them, confirmed reopening dates.',
+    empty: 'There are no updates yet. Please check back soon.',
+    back: 'Back to home',
+    contact: 'Questions? Contact us',
+  },
+  fr: {
+    bannerEyebrow: 'Réfection de la piste',
+    bannerTitle: 'Actualités des travaux.',
+    bannerSubtitle: "Le suivi du chantier de l'aérodrome et ses conséquences sur les sauts.",
+    bannerAlt: "La zone de chantier clôturée le long de la piste de l'aérodrome de Noertrange",
+    lead: "Nous publions ici toutes les actualités des travaux de la piste, les plus récentes en premier. Revenez régulièrement pour suivre l'avancement, voir les photos et connaître les dates de réouverture dès qu'elles seront confirmées.",
+    empty: "Il n'y a pas encore d'actualité. Revenez bientôt.",
+    back: "Retour à l'accueil",
+    contact: 'Une question ? Contactez-nous',
+  },
+  de: {
+    bannerEyebrow: 'Pistensanierung',
+    bannerTitle: 'Neuigkeiten zu den Bauarbeiten.',
+    bannerSubtitle: 'Updates zu den Arbeiten am Flugplatz und was sie für den Sprungbetrieb bedeuten.',
+    bannerAlt: 'Die abgesperrte Baustelle entlang der Piste am Flugplatz Noertrange',
+    lead: 'Hier veröffentlichen wir alle Neuigkeiten zu den Pistenarbeiten, die neuesten zuerst. Schau regelmäßig vorbei: Fortschritt, Fotos und, sobald wir sie haben, bestätigte Termine für die Wiedereröffnung.',
+    empty: 'Es gibt noch keine Neuigkeiten. Schau bald wieder vorbei.',
+    back: 'Zur Startseite',
+    contact: 'Fragen? Kontaktiere uns',
+  },
+  lu: {
+    bannerEyebrow: 'Pistenerneierung',
+    bannerTitle: 'Neiegkeeten zu den Aarbechten.',
+    bannerSubtitle: "Updates zu den Aarbechten op der Fluchplaz a wat se fir de Sprongbetrib bedeiten.",
+    bannerAlt: "Déi ofgespaarte Baustell laanscht d'Piste op der Fluchplaz Noertrange",
+    lead: "Hei publizéiere mir all Neiegkeeten zu de Pistenaarbechten, déi neisten zeréischt. Kuck reegelméisseg laanscht: Fortschrëtt, Fotoen an, soubal mir se hunn, bestätegt Datumer fir d'Wierderopmaachen.",
+    empty: 'Et gëtt nach keng Neiegkeeten. Kuck geschwë nees laanscht.',
+    back: 'Zréck op d\'Startsäit',
+    contact: 'Froen? Kontaktéier eis',
+  },
+};
+
+const t = copy[lang] ?? copy.en;
+
+// Date formatting follows the visitor's language.
+const dateLocales = { en: 'en-GB', fr: 'fr-FR', de: 'de-DE', lu: 'lb-LU' };
+const dateFormatter = new Intl.DateTimeFormat(dateLocales[lang] ?? 'en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+// Midday UTC keeps the displayed day stable regardless of build timezone.
+const formatDate = (iso) => dateFormatter.format(new Date(`${iso}T12:00:00Z`));
+
+// Per-post fields are keyed by language, with English as the fallback so a
+// missing translation degrades to readable copy instead of a blank block.
+const pick = (field) => field?.[lang] ?? field?.en;
+---
+
+<PageBanner
+  image={bannerImg}
+  alt={t.bannerAlt}
+  eyebrow={t.bannerEyebrow}
+  title={t.bannerTitle}
+  subtitle={t.bannerSubtitle}
+/>
+
+<section class="section">
+  <div class="section__inner section__inner--narrow">
+    <p class="section__lead news__lead">{t.lead}</p>
+
+    {posts.length === 0 ? (
+      <p class="news__empty">{t.empty}</p>
+    ) : (
+      <div class="news__list">
+        {posts.map((post) => (
+          <article class="news__item">
+            <time class="news__date" datetime={post.date}>{formatDate(post.date)}</time>
+            <h2 class="news__title">{pick(post.title)}</h2>
+
+            {post.image && (
+              <Image
+                src={post.image}
+                alt={pick(post.imageAlt) ?? ''}
+                class="news__img"
+                widths={[600, 900, 1200]}
+                sizes="(max-width: 780px) 100vw, 720px"
+                loading="lazy"
+              />
+            )}
+
+            <div class="news__body">
+              {(pick(post.body) ?? []).map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+
+    <p class="news__actions">
+      <a href={`/${lang}/`} class="btn btn--outline">{t.back}</a>
+      <a href={`/${lang}/contact`} class="btn btn--secondary">{t.contact}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .news__lead {
+    /* .section__lead centres itself at 60ch, which leaves the intro visibly
+       offset against the full-width posts below. Align it with them. */
+    max-width: none;
+    margin-inline: 0;
+    margin-bottom: var(--space-12);
+  }
+
+  .news__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .news__item {
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .news__item:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .news__date {
+    display: block;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .news__title {
+    margin-top: var(--space-2);
+    font-size: var(--fs-xl);
+  }
+
+  .news__img {
+    margin-top: var(--space-6);
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .news__body {
+    margin-top: var(--space-4);
+  }
+  .news__body p + p {
+    margin-top: var(--space-4);
+  }
+
+  .news__empty {
+    padding: var(--space-12) 0;
+    color: var(--color-fg-muted);
+    text-align: center;
+  }
+
+  .news__actions {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+</style>
