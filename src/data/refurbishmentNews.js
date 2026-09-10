@@ -24,7 +24,7 @@
  */
 
 // Photos, newest first. Add one import per photo.
-import fencingImg from '../assets/img/news/2026-09-08-work-area-fenced.webp';
+import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
   {
@@ -33,10 +33,10 @@ export const posts = [
 
     image: fencingImg,
     imageAlt: {
-      en: 'A line of wooden posts marking the fenced-off work area alongside the runway at Noertrange airfield',
-      fr: "Une ligne de piquets en bois délimitant la zone de chantier le long de la piste de l'aérodrome de Noertrange",
-      de: 'Eine Reihe Holzpfosten markiert die abgesperrte Baustelle entlang der Piste am Flugplatz Noertrange',
-      lu: "Eng Rei Holzpinn markéiert déi ofgespaarte Baustell laanscht d'Piste op der Fluchplaz Noertrange",
+      en: 'Wooden posts strung with red-and-white barrier tape, marking the edge of the work area alongside the paved path',
+      fr: "Piquets en bois reliés par une rubalise rouge et blanche, marquant la limite de la zone de chantier le long du chemin goudronné",
+      de: 'Holzpfosten mit rot-weißem Absperrband markieren die Grenze der Baustelle entlang des asphaltierten Wegs',
+      lu: "Holzpinn mat rout-wäissem Absperrband markéieren d'Grenz vun der Baustell laanscht den asphaltéierte Wee",
     },
 
     title: {
