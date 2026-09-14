@@ -5,10 +5,13 @@
  * ---------------------------------------------------------------------------
  * HOW TO ADD AN UPDATE
  * ---------------------------------------------------------------------------
- * 1. Photo (optional): put the file in src/assets/img/news/ and import it at
- *    the top of this file, e.g.
+ * 1. Photos (optional): put the files in src/assets/img/news/ and import them
+ *    at the top of this file, e.g.
  *        import worksJuly from '../assets/img/news/works-july.webp';
- *    Astro optimises and resizes it automatically - no need to pre-scale.
+ *    Then list them under `images`, each as { src, alt }. A post may carry as
+ *    many as you like and they render stacked, in order. Portrait shots are
+ *    shown narrower so they do not tower over the text.
+ *    Astro optimises and resizes them automatically - no need to pre-scale.
  *
  * 2. Add a new object to the TOP of `posts`. The page renders them in array
  *    order, so newest first.
@@ -24,20 +27,81 @@
  */
 
 // Photos, newest first. Add one import per photo.
+import groovesWideImg from '../assets/img/news/2026-09-14-runway-grooves-wide.webp';
+import centrelineImg from '../assets/img/news/2026-09-14-runway-centreline.webp';
 import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
   {
+    id: '2026-09-14-runway-ground-work',
+    date: '2026-09-14',
+
+    images: [
+      {
+        src: groovesWideImg,
+        alt: {
+          en: 'The runway seen end on, with regular parallel grooves cut into the turf across its full width',
+          fr: "La piste vue dans l'axe, avec des sillons parallèles réguliers creusés dans le gazon sur toute sa largeur",
+          de: 'Die Piste in der Achse gesehen, mit gleichmäßigen parallelen Rillen über die gesamte Breite der Grasnarbe',
+          lu: "D'Piste an der Achs gesinn, mat gläichméissege parallele Rillen iwwer déi ganz Breet vun der Grasnarb",
+        },
+      },
+      {
+        src: centrelineImg,
+        alt: {
+          en: 'The painted runway markings in the foreground, with the freshly grooved surface running away towards the trees',
+          fr: "Les marques peintes de la piste au premier plan, la surface fraîchement sillonnée s'éloignant vers les arbres",
+          de: 'Die aufgemalten Pistenmarkierungen im Vordergrund, dahinter die frisch aufgerissene Fläche in Richtung Bäume',
+          lu: "D'Pistemarkéierungen am Virdergrond, dohannert déi frësch opgerass Fläch a Richtung Beem",
+        },
+      },
+    ],
+
+    title: {
+      en: 'Ground work starts: first 200 metres of the runway opened up',
+      fr: 'Début des travaux de terrassement : les 200 premiers mètres de la piste ouverts',
+      de: 'Erdarbeiten beginnen: die ersten 200 Meter der Piste aufgebrochen',
+      lu: "D'Erdaarbechte fänken un: déi éischt 200 Meter vun der Piste opgebrach",
+    },
+
+    body: {
+      en: [
+        'A tractor-towed machine was at work on 14 September, drawing parallel grooves along roughly 200 metres of the runway, on the section that runs between the trees. The turf has been lifted and the soil beneath opened up, leaving a ribbed pattern across the full width of the surface.',
+        'This is groundwork rather than the resurfacing itself: loosening the compacted surface is the first step before the ground can be levelled and rebuilt.',
+        'The airfield stays closed and the fenced area remains off limits to everyone except the contractor’s personnel. We will post the next update as the works move on.',
+      ],
+      fr: [
+        "Une machine tractée était à l'oeuvre le 14 septembre, traçant des sillons parallèles sur environ 200 mètres de la piste, sur la section qui passe entre les arbres. Le gazon a été soulevé et le sol en dessous ouvert, laissant un motif de stries sur toute la largeur de la surface.",
+        "Il s'agit de travaux préparatoires et non de la réfection elle-même : ameublir la surface compactée est la première étape avant que le terrain puisse être nivelé et reconstruit.",
+        "L'aérodrome reste fermé et la zone clôturée demeure interdite à toute personne autre que le personnel de l'entreprise. Nous publierons la prochaine actualité au fur et à mesure de l'avancement du chantier.",
+      ],
+      de: [
+        'Am 14. September war eine von einem Traktor gezogene Maschine im Einsatz und hat auf rund 200 Metern der Piste parallele Rillen gezogen, auf dem Abschnitt, der zwischen den Bäumen verläuft. Die Grasnarbe wurde angehoben und der Boden darunter geöffnet; das Rillenmuster zieht sich jetzt über die gesamte Breite der Fläche.',
+        'Das sind Vorarbeiten, noch nicht die Sanierung selbst: Das Auflockern der verdichteten Oberfläche ist der erste Schritt, bevor der Boden eingeebnet und neu aufgebaut werden kann.',
+        'Der Flugplatz bleibt geschlossen und der abgesperrte Bereich weiterhin für alle außer dem Personal der Baufirma gesperrt. Die nächste Meldung folgt, sobald die Arbeiten weitergehen.',
+      ],
+      lu: [
+        "Den 14. September war eng Maschinn, déi vun engem Trakter gezu gouf, am Asaz an huet op ronn 200 Meter vun der Piste parallel Rillen gezunn, op deem Deel, dee tëscht de Beem leeft. D'Grasnarb ass ugehuewe ginn an de Buedem drënner opgemaach; d'Rillemuster zitt sech elo iwwer déi ganz Breet vun der Fläch.",
+        "Dat sinn Viraarbechten, nach net d'Sanéierung selwer: d'Oploossen vun der verdichteter Uewerfläch ass den éischte Schrëtt, ier de Buedem ka planéiert an nei opgebaut ginn.",
+        "D'Fluchplaz bleift zou an den ofgespaarte Beräich weiderhi fir jiddereen ausser dem Personal vun der Baufirma verbueden. Déi nächst Meldung kënnt, soubal d'Aarbechte weiderginn.",
+      ],
+    },
+  },
+  {
     id: '2026-09-08-work-area-fenced',
     date: '2026-09-08',
 
-    image: fencingImg,
-    imageAlt: {
-      en: 'Wooden posts strung with red-and-white barrier tape, marking the edge of the work area alongside the paved path',
-      fr: "Piquets en bois reliés par une rubalise rouge et blanche, marquant la limite de la zone de chantier le long du chemin goudronné",
-      de: 'Holzpfosten mit rot-weißem Absperrband markieren die Grenze der Baustelle entlang des asphaltierten Wegs',
-      lu: "Holzpinn mat rout-wäissem Absperrband markéieren d'Grenz vun der Baustell laanscht den asphaltéierte Wee",
-    },
+    images: [
+      {
+        src: fencingImg,
+        alt: {
+          en: 'Wooden posts strung with red-and-white barrier tape, marking the edge of the work area alongside the paved path',
+          fr: "Piquets en bois reliés par une rubalise rouge et blanche, marquant la limite de la zone de chantier le long du chemin goudronné",
+          de: 'Holzpfosten mit rot-weißem Absperrband markieren die Grenze der Baustelle entlang des asphaltierten Wegs',
+          lu: "Holzpinn mat rout-wäissem Absperrband markéieren d'Grenz vun der Baustell laanscht den asphaltéierte Wee",
+        },
+      },
+    ],
 
     title: {
       en: 'Work area fenced off as the runway is handed to the contractor',
