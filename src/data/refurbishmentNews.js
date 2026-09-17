@@ -9,8 +9,8 @@
  *    at the top of this file, e.g.
  *        import worksJuly from '../assets/img/news/works-july.webp';
  *    Then list them under `images`, each as { src, alt }. A post may carry as
- *    many as you like and they render stacked, in order. Portrait shots are
- *    shown narrower so they do not tower over the text.
+ *    many as you like. They render two to a row, in order, each sized by its own
+ *    aspect ratio so a portrait and a landscape shot end up the same height.
  *    Astro optimises and resizes them automatically - no need to pre-scale.
  *
  * 2. Add a new object to the TOP of `posts`. The page renders them in array
@@ -27,11 +27,92 @@
  */
 
 // Photos, newest first. Add one import per photo.
+import rolledForestImg from '../assets/img/news/2026-09-17-runway-rolled-forest-end.webp';
+import rolledVillageImg from '../assets/img/news/2026-09-17-runway-rolled-village-end.webp';
+import rollerImg from '../assets/img/news/2026-09-17-roller.webp';
+import tractorImg from '../assets/img/news/2026-09-17-tractor.webp';
 import groovesWideImg from '../assets/img/news/2026-09-14-runway-grooves-wide.webp';
 import centrelineImg from '../assets/img/news/2026-09-14-runway-centreline.webp';
 import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
+  {
+    id: '2026-09-17-ploughing-and-compaction',
+    date: '2026-09-17',
+
+    images: [
+      {
+        src: rolledForestImg,
+        alt: {
+          en: 'The bare earth runway after ploughing and rolling, looking towards the wooded end, with the fenced boundary on the right',
+          fr: "La piste en terre nue après labour et compactage, en direction de la partie boisée, la clôture du chantier sur la droite",
+          de: 'Die Piste aus blankem Erdreich nach dem Pflügen und Verdichten, Blick zum bewaldeten Ende, rechts die Absperrung',
+          lu: "D'Piste aus blousem Buedem nom Plouen a Verdichten, Bléck op dat bewaldent Enn, riets d'Absperrung",
+        },
+      },
+      {
+        src: rolledVillageImg,
+        alt: {
+          en: 'Roller tracks running the full width of the ploughed runway, with the hangars and the village on the horizon',
+          fr: "Les traces du rouleau sur toute la largeur de la piste labourée, les hangars et le village à l'horizon",
+          de: 'Walzenspuren über die gesamte Breite der gepflügten Piste, am Horizont die Hallen und das Dorf',
+          lu: "Walzespuren iwwer déi ganz Breet vun der geplouter Piste, um Horizont d'Hale an d'Duerf",
+        },
+      },
+      {
+        src: rollerImg,
+        alt: {
+          en: 'A single drum roller parked at the edge of the worked ground, the ploughed surface stretching away to the left',
+          fr: "Un rouleau compacteur à bille unique à l'arrêt en bordure du terrain travaillé, la surface labourée s'étendant sur la gauche",
+          de: 'Eine Walze am Rand der bearbeiteten Fläche, links davon die gepflügte Oberfläche',
+          lu: "Eng Walz um Rand vun der bearbechter Fläch, lénks dovunner déi geplouten Uewerfläch",
+        },
+      },
+      {
+        src: tractorImg,
+        alt: {
+          en: 'A tractor with a mounted implement standing at the edge of the field in the low evening sun',
+          fr: "Un tracteur équipé d'un outil porté, à l'arrêt en bordure du terrain dans la lumière rasante du soir",
+          de: 'Ein Traktor mit Anbaugerät am Feldrand in der tief stehenden Abendsonne',
+          lu: "En Trakter mat Unbaugerät um Feldrand an der déif stoender Owesonn",
+        },
+      },
+    ],
+
+    title: {
+      en: 'Ploughing and compaction under way, slowed by dry soil',
+      fr: 'Labour et compactage en cours, ralentis par la sécheresse du sol',
+      de: 'Pflügen und Verdichten laufen - der trockene Boden bremst',
+      lu: 'Plouen a Verdichten am Gaang, gebremst vum dréchene Buedem',
+    },
+
+    body: {
+      en: [
+        'In the swampy section in the forest, the contractor broke up the ground to a depth of 40 centimetres, loosening the soil in preparation for the next steps. On Monday the whole field was ploughed, and work continued through the rest of the week on compacting the whole runway.',
+        'Compaction has not advanced as expected. The soil is extremely dry, and that is what is holding the work back.',
+        'Next week the ground will be watered, with the help of the Commune of Wiltz, so that the runway can be compacted properly. For once in skydiving, we would be glad to see rain.',
+        'The asphalt way crossing the runway will stay in place. The grass area around it will be flattened, to reduce the risk of a bump forming there.',
+      ],
+      fr: [
+        "Dans la zone marécageuse de la partie boisée de la piste, l'entreprise a ameubli le sol sur 40 centimètres de profondeur, afin de préparer les étapes suivantes. Lundi, l'entreprise a labouré la totalité du terrain, et les travaux se sont poursuivis toute la semaine pour compacter l'ensemble de la piste.",
+        "Le compactage n'avance pas aussi vite que prévu. Le sol est extrêmement sec, et c'est ce qui freine les travaux.",
+        "La semaine prochaine, le sol sera arrosé avec l'aide de la Commune de Wiltz, afin que la piste puisse être compactée correctement. Pour une fois en parachutisme, la pluie serait la bienvenue.",
+        "Le chemin goudronné qui traverse la piste restera en place ; en revanche, la zone en herbe qui l'entoure sera aplanie, afin de limiter le risque de formation d'une bosse à cet endroit.",
+      ],
+      de: [
+        'Im sumpfigen Waldabschnitt hat die Baufirma den Boden 40 Zentimeter tief aufgebrochen und aufgelockert, als Vorbereitung auf die nächsten Schritte. Am Montag hat die Baufirma das gesamte Feld gepflügt, und die ganze Woche über wurde an der Verdichtung der kompletten Piste gearbeitet.',
+        'Das Verdichten kommt allerdings nicht so voran wie erwartet. Der Boden ist extrem trocken, und genau das bremst die Arbeiten.',
+        'Nächste Woche wird der Boden mit Unterstützung der Gemeinde Wiltz gewässert, damit sich die Piste richtig verdichten lässt. Regen ist im Fallschirmsport sonst nie willkommen - diesmal würden wir uns ausnahmsweise darüber freuen.',
+        'Der asphaltierte Weg, der die Piste kreuzt, bleibt bestehen. Die Grasfläche ringsherum wird eingeebnet, um das Risiko einer Bodenwelle an dieser Stelle zu verringern.',
+      ],
+      lu: [
+        "Am sompege Beräich am Bësch huet d'Baufirma de Buedem 40 Zentimeter déif opgebrach an opgelackert, als Virbereedung op déi nächst Schrëtt. E Méindeg huet si dat ganzt Feld geplout, an déi ganz Woch iwwer gouf weider un der Verdichtung vun der ganzer Piste geschafft.",
+        "D'Verdichtung ass awer net esou virugaangen, wéi erwaart. De Buedem ass extrem dréchen, a genee dat bremst d'Aarbechten.",
+        "Nächst Woch gëtt de Buedem mat der Hëllef vun der Gemeng Wiltz beweessert, fir dass d'Piste richteg ka verdicht ginn. Am Fallschiermsprangen hätte mir fir eng Kéier näischt géint e bësse Reen.",
+        "Den asphaltéierte Wee, deen iwwer d'Piste leeft, bleift wou en ass. D'Grasfläch ronderëm gëtt awer planéiert, fir de Risiko ze verklengeren, dass do e Bockel entsteet.",
+      ],
+    },
+  },
   {
     id: '2026-09-14-runway-ground-work',
     date: '2026-09-14',
