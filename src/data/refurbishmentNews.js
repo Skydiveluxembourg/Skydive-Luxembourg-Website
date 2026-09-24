@@ -11,6 +11,8 @@
  *    Then list them under `images`, each as { src, alt }. A post may carry as
  *    many as you like. They render two to a row, in order, each sized by its own
  *    aspect ratio so a portrait and a landscape shot end up the same height.
+ *    With an odd number, the FIRST photo leads alone at full width and the rest
+ *    follow in pairs, so list the photo you want to lead first.
  *    Astro optimises and resizes them automatically - no need to pre-scale.
  *
  * 2. Add a new object to the TOP of `posts`. The page renders them in array
@@ -27,6 +29,9 @@
  */
 
 // Photos, newest first. Add one import per photo.
+import treelineImg from '../assets/img/news/2026-09-24-machines-treeline.webp';
+import sunsetRunwayImg from '../assets/img/news/2026-09-24-runway-sunset-centreline.webp';
+import truckImg from '../assets/img/news/2026-09-24-truck-container.webp';
 import rolledForestImg from '../assets/img/news/2026-09-17-runway-rolled-forest-end.webp';
 import rolledVillageImg from '../assets/img/news/2026-09-17-runway-rolled-village-end.webp';
 import rollerImg from '../assets/img/news/2026-09-17-roller.webp';
@@ -36,6 +41,74 @@ import centrelineImg from '../assets/img/news/2026-09-14-runway-centreline.webp'
 import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
+  {
+    id: '2026-09-24-levelling-and-sowing',
+    date: '2026-09-24',
+
+    images: [
+      {
+        src: treelineImg,
+        alt: {
+          en: "Machines parked along the treeline beside the runway at dusk, with the village and its church spire on the horizon",
+          fr: "Au crépuscule, des engins à l'arrêt le long de la lisière des arbres, à côté de la piste, avec le village et son clocher à l'horizon",
+          de: "Entlang der Baumreihe neben der Piste abgestellte Maschinen in der Abenddämmerung, am Horizont das Dorf mit seinem Kirchturm",
+          lu: "Maschinnen, déi an der Dämmerung laanscht d'Bamrei nieft der Piste geparkt sinn, an um Horizont d'Duerf mat sengem Kierchtuerm",
+        },
+      },
+      {
+        src: sunsetRunwayImg,
+        alt: {
+          en: "The bare runway at sunset, seen along a painted centreline marker, with machines at the far end between the trees",
+          fr: "La piste en terre nue au coucher du soleil, vue dans l'alignement d'une marque d'axe peinte, avec des engins tout au bout entre les arbres",
+          de: "Die Piste aus blankem Erdreich bei Sonnenuntergang, Blick entlang einer aufgemalten Mittellinienmarkierung, am anderen Ende Maschinen zwischen den Bäumen",
+          lu: "Déi blouss Piste beim Sonnenënnergang, laanscht eng opgemolt Mëttelmarkéierung gesinn, mat Maschinnen um aneren Enn tëscht de Beem",
+        },
+      },
+      {
+        src: truckImg,
+        alt: {
+          en: "A heavy truck with a loaded container parked on the grass beside the runway, the setting sun beyond",
+          fr: "Un poids lourd avec une benne chargée, garé sur l'herbe à côté de la piste, le soleil couchant au loin",
+          de: "Ein schwerer Lastwagen mit beladenem Container, auf der Grasfläche neben der Piste abgestellt, dahinter die untergehende Sonne",
+          lu: "E schwéiere Camion mat engem geluedene Container, um Gras nieft der Piste geparkt, an dohannert d'Sonn, déi ënnergeet",
+        },
+      },
+    ],
+
+    title: {
+      en: "Levelling continues, with sowing planned before winter",
+      fr: "Le nivellement se poursuit, le semis est prévu avant l'hiver",
+      de: "Die Piste wird weiter eingeebnet, Einsaat vor dem Winter geplant",
+      lu: "D'Planéiere geet weider, virum Wanter soll geséint ginn",
+    },
+
+    body: {
+      en: [
+        "The next step for the runway is sowing: the grass seed is due to go into the ground before winter. The work on the airfield at the moment is preparing the ground for it.",
+        "Heavy machinery is on site straightening and levelling the runway further, so that the surface the grass will grow on is as even as it can be made.",
+        "The ground was watered last week and compaction advanced with it, but the soil is still not moist enough. It needs to take up more water before the runway will compact as it should.",
+        "An electric fence against wild boar will be put in place as well. Boar root up open ground as they feed, and a fresh sowing would not survive that, so keeping them out is part of giving the new grass the best conditions to establish.",
+      ],
+      fr: [
+        "La prochaine étape sur la piste est le semis : les graines de gazon doivent être mises en terre avant l'hiver. Les travaux menés actuellement sur l'aérodrome préparent le sol à les recevoir.",
+        "Des engins lourds poursuivent le redressement et le nivellement de la piste, afin que la surface sur laquelle l'herbe poussera soit aussi plane que possible.",
+        "Le sol a été arrosé la semaine dernière et le compactage a pu progresser, mais la terre n'est toujours pas assez humide. Il faut qu'elle absorbe encore de l'eau pour que la piste se compacte correctement.",
+        "Une clôture électrique sera par ailleurs installée contre les sangliers. Ces derniers retournent la terre nue pour se nourrir, et un semis tout frais n'y résisterait pas : les tenir à l'écart fait donc partie des mesures prises pour donner au nouveau gazon les meilleures chances de reprise.",
+      ],
+      de: [
+        "Der nächste Schritt für die Piste ist die Einsaat: Das Saatgut soll noch vor dem Winter in den Boden. Die Arbeiten, die gerade auf dem Flugplatz laufen, bereiten den Boden genau darauf vor.",
+        "Dafür ist im Moment schweres Gerät im Einsatz: Die Piste wird weiter begradigt und eingeebnet, damit die Fläche, auf der das Gras später wachsen soll, so eben wird wie nur möglich.",
+        "Vergangene Woche wurde der Boden gewässert, und das Verdichten ist damit ein Stück vorangekommen. Feucht genug ist der Boden aber immer noch nicht: Er muss mehr Wasser aufnehmen, bevor sich die Piste so verdichten lässt, wie es sein soll.",
+        "Außerdem wird ein Elektrozaun gegen Wildschweine aufgestellt. Wildschweine wühlen bei der Futtersuche offenen Boden auf, und eine frische Einsaat würde das nicht überstehen. Die Tiere fernzuhalten, gehört deshalb dazu, damit das neue Gras die besten Bedingungen zum Anwachsen hat.",
+      ],
+      lu: [
+        "Den nächste Schrëtt op der Piste ass d'Séien: de Grassom soll nach virum Wanter an de Buedem kommen. D'Aarbechten, déi de Moment op der Fluchplaz lafen, bereeden de Buedem dofir vir.",
+        "Mat schwéiere Maschinne gëtt d'Piste weider riicht gemaach a planéiert, fir dass d'Fläch, op där d'Gras spéider wuesse soll, esou eben gëtt wéi nëmme méiglech.",
+        "Lescht Woch ass de Buedem beweessert ginn, an d'Verdichtung ass domat virugaangen. Mee de Buedem ass nach ëmmer net fiicht genuch: hie muss nach méi Waasser ophuelen, ier d'Piste sech esou verdicht, wéi se soll.",
+        "Donieft gëtt en Elektrozaun géint d'Wëllschwäin opgestallt. Wëllschwäin, déi op der Sich no Fudder sinn, wullen de fräie Buedem op, an eng frësch Saat géif dat net iwwerliewen. Si dobaussen ze halen gehéiert dofir dozou, fir dem neie Gras déi bescht Konditiounen ze ginn, fir dass et gutt uwiisst.",
+      ],
+    },
+  },
   {
     id: '2026-09-17-ploughing-and-compaction',
     date: '2026-09-17',

@@ -96,41 +96,51 @@ const pick = (field) => field?.[lang] ?? field?.en;
           const photos = post.images ?? [];
 
           // Two photos to a row. Four in a single strip would be about 170px each,
-          // too small to read; paired, they form a grid and stay legible. An odd
-          // photo at the end gets a row to itself.
+          // too small to read; paired, they form a grid and stay legible. With an
+          // odd count the first photo leads on its own at full width and the rest
+          // follow in pairs, so no row is left with a lone photo at half width.
+          // Put the photo that should lead first in the post's `images` list.
           const rows = [];
-          for (let i = 0; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
-
-          // Paired, each photo takes roughly half the column; alone it fills it.
-          const imgSizes = photos.length > 1
-            ? '(max-width: 640px) 100vw, 360px'
-            : '(max-width: 780px) 100vw, 720px';
+          let start = 0;
+          if (photos.length % 2 === 1) {
+            rows.push([photos[0]]);
+            start = 1;
+          }
+          for (let i = start; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
 
           return (
             <article class="news__item">
               <time class="news__date" datetime={post.date}>{formatDate(post.date)}</time>
               <h2 class="news__title">{pick(post.title)}</h2>
 
-              {rows.map((row) => (
-                <div
-                  class:list={['news__figures', {
-                    'news__figures--single': row.length === 1,
-                    'news__figures--trailing': row.length === 1 && photos.length > 1,
-                  }]}
-                >
-                  {row.map((photo) => (
-                    <Image
-                      src={photo.src}
-                      alt={pick(photo.alt) ?? ''}
-                      class:list={['news__img', { 'news__img--portrait': photo.src.height > photo.src.width }]}
-                      style={`--ar: ${(photo.src.width / photo.src.height).toFixed(4)}`}
-                      widths={[400, 600, 900, 1200]}
-                      sizes={imgSizes}
-                      loading="lazy"
-                    />
-                  ))}
-                </div>
-              ))}
+              {rows.map((row) => {
+                // Photos in a row split the ~720px column by aspect ratio, so in a
+                // portrait-and-landscape pair the landscape renders near 470px, not
+                // 360px. Each photo asks for its real share; a flat 360px made the
+                // browser fetch a variant too small and stretch it.
+                const rowAr = row.reduce((sum, ph) => sum + ph.src.width / ph.src.height, 0);
+                return (
+                  <div class:list={['news__figures', { 'news__figures--single': row.length === 1 }]}>
+                    {row.map((photo) => {
+                      const ar = photo.src.width / photo.src.height;
+                      const isPortrait = photo.src.height > photo.src.width;
+                      // A lone portrait is capped at 460px by the CSS below.
+                      const px = row.length === 1 && isPortrait ? 460 : Math.round((720 * ar) / rowAr);
+                      return (
+                        <Image
+                          src={photo.src}
+                          alt={pick(photo.alt) ?? ''}
+                          class:list={['news__img', { 'news__img--portrait': isPortrait }]}
+                          style={`--ar: ${ar.toFixed(4)}`}
+                          widths={[400, 600, 900, 1200]}
+                          sizes={`(max-width: 640px) 100vw, ${px}px`}
+                          loading="lazy"
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
 
               <div class="news__body">
                 {(pick(post.body) ?? []).map((paragraph) => <p>{paragraph}</p>)}
@@ -217,12 +227,6 @@ const pick = (field) => field?.[lang] ?? field?.en;
   .news__figures--single .news__img--portrait {
     max-width: 460px;
     margin-inline: auto;
-  }
-
-  /* The odd photo left over from an uneven count. Hold it to the width its
-     neighbours above have, so the last row does not read as a banner. */
-  .news__figures--trailing .news__img {
-    max-width: calc(50% - (var(--space-3) / 2));
   }
 
   /* Too narrow for a row: stack, and rein the tall ones back in. */
