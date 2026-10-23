@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../utils/urls.js';
 /**
  * Footer.astro - site footer.
  * Three columns on desktop: brand, legal links, social.
@@ -77,9 +78,9 @@ const t = labels[lang] ?? labels.en;
     <nav aria-label={t.legal} class="site-footer__column">
       <h3>{t.legal}</h3>
       <ul>
-        <li><a href={`/${lang}/imprint`}>{t.imprint}</a></li>
-        <li><a href={`/${lang}/privacy`}>{t.privacy}</a></li>
-        <li><a href={`/${lang}/cookies`}>{t.cookies}</a></li>
+        <li><a href={pageHref(`/${lang}/imprint`)}>{t.imprint}</a></li>
+        <li><a href={pageHref(`/${lang}/privacy`)}>{t.privacy}</a></li>
+        <li><a href={pageHref(`/${lang}/cookies`)}>{t.cookies}</a></li>
       </ul>
     </nav>
 

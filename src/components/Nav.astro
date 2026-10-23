@@ -12,6 +12,7 @@ import { Image } from 'astro:assets';
 
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import { pageHref } from '../utils/urls.js';
 
 import logoBlack from '../assets/logo/skydive-logo-black.png';
 import logoWhite from '../assets/logo/skydive-logo-white.png';
@@ -21,7 +22,7 @@ const path = Astro.url.pathname;
 
 // "Book a tandem" lands on the tandem page's booking section, which offers
 // the three dz-cloud options (buy with a date, gift card, redeem a gift card).
-const bookHref = `/${lang}/tandem#book`;
+const bookHref = pageHref(`/${lang}/tandem#book`);
 
 const labels = {
   en: {
@@ -101,7 +102,7 @@ const isActive = (slug) => {
         {items.map(([slug, label]) => (
           <li>
             <a
-              href={`/${lang}/${slug}`}
+              href={pageHref(`/${lang}/${slug}`)}
               class:list={['site-nav__link', { 'is-active': isActive(slug) }]}
             >
               {label}
@@ -139,20 +140,38 @@ const isActive = (slug) => {
 
 <script>
   // Mobile menu toggle - vanilla JS, runs on every page load
-  const nav = document.querySelector('.site-nav');
+  const nav = document.querySelector<HTMLElement>('.site-nav');
   const toggle = document.querySelector('[data-nav-toggle]');
   const list = document.querySelector('[data-nav-list]');
 
-  const syncNavHeight = () => {
-    if (!nav) return;
-    document.documentElement.style.setProperty('--site-nav-height', `${nav.getBoundingClientRect().height}px`);
+  let navHeight = 0;
+  const setNavHeight = (height: number) => {
+    if (height <= 0 || height === navHeight) return;
+    navHeight = height;
+    document.documentElement.style.setProperty('--site-nav-height', `${height}px`);
   };
 
-  syncNavHeight();
   if ('ResizeObserver' in window && nav) {
-    new ResizeObserver(syncNavHeight).observe(nav);
-  } else {
-    window.addEventListener('resize', syncNavHeight);
+    // The observer supplies dimensions after layout, avoiding a forced startup read.
+    new ResizeObserver(([entry]) => {
+      const borderBox = entry.borderBoxSize?.[0];
+      setNavHeight(borderBox?.blockSize ?? nav.offsetHeight);
+    }).observe(nav, { box: 'border-box' });
+  } else if (nav) {
+    // Older browsers measure after the initial render and once per resize frame.
+    let frame = 0;
+    const scheduleNavHeight = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        setNavHeight(nav.offsetHeight);
+      });
+    };
+    scheduleNavHeight();
+    window.addEventListener('resize', scheduleNavHeight);
+    nav.querySelectorAll('img').forEach((image) => {
+      image.addEventListener('load', scheduleNavHeight);
+    });
   }
 
   const closeMenu = () => {

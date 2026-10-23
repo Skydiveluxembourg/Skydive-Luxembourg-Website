@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../utils/urls.js';
 /**
  * NoticeBanner.astro - site-wide service notice.
  * Rendered by Layout.astro directly below the nav, so it appears on every
@@ -67,7 +68,7 @@ const t = notices[lang] ?? notices.en;
       <p class="notice-banner__text">
         <strong class="notice-banner__title">{t.title}</strong>{' '}
         <span class="notice-banner__body">{t.body}</span>{' '}
-        <a class="notice-banner__link" href={`/${lang}/news`}>{t.link}</a>
+        <a class="notice-banner__link" href={pageHref(`/${lang}/news`)}>{t.link}</a>
       </p>
     </div>
   </aside>

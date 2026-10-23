@@ -5,22 +5,28 @@
 [build.environment]
   NODE_VERSION = "22.12.0"
 
-# Static-build root fallback: send bare domain visitors to the default language.
+# Keep query-specific legacy routes before the general root redirect.
+# Force these rules so the generated index.html does not shadow them.
+[[redirects]]
+  from = "/"
+  to = "/en/about/"
+  status = 301
+  query = { page_id = "48" }
+  force = true
+
+[[redirects]]
+  from = "/"
+  to = "/en/tandem/"
+  status = 301
+  query = { page_id = "1590" }
+  force = true
+
+# Redirect before serving the static-host fallback document at the root.
 [[redirects]]
   from = "/"
   to = "/en/"
   status = 302
-
-# Legacy WordPress/CPL-era URLs found during audit.
-[[redirects]]
-  from = "/?page_id=48"
-  to = "/en/about/"
-  status = 301
-
-[[redirects]]
-  from = "/?page_id=1590"
-  to = "/en/tandem/"
-  status = 301
+  force = true
 
 [[redirects]]
   from = "/contact-2/"

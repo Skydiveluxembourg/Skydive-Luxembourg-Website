@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * Hero.astro - full-bleed homepage hero.
  * Props: image (imported asset), alt, eyebrow, title, subtitle,
@@ -31,10 +32,10 @@ const {
     {(primaryCta || secondaryCta) && (
       <div class="hero__ctas">
         {primaryCta && (
-          <a href={primaryCta.href} class="btn btn--primary btn--lg">{primaryCta.label}</a>
+          <a href={pageHref(primaryCta.href)} class="btn btn--primary btn--lg">{primaryCta.label}</a>
         )}
         {secondaryCta && (
-          <a href={secondaryCta.href} class="btn btn--ghost btn--lg">{secondaryCta.label}</a>
+          <a href={pageHref(secondaryCta.href)} class="btn btn--ghost btn--lg">{secondaryCta.label}</a>
         )}
       </div>
     )}
