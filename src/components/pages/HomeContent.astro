@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * HomeContent.astro - homepage body. Picks copy by `lang` prop.
  */
@@ -248,7 +249,7 @@ const reviews = await getGoogleReviews(lang);
       <h2 class="section__title">{t.aboutTitle}</h2>
       <p class="section__lead">{t.aboutText}</p>
       <p style="margin-top: var(--space-6)">
-        <a href={aboutHref} class="btn btn--outline">{t.aboutCta}</a>
+        <a href={pageHref(aboutHref)} class="btn btn--outline">{t.aboutCta}</a>
       </p>
     </header>
   </div>
@@ -262,7 +263,7 @@ const reviews = await getGoogleReviews(lang);
     </header>
     <Gallery items={gallery} />
     <p style="text-align: center; margin-top: var(--space-8)">
-      <a href={galleryHref} class="btn btn--outline">{t.galleryCta}</a>
+      <a href={pageHref(galleryHref)} class="btn btn--outline">{t.galleryCta}</a>
     </p>
   </div>
 </section>

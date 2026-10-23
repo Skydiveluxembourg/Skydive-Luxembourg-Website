@@ -249,10 +249,12 @@ const whatsappHref = `https://wa.me/352621701194?text=${encodeURIComponent(whats
      Exclude .btn so a button placed here (WhatsApp) keeps its own white
      text — otherwise this more-specific rule paints blue-on-blue. */
   .contact-info__list a:not(.btn) {
-    color: var(--color-blue);
+    color: var(--color-link);
     text-decoration: none;
   }
-  .contact-info__list a:not(.btn):hover {
+  .contact-info__list a:not(.btn):hover,
+  .contact-info__list a:not(.btn):focus-visible {
+    color: var(--color-link-hover);
     text-decoration: underline;
   }
 

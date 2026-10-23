@@ -6,6 +6,7 @@
  *   cols: 2 | 3 | 4 (default 3)
  */
 import { Image } from 'astro:assets';
+import { pageHref } from '../../utils/urls.js';
 
 const { items = [], cols = 3 } = Astro.props;
 const gridClass = `grid grid--${cols}`;
@@ -29,7 +30,7 @@ const gridClass = `grid grid--${cols}`;
         <h3 class="feature-card__title">{item.title}</h3>
         <p class="feature-card__text">{item.text}</p>
         {item.href && item.cta && (
-          <a href={item.href} class="feature-card__link">{item.cta} →</a>
+          <a href={pageHref(item.href)} class="feature-card__link">{item.cta} →</a>
         )}
       </div>
     </article>
@@ -86,9 +87,13 @@ const gridClass = `grid grid--${cols}`;
   .feature-card__link {
     display: inline-block;
     margin-top: var(--space-2);
-    color: var(--color-cta);
+    color: var(--color-link-accent);
     font-weight: var(--fw-medium);
     text-decoration: none;
   }
-  .feature-card__link:hover { color: var(--color-cta-hover); }
+  .feature-card__link:hover,
+  .feature-card__link:focus-visible {
+    color: var(--color-link-accent-hover);
+    text-decoration: underline;
+  }
 </style>

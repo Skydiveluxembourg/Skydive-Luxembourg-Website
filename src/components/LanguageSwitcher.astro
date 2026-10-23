@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../utils/urls.js';
 /**
  * LanguageSwitcher.astro - small EN/FR/DE/LU pill.
  * Detects the current locale and swaps it for each link target,
@@ -28,7 +29,7 @@ const labels = {
   lu: 'Sprooch',
 };
 
-const buildLink = (loc) => `/${loc}${pathWithoutLocale}`.replace(/\/+/g, '/');
+const buildLink = (loc) => pageHref(`/${loc}${pathWithoutLocale}`.replace(/\/+/g, '/'));
 ---
 
 <div class="lang-switcher" role="group" aria-label={labels[lang] ?? labels.en}>

@@ -21,6 +21,8 @@
   --color-surface-inverse: #0A0A0A;
   --color-on-inverse:      #FFFFFF;
   --color-on-inverse-muted: #B5B5B5;
+  --color-on-inverse-link: #58C7EE;
+  --color-on-inverse-link-hover: #33B6E5;
 
   /* Luxembourg flag accents */
   --color-blue:      #0077A3;   /* accessible LU-blue derived accent */
@@ -31,6 +33,9 @@
   /* Semantic colors (use these in components, not the raw values above) */
   --color-link:        var(--color-blue);
   --color-link-hover:  var(--color-blue-dark);
+  /* Red text accents are independent of filled CTA button backgrounds. */
+  --color-link-accent:       var(--color-red);
+  --color-link-accent-hover: var(--color-red-dark);
   --color-cta:         var(--color-red);
   --color-cta-hover:   var(--color-red-dark);
   --color-success:     #16A34A;
@@ -125,8 +130,10 @@
   --color-fg-muted:  #8B949E;
   --color-border:    #30363D;
 
-  --color-blue-dark: #33B6E5;   /* hover state lightens for dark bg */
   --color-link:      #58C7EE;   /* accessible link accent on dark bg */
+  --color-link-hover: #33B6E5;
+  --color-link-accent: #FF7B83;
+  --color-link-accent-hover: #FFA1A6;
 
   --color-warning-bg:     #2C2113;
   --color-warning-fg:     #FBD89B;

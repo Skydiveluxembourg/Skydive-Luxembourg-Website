@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * FAQContent.astro - Frequently Asked Questions page. Picks copy by `lang` prop.
  */
@@ -284,12 +285,12 @@ const related = {
     </header>
     <FAQList items={t.items} />
     <p class="faq-related">
-      <a href={tandemHref}>{related.tandem}</a>
-      <a href={affHref}>{related.aff}</a>
-      <a href={pricingHref}>{related.pricing}</a>
+      <a href={pageHref(tandemHref)}>{related.tandem}</a>
+      <a href={pageHref(affHref)}>{related.aff}</a>
+      <a href={pageHref(pricingHref)}>{related.pricing}</a>
     </p>
     <p style="text-align: center; margin-top: var(--space-8)">
-      <a href={contactHref} class="btn btn--outline">{contactCta}</a>
+      <a href={pageHref(contactHref)} class="btn btn--outline">{contactCta}</a>
     </p>
   </div>
 </section>

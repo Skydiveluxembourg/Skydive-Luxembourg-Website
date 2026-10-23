@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * TandemContent.astro - tandem jump page body. Picks copy by `lang` prop.
  */
@@ -374,8 +375,8 @@ const reviews = await getGoogleReviews(lang);
         {t.trustItems.map((item) => <li>{item}</li>)}
       </ul>
       <p class="related-links">
-        <a href={pricingHref}>{t.relatedPricing}</a>
-        <a href={faqHref}>{t.relatedFaq}</a>
+        <a href={pageHref(pricingHref)}>{t.relatedPricing}</a>
+        <a href={pageHref(faqHref)}>{t.relatedFaq}</a>
       </p>
     </div>
   </div>

@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * PricingContent.astro - pricing page body. Picks copy by `lang` prop.
  * Club formulas: old/current public pricing page plus confirmed AFF price from Fränz.
@@ -257,9 +258,9 @@ const detailCards = [
       <p class="section__lead">{t.introText}</p>
       {t.sourceText && <p class="tariff-source">{t.sourceText}</p>}
       <p class="related-links">
-        <a href={tandemHref}>{t.relatedTandem}</a>
-        <a href={affHref}>{t.relatedAff}</a>
-        <a href={funJumpersHref}>{t.relatedFun}</a>
+        <a href={pageHref(tandemHref)}>{t.relatedTandem}</a>
+        <a href={pageHref(affHref)}>{t.relatedAff}</a>
+        <a href={pageHref(funJumpersHref)}>{t.relatedFun}</a>
       </p>
     </header>
   </div>
@@ -277,7 +278,7 @@ const detailCards = [
           </div>
           <p class="formula-card__price">{item.price}</p>
           <a
-            href={item.href}
+            href={pageHref(item.href)}
             class={`btn ${item.variant === 'dark' ? 'btn--primary' : 'btn--outline'}`}
             {...(item.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           >
@@ -305,7 +306,7 @@ const detailCards = [
                 </div>
               ))}
             </dl>
-            <a href={card.href} class="detail-card__link">{t.ctaSecondary} →</a>
+            <a href={pageHref(card.href)} class="detail-card__link">{t.ctaSecondary} →</a>
           </article>
         );
       })}
@@ -455,7 +456,7 @@ const detailCards = [
   }
 
   .detail-card__eyebrow {
-    color: var(--color-blue);
+    color: var(--color-link);
   }
 
   .detail-card__header h2 {
@@ -504,12 +505,14 @@ const detailCards = [
   }
 
   .detail-card__link {
-    color: var(--color-cta);
+    color: var(--color-link-accent);
     font-weight: var(--fw-bold);
     text-decoration: none;
   }
 
-  .detail-card__link:hover {
+  .detail-card__link:hover,
+  .detail-card__link:focus-visible {
+    color: var(--color-link-accent-hover);
     text-decoration: underline;
   }
 

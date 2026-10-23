@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "test": "npm run build",
+    "test": "node --test tests/urls.test.js && npm run build",
     "preview": "astro preview",
     "astro": "astro"
   },

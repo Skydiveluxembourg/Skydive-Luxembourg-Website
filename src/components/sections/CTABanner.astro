@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * CTABanner.astro - full-bleed call-to-action strip with colored bg.
  * Props: title, subtitle, primaryCta, secondaryCta
@@ -13,13 +14,13 @@ const { title, subtitle, primaryCta, secondaryCta } = Astro.props;
     <div class="cta-banner__ctas">
       {primaryCta && (
         <a
-          href={primaryCta.href}
+          href={pageHref(primaryCta.href)}
           class="btn btn--primary btn--lg"
           {...(primaryCta.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >{primaryCta.label}</a>
       )}
       {secondaryCta && (
-        <a href={secondaryCta.href} class="btn btn--ghost btn--lg">{secondaryCta.label}</a>
+        <a href={pageHref(secondaryCta.href)} class="btn btn--ghost btn--lg">{secondaryCta.label}</a>
       )}
     </div>
   </div>

@@ -17,6 +17,7 @@ import '../styles/components.css';
 import Nav from '../components/Nav.astro';
 import NoticeBanner from '../components/NoticeBanner.astro';
 import Footer from '../components/Footer.astro';
+import { pageHref } from '../utils/urls.js';
 
 const {
   title = 'Skydive Luxembourg',
@@ -33,7 +34,7 @@ const ogLocales = { en: 'en_GB', fr: 'fr_FR', de: 'de_DE' };
 const ogLocale = ogLocales[lang] ?? 'en_GB';
 const ogAlternates = locales.filter((l) => l !== lang).map((l) => ogLocales[l]);
 const path = Astro.url.pathname;
-const canonicalUrl = new URL(path, Astro.site).toString();
+const canonicalUrl = new URL(pageHref(path), Astro.site).toString();
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://skydive.lu';
 
 // Strip the current locale prefix to compute hreflang URLs for the other languages
@@ -114,13 +115,13 @@ const allStructuredData = [organizationSchema, webPageSchema, ...structuredData]
       <link
         rel="alternate"
         hreflang={loc}
-        href={new URL(`/${loc}${pathWithoutLocale}`.replace(/\/+/g, '/'), Astro.site)}
+        href={new URL(pageHref(`/${loc}${pathWithoutLocale}`.replace(/\/+/g, '/')), Astro.site)}
       />
     ))}
     <link
       rel="alternate"
       hreflang="x-default"
-      href={new URL(`/en${pathWithoutLocale}`.replace(/\/+/g, '/'), Astro.site)}
+      href={new URL(pageHref(`/en${pathWithoutLocale}`.replace(/\/+/g, '/')), Astro.site)}
     />
 
     <meta property="og:type" content="website" />

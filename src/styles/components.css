@@ -180,7 +180,9 @@
 .section--tight  { padding: var(--space-12) var(--space-4); }
 .section--alt    { background: var(--color-bg-alt); }
 .section--dark   { background: var(--color-surface-inverse); color: var(--color-on-inverse); }
-.section--dark a { color: var(--color-blue); }
+.section--dark a:not(.btn) { color: var(--color-on-inverse-link); }
+.section--dark a:not(.btn):hover,
+.section--dark a:not(.btn):focus-visible { color: var(--color-on-inverse-link-hover); }
 
 .section__inner {
   max-width: var(--content-max);
@@ -199,10 +201,10 @@
   font-weight: var(--fw-medium);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-blue);
+  color: var(--color-link);
   margin-bottom: var(--space-3);
 }
-.section--dark .section__eyebrow { color: var(--color-blue); }
+.section--dark .section__eyebrow { color: var(--color-on-inverse-link); }
 
 .section__title {
   font-size: var(--fs-2xl);

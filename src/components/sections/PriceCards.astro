@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * PriceCards.astro - pricing tier grid.
  * Props:
@@ -22,7 +23,7 @@ const { items = [] } = Astro.props;
       </ul>
       {item.cta && (
         <a
-          href={item.cta.href}
+          href={pageHref(item.cta.href)}
           class={`btn ${item.featured ? 'btn--primary' : 'btn--outline'}`}
           {...(item.cta.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
