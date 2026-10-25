@@ -26,21 +26,21 @@ const bookHref = pageHref(`/${lang}/tandem#book`);
 
 const labels = {
   en: {
-    about: 'About', tandem: 'Tandem', aff: 'AFF',
+    about: 'About', news: 'News', tandem: 'Tandem', aff: 'AFF',
     funJumpers: 'Fun jumpers', pricing: 'Pricing',
     gallery: 'Gallery', faq: 'FAQ', contact: 'Contact',
     menu: 'Menu',
     book: 'Book a tandem', bookShort: 'Book',
   },
   fr: {
-    about: 'À propos', tandem: 'Tandem', aff: 'AFF',
+    about: 'À propos', news: 'Actualités', tandem: 'Tandem', aff: 'AFF',
     funJumpers: 'Parachutistes confirmés', pricing: 'Tarifs',
     gallery: 'Galerie', faq: 'FAQ', contact: 'Contact',
     menu: 'Menu',
     book: 'Réserver un tandem', bookShort: 'Réserver',
   },
   de: {
-    about: 'Über uns', tandem: 'Tandem', aff: 'AFF',
+    about: 'Über uns', news: 'Neuigkeiten', tandem: 'Tandem', aff: 'AFF',
     funJumpers: 'Sportspringer', pricing: 'Preise',
     gallery: 'Galerie', faq: 'FAQ', contact: 'Kontakt',
     menu: 'Menü',
@@ -48,7 +48,7 @@ const labels = {
   },
 
   lu: {
-    about: 'Iwwer eis', tandem: 'Tandem', aff: 'AFF',
+    about: 'Iwwer eis', news: 'Neiegkeeten', tandem: 'Tandem', aff: 'AFF',
     funJumpers: 'Sportsprénger', pricing: 'Präisser',
     gallery: 'Galerie', faq: 'FAQ', contact: 'Kontakt',
     menu: 'Menü',
@@ -60,6 +60,7 @@ const t = labels[lang] ?? labels.en;
 
 const items = [
   ['about',       t.about],
+  ['news',        t.news],
   ['tandem',      t.tandem],
   ['aff',         t.aff],
   ['fun-jumpers', t.funJumpers],

@@ -1,6 +1,7 @@
 /**
- * refurbishmentNews.js - updates shown on the /news page while the runway is
- * being refurbished. The page is linked only from the site-wide NoticeBanner.
+ * clubNews.js - news shown on the /news page, reached from the main menu.
+ * Runway refurbishment updates, club activities, events and other club news
+ * share the same chronological feed. Existing refurbishment posts stay here.
  *
  * ---------------------------------------------------------------------------
  * HOW TO ADD AN UPDATE
@@ -18,7 +19,7 @@
  * 2. Add a new object to the TOP of `posts`. The page renders them in array
  *    order, so newest first.
  *
- * 3. `title`, `body` and `imageAlt` are keyed by language. English is the
+ * 3. `title`, `body` and each image's `alt` are keyed by language. English is the
  *    fallback: if `fr` or `de` is missing, the page shows `en` rather than an
  *    empty block, so it is safe to publish in English first and translate later.
  *

@@ -1,14 +1,13 @@
 ---
 /**
- * NewsContent.astro - runway refurbishment news page. Picks copy by `lang` prop.
+ * NewsContent.astro - club news page. Picks copy by `lang` prop.
  *
- * Deliberately NOT in the main nav: this page is reached from the site-wide
- * NoticeBanner link only. To add an update, edit src/data/refurbishmentNews.js.
+ * To add refurbishment updates or other club news, edit src/data/clubNews.js.
  */
 import { Image } from 'astro:assets';
 
 import PageBanner from '../sections/PageBanner.astro';
-import { posts } from '../../data/refurbishmentNews.js';
+import { posts } from '../../data/clubNews.js';
 
 // Generic 'work in progress' backdrop for the page. Swap this file if a
 // better shot of the works comes along - nothing else needs changing.
@@ -18,41 +17,53 @@ const { lang = 'en' } = Astro.props;
 
 const copy = {
   en: {
-    bannerEyebrow: 'Runway refurbishment',
-    bannerTitle: 'Refurbishment news.',
-    bannerSubtitle: 'Updates on the works at the airfield, and what they mean for jumping.',
+    bannerEyebrow: 'Skydive Luxembourg',
+    bannerTitle: 'Club news.',
+    bannerSubtitle: 'Club life, events and the latest from the airfield.',
     bannerAlt: 'The fenced-off work area running alongside the runway at Noertrange airfield',
-    lead: 'We post every update about the runway works here, newest first. Check back for progress, photos and, as soon as we have them, confirmed reopening dates.',
+    lead: 'All the news from Skydive Luxembourg, newest first. Follow the runway refurbishment here, along with club updates, events and news from the dropzone.',
+    statusEyebrow: 'Airfield refurbishment',
+    statusTitle: 'Airfield closed for runway refurbishment.',
+    statusBody: 'The airfield is closed while the runway is rebuilt, and we expect to reopen by June 2027. You can still buy a tandem jump: you will receive a reservation code, and as soon as reservations reopen you can use it to book the date you want.',
     empty: 'There are no updates yet. Please check back soon.',
     back: 'Back to home',
     contact: 'Questions? Contact us',
   },
   fr: {
-    bannerEyebrow: 'Réfection de la piste',
-    bannerTitle: 'Actualités des travaux.',
-    bannerSubtitle: "Le suivi du chantier de l'aérodrome et ses conséquences sur les sauts.",
+    bannerEyebrow: 'Skydive Luxembourg',
+    bannerTitle: 'Actualités du club.',
+    bannerSubtitle: "La vie du club, les événements et les dernières nouvelles de l'aérodrome.",
     bannerAlt: "La zone de chantier clôturée le long de la piste de l'aérodrome de Noertrange",
-    lead: "Nous publions ici toutes les actualités des travaux de la piste, les plus récentes en premier. Revenez régulièrement pour suivre l'avancement, voir les photos et connaître les dates de réouverture dès qu'elles seront confirmées.",
+    lead: "Toutes les actualités de Skydive Luxembourg, des plus récentes aux plus anciennes. Retrouvez ici le suivi de la réfection de la piste, ainsi que la vie du club, les événements et les nouvelles de la dropzone.",
+    statusEyebrow: "Travaux à l'aérodrome",
+    statusTitle: 'Aérodrome fermé pour réfection de la piste.',
+    statusBody: "L'aérodrome est fermé pendant les travaux de réfection de la piste et nous prévoyons de rouvrir d'ici juin 2027. Vous pouvez toujours acheter un saut en tandem : vous recevrez un code de réservation qui vous permettra de choisir la date de votre choix dès la réouverture des réservations.",
     empty: "Il n'y a pas encore d'actualité. Revenez bientôt.",
     back: "Retour à l'accueil",
     contact: 'Une question ? Contactez-nous',
   },
   de: {
-    bannerEyebrow: 'Pistensanierung',
-    bannerTitle: 'Neuigkeiten zu den Bauarbeiten.',
-    bannerSubtitle: 'Updates zu den Arbeiten am Flugplatz und was sie für den Sprungbetrieb bedeuten.',
+    bannerEyebrow: 'Skydive Luxembourg',
+    bannerTitle: 'Neuigkeiten aus dem Verein.',
+    bannerSubtitle: 'Vereinsleben, Veranstaltungen und Aktuelles vom Flugplatz.',
     bannerAlt: 'Die abgesperrte Baustelle entlang der Piste am Flugplatz Noertrange',
-    lead: 'Hier veröffentlichen wir alle Neuigkeiten zu den Pistenarbeiten, die neuesten zuerst. Schau regelmäßig vorbei: Fortschritt, Fotos und, sobald wir sie haben, bestätigte Termine für die Wiedereröffnung.',
+    lead: 'Alle Neuigkeiten von Skydive Luxembourg, die neuesten zuerst. Hier findest du Updates zur Pistensanierung, zum Vereinsleben, zu Veranstaltungen und zum Geschehen auf der Dropzone.',
+    statusEyebrow: 'Arbeiten am Flugplatz',
+    statusTitle: 'Flugplatz wegen Pistensanierung geschlossen.',
+    statusBody: 'Der Flugplatz ist während der Sanierung der Piste geschlossen. Die Wiedereröffnung ist für Juni 2027 geplant. Du kannst weiterhin einen Tandemsprung kaufen und erhältst einen Reservierungscode. Sobald die Reservierungen wieder offen sind, kannst du damit deinen Wunschtermin buchen.',
     empty: 'Es gibt noch keine Neuigkeiten. Schau bald wieder vorbei.',
     back: 'Zur Startseite',
     contact: 'Fragen? Kontaktiere uns',
   },
   lu: {
-    bannerEyebrow: 'Pistenerneierung',
-    bannerTitle: 'Neiegkeeten zu den Aarbechten.',
-    bannerSubtitle: "Updates zu den Aarbechten op der Fluchplaz a wat se fir de Sprongbetrib bedeiten.",
+    bannerEyebrow: 'Skydive Luxembourg',
+    bannerTitle: 'Neiegkeeten aus dem Veräin.',
+    bannerSubtitle: 'Veräinsliewen, Evenementer an Neiegkeete vun der Fluchplaz.',
     bannerAlt: "Déi ofgespaarte Baustell laanscht d'Piste op der Fluchplaz Noertrange",
-    lead: "Hei publizéiere mir all Neiegkeeten zu de Pistenaarbechten, déi neisten zeréischt. Kuck reegelméisseg laanscht: Fortschrëtt, Fotoen an, soubal mir se hunn, bestätegt Datumer fir d'Wierderopmaachen.",
+    lead: "All d'Neiegkeete vu Skydive Luxembourg, déi neisten zeréischt. Hei fanns du Updates zu de Pistenaarbechten, zum Veräinsliewen, zu den Evenementer an zum Liewen op der Dropzone.",
+    statusEyebrow: 'Aarbechten op der Fluchplaz',
+    statusTitle: 'Fluchplaz wéinst Pistenerneierung zou.',
+    statusBody: "D'Fluchplaz ass während den Erneierungsaarbechten un der Piste zou. Mir rechne domat, am Juni 2027 erëm opzemaachen. Du kanns weider en Tandemsprong kafen a kriss e Reservatiounscode. Soubal d'Reservatioune erëm op sinn, kanns du domat däin Wonschdatum buchen.",
     empty: 'Et gëtt nach keng Neiegkeeten. Kuck geschwë nees laanscht.',
     back: 'Zréck op d\'Startsäit',
     contact: 'Froen? Kontaktéier eis',
@@ -87,6 +98,12 @@ const pick = (field) => field?.[lang] ?? field?.en;
 <section class="section">
   <div class="section__inner section__inner--narrow">
     <p class="section__lead news__lead">{t.lead}</p>
+
+    <section class="news__status" aria-labelledby="airfield-status">
+      <p class="section__eyebrow">{t.statusEyebrow}</p>
+      <h2 id="airfield-status" class="news__status-title">{t.statusTitle}</h2>
+      <p>{t.statusBody}</p>
+    </section>
 
     {posts.length === 0 ? (
       <p class="news__empty">{t.empty}</p>
@@ -171,6 +188,19 @@ const pick = (field) => field?.[lang] ?? field?.en;
     display: flex;
     flex-direction: column;
     gap: var(--space-12);
+  }
+
+  .news__status {
+    margin-bottom: var(--space-12);
+    padding: var(--space-6);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .news__status-title {
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-xl);
   }
 
   .news__item {
