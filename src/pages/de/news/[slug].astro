@@ -1,0 +1,11 @@
+---
+import NewsPage from '../../../components/pages/NewsPage.astro';
+import { newsEntries } from '../../../data/clubNews.js';
+
+export function getStaticPaths() {
+  return newsEntries.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+---
+<NewsPage lang="de" post={post} />

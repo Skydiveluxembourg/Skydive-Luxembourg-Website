@@ -27,20 +27,21 @@ const { lang = 'en' } = Astro.props;
 
 const t = {
   en: {
+    newsCta: "Club news and events",
     heroEyebrow: 'Skydive Luxembourg a.s.b.l.',
-    heroTitle: 'Jump into the sky above Luxembourg.',
-    heroSubtitle: 'More than 60 years of skydiving in Luxembourg: tandem jumps, AFF training, coaching and sport jumping since 1965.',
+    heroTitle: "Skydiving in Luxembourg.",
+    heroSubtitle: "Tandem jumps, AFF training and sport skydiving at Noertrange airfield, near Wiltz. Sharing our sport since 1965.",
     heroPrimary: 'Book a tandem',
     heroSecondary: 'Learn to skydive',
 
     pickEyebrow: 'Three ways to jump',
-    pickTitle: 'Whatever your level, the door is open.',
-    pickLead: 'All skydivers welcome: we offer AFF training, training jumps and coaching. Contact us at',
+    pickTitle: "From your first jump to sport skydiving.",
+    pickLead: "Choose a first tandem skydive, explore AFF training, or plan a visit as an experienced jumper. Contact us at",
 
     cards: [
-      { title: 'Tandem jumps', text: 'No experience needed. A 15-minute briefing, then 4,000 m of pure freefall with one of our qualified tandem masters.', cta: 'Discover tandem', href: `/${''}en/tandem` },
-      { title: 'AFF - learn to skydive', text: 'Become a licensed solo skydiver. Our Accelerated Freefall course takes you from zero to A-licence at your own pace.', cta: 'Discover AFF', href: `/${''}en/aff` },
-      { title: 'Fun jumpers', text: 'Already licensed? Manifest with us, jump our Gippsland Airvan GA8, and join one of the friendliest dropzones in Europe.', cta: 'Visit the DZ', href: `/${''}en/fun-jumpers` },
+      { title: 'Tandem jumps', text: "Discover the tandem experience, from the briefing to the parachute flight. Read the requirements and booking options.", cta: 'Discover tandem', href: `/${''}en/tandem` },
+      { title: 'AFF - learn to skydive', text: "Our Accelerated Freefall training introduces freefall and canopy skills. Find out how the course works and ask about the next dates.", cta: 'Discover AFF', href: `/${''}en/aff` },
+      { title: 'Experienced jumpers', text: "Already licensed? Find jumping requirements, dropzone facilities and coaching contacts for your visit to Noertrange.", cta: 'Visit the DZ', href: `/${''}en/fun-jumpers` },
     ],
 
     galleryEyebrow: 'In the air',
@@ -49,30 +50,31 @@ const t = {
 
     aboutEyebrow: 'About us',
     aboutTitle: 'A non-profit club, run by jumpers, for jumpers.',
-    aboutText: 'The Cercle Parachutiste Luxembourgeois a.s.b.l., now Skydive Luxembourg a.s.b.l., was founded in 1965 and has carried out its activities in Luxembourg ever since. It is the only skydiving club in Luxembourg.',
+    aboutText: "Founded in 1965 as the Cercle Parachutiste Luxembourgeois, Skydive Luxembourg is a non-profit skydiving club. Our home is Noertrange airfield, near Wiltz in northern Luxembourg.",
     aboutCta: 'Read our story',
 
     ctaTitle: 'Ready when you are.',
-    ctaSubtitle: 'Tandem slots fill up fast in summer. Book ahead to lock in your jump.',
+    ctaSubtitle: "Explore the tandem experience and booking options, or ask us about learning to skydive.",
     ctaPrimary: 'Book a tandem',
     ctaSecondary: 'Contact us',
   },
 
   fr: {
+    newsCta: "Actualités et vie du club",
     heroEyebrow: 'Skydive Luxembourg a.s.b.l.',
-    heroTitle: 'Sautez dans le ciel du Luxembourg.',
-    heroSubtitle: 'Plus de 60 ans de parachutisme au Luxembourg - sauts en tandem, formation AFF, coaching et sauts sportifs depuis 1965.',
+    heroTitle: "Parachutisme au Luxembourg.",
+    heroSubtitle: "Sauts en tandem, formation AFF et parachutisme sportif à l’aérodrome de Noertrange, près de Wiltz. Notre passion commune depuis 1965.",
     heroPrimary: 'Réserver un tandem',
     heroSecondary: 'Apprendre à sauter',
 
     pickEyebrow: 'Trois façons de sauter',
-    pickTitle: 'Quel que soit votre niveau, la porte est ouverte.',
-    pickLead: 'Tous les parachutistes sont les bienvenus : nous proposons la formation AFF, des sauts d’entraînement et du coaching. Contactez-nous à',
+    pickTitle: "Du premier saut au parachutisme sportif.",
+    pickLead: "Découvrez le saut en tandem, la formation AFF ou les informations pour préparer votre venue comme parachutiste confirmé. Contactez-nous à",
 
     cards: [
-      { title: 'Sauts en tandem', text: 'Aucune expérience requise. 15 minutes de briefing, puis 4 000 m de chute libre avec l\'un de nos moniteurs brevetés.', cta: 'Découvrir le tandem', href: `/${''}fr/tandem` },
-      { title: 'AFF - apprendre à sauter', text: 'Devenez parachutiste autonome. Notre stage Accelerated Freefall vous mène du débutant à la licence A à votre rythme.', cta: 'Découvrir l\'AFF', href: `/${''}fr/aff` },
-      { title: 'Parachutistes confirmés', text: 'Déjà breveté ? Manifestez-vous, sautez de notre Gippsland Airvan GA8 et rejoignez l\'une des DZ les plus accueillantes d\'Europe.', cta: 'Visiter la DZ', href: `/${''}fr/fun-jumpers` },
+      { title: 'Sauts en tandem', text: "Découvrez le saut en tandem, du briefing au vol sous voile. Consultez les conditions et les options de réservation.", cta: 'Découvrir le tandem', href: `/${''}fr/tandem` },
+      { title: 'AFF - apprendre à sauter', text: "La formation Accelerated Freefall vous initie à la chute libre et au vol sous voile. Découvrez le déroulement du stage et renseignez-vous sur les prochaines dates.", cta: 'Découvrir l\'AFF', href: `/${''}fr/aff` },
+      { title: 'Parachutistes confirmés', text: "Déjà breveté ? Retrouvez les conditions de saut, les infrastructures de la dropzone et les contacts pour le coaching avant votre visite à Noertrange.", cta: 'Visiter la DZ', href: `/${''}fr/fun-jumpers` },
     ],
 
     galleryEyebrow: 'En vol',
@@ -81,30 +83,31 @@ const t = {
 
     aboutEyebrow: 'À propos',
     aboutTitle: 'Une association à but non lucratif, gérée par et pour les parachutistes.',
-    aboutText: 'Le Cercle Parachutiste Luxembourgeois a.s.b.l., aujourd’hui Skydive Luxembourg, a été créé en 1965 et exerce depuis ses activités au Luxembourg. C’est le seul club de parachutisme au Luxembourg.',
+    aboutText: "Fondé en 1965 sous le nom de Cercle Parachutiste Luxembourgeois, Skydive Luxembourg est un club de parachutisme sans but lucratif. Nous sommes basés à l’aérodrome de Noertrange, près de Wiltz, dans le nord du Luxembourg.",
     aboutCta: 'Notre histoire',
 
     ctaTitle: 'Prêt quand vous l\'êtes.',
-    ctaSubtitle: 'Les créneaux tandem se remplissent vite en été. Réservez à l\'avance.',
+    ctaSubtitle: "Découvrez le saut en tandem et les options de réservation, ou contactez-nous pour apprendre à sauter.",
     ctaPrimary: 'Réserver un tandem',
     ctaSecondary: 'Nous contacter',
   },
 
   de: {
+    newsCta: "Neuigkeiten und Vereinsleben",
     heroEyebrow: 'Skydive Luxembourg a.s.b.l.',
-    heroTitle: 'Spring in den Himmel über Luxemburg.',
-    heroSubtitle: 'Mehr als 60 Jahre Fallschirmsport in Luxemburg - Tandemsprünge, AFF-Ausbildung, Coaching und Sportsprünge seit 1965.',
+    heroTitle: "Fallschirmspringen in Luxemburg.",
+    heroSubtitle: "Tandemsprünge, AFF-Ausbildung und Fallschirmsport am Flugplatz Noertrange bei Wiltz. Seit 1965 teilen wir unsere Begeisterung fürs Springen.",
     heroPrimary: 'Tandem buchen',
     heroSecondary: 'Springen lernen',
 
     pickEyebrow: 'Drei Arten zu springen',
-    pickTitle: 'Egal welches Niveau - die Tür ist offen.',
-    pickLead: 'Alle Fallschirmspringer sind willkommen: Wir bieten AFF-Ausbildung, Trainingssprünge und Coaching. Kontakt:',
+    pickTitle: "Vom ersten Sprung zum Fallschirmsport.",
+    pickLead: "Entdecke den Tandemsprung, informiere dich zur AFF-Ausbildung oder plane deinen Besuch als erfahrener Springer. Kontakt:",
 
     cards: [
-      { title: 'Tandemsprünge', text: 'Keine Vorkenntnisse nötig. 15 Minuten Briefing, dann 4 000 m freier Fall mit einem unserer geprüften Tandemmaster.', cta: 'Mehr zum Tandem', href: `/${''}de/tandem` },
-      { title: 'AFF - Sprungausbildung', text: 'Werde lizenzierter Solo-Springer. Unser Accelerated-Freefall-Kurs bringt dich in deinem eigenen Tempo von null zur A-Lizenz.', cta: 'Mehr zu AFF', href: `/${''}de/aff` },
-      { title: 'Sportspringer', text: 'Schon lizenziert? Melde dich an, spring aus unserer Gippsland Airvan GA8 und genieße eine der freundlichsten DZs Europas.', cta: 'DZ besuchen', href: `/${''}de/fun-jumpers` },
+      { title: 'Tandemsprünge', text: "Entdecke den Tandemsprung vom Briefing bis zum Schirmflug. Informiere dich über Voraussetzungen und Buchungsoptionen.", cta: 'Mehr zum Tandem', href: `/${''}de/tandem` },
+      { title: 'AFF - Sprungausbildung', text: "Unsere Accelerated-Freefall-Ausbildung führt dich an Freifall und Schirmflug heran. Informiere dich zum Ablauf und frage nach den nächsten Terminen.", cta: 'Mehr zu AFF', href: `/${''}de/aff` },
+      { title: 'Sportspringer', text: "Schon lizenziert? Hier findest du Sprungvoraussetzungen, Einrichtungen der Dropzone und Coaching-Kontakte für deinen Besuch in Noertrange.", cta: 'DZ besuchen', href: `/${''}de/fun-jumpers` },
     ],
 
     galleryEyebrow: 'In der Luft',
@@ -113,30 +116,31 @@ const t = {
 
     aboutEyebrow: 'Über uns',
     aboutTitle: 'Ein gemeinnütziger Verein - von Springern, für Springer.',
-    aboutText: 'Der Cercle Parachutiste Luxembourgeois a.s.b.l., heute Skydive Luxembourg, wurde 1965 gegründet und betreibt seither Fallschirmsport in Luxemburg. Er ist der einzige Fallschirmverein in Luxemburg.',
+    aboutText: "1965 als Cercle Parachutiste Luxembourgeois gegründet, ist Skydive Luxembourg ein gemeinnütziger Fallschirmsportverein. Unser Zuhause ist der Flugplatz Noertrange bei Wiltz im Norden Luxemburgs.",
     aboutCta: 'Unsere Geschichte',
 
     ctaTitle: 'Bereit, wenn du es bist.',
-    ctaSubtitle: 'Tandem-Slots sind im Sommer schnell ausgebucht. Reserviere im Voraus.',
+    ctaSubtitle: "Informiere dich über Tandemsprünge und Buchungsoptionen oder frage uns nach der Sprungausbildung.",
     ctaPrimary: 'Tandem buchen',
     ctaSecondary: 'Kontakt',
   },
 
   lu: {
+    newsCta: "Neiegkeeten a Veräinsliewen",
     heroEyebrow: 'Skydive Luxembourg a.s.b.l.',
-    heroTitle: 'Spring in den Himmel iwwer Lëtzebuerg.',
-    heroSubtitle: 'Méi wéi 60 Joer Fallschiermsport in Lëtzebuerg - Tandemspréng, AFF-Ausbildung, Coaching an Sportsprünge säit 1965.',
+    heroTitle: "Fallschiermsprangen zu Lëtzebuerg.",
+    heroSubtitle: "Tandemspréng, AFF-Ausbildung a Fallschiermsport op der Fluchplaz Noertrange bei Wolz. Zënter 1965 deele mir eis Freed um Sprangen.",
     heroPrimary: 'Tandem buchen',
     heroSecondary: 'Sprange léieren',
 
     pickEyebrow: 'Drei Arten zu springen',
-    pickTitle: 'Egal welches Niveau - die Tür ist offen.',
-    pickLead: 'Alle Fallschirmspringer sind wëllkomm: Mir bieten AFF-Ausbildung, Trainingssprünge an Coaching. Kontakt:',
+    pickTitle: "Vum éischte Sprong zum Fallschiermsport.",
+    pickLead: "Entdeck den Tandemsprong, informéier dech iwwer d’AFF-Ausbildung oder plang däi Besuch als erfuerene Sprénger. Kontakt:",
 
     cards: [
-      { title: 'Tandemspréng', text: 'Keng Vorkenntnisse nötig. 15 Minuten Briefing, dann 4 000 m fräie Fall mat einem eisr geprüften Tandemmaster.', cta: 'Mehr zum Tandem', href: `/${''}de/tandem` },
-      { title: 'AFF - Sprongausbildung', text: 'Gëff lizenzierter Solo-Sprénger. Eise Accelerated-Freefall-Kurs bringt dich in dengem eigenen Tempo vu null zur A-Lizenz.', cta: 'Mehr zu AFF', href: `/${''}de/aff` },
-      { title: 'Sportsprénger', text: 'Schon lizenziert? Melde dich an, spring aus eisr Gippsland Airvan GA8 an genieße eine der freundlichsten DZs Europas.', cta: 'DZ besuchen', href: `/${''}de/fun-jumpers` },
+      { title: 'Tandemspréng', text: "Entdeck den Tandemsprong vum Briefing bis zum Schiermfluch. Informéier dech iwwer d’Viraussetzungen an d’Reservatiounsméiglechkeeten.", cta: 'Mehr zum Tandem', href: `/${''}de/tandem` },
+      { title: 'AFF - Sprongausbildung', text: "Eis Accelerated-Freefall-Ausbildung féiert dech un de fräie Fall an de Schiermfluch erun. Informéier dech iwwer den Oflaf a fro no den nächsten Datumer.", cta: 'Mehr zu AFF', href: `/${''}de/aff` },
+      { title: 'Sportsprénger', text: "Scho lizenzéiert? Hei fënns du Sprongviraussetzungen, d’Ariichtunge vun der Dropzone a Coaching-Kontakter fir däi Besuch zu Noertrange.", cta: 'DZ besuchen', href: `/${''}de/fun-jumpers` },
     ],
 
     galleryEyebrow: 'In der Luft',
@@ -145,11 +149,11 @@ const t = {
 
     aboutEyebrow: 'Iwwer eis',
     aboutTitle: 'Ein gemeinnütziger Veräin - vu Spréngern, fir Sprénger.',
-    aboutText: 'Der Cercle Parachutiste Luxembourgeois a.s.b.l., haut Skydive Luxembourg, wurde 1965 gegründet an betreibt säither Fallschiermsport in Lëtzebuerg. Er ist der einzige Fallschiermveräin in Lëtzebuerg.',
+    aboutText: "1965 als Cercle Parachutiste Luxembourgeois gegrënnt, ass Skydive Luxembourg e Fallschiermsveräin ouni Gewënnzweck. Eist Doheem ass d’Fluchplaz Noertrange bei Wolz am Norde vu Lëtzebuerg.",
     aboutCta: 'Eis Geschicht',
 
     ctaTitle: 'Bereit, wenn du es bist.',
-    ctaSubtitle: 'Tandem-Slots sind im Sommer schnell ausgebucht. Reserviere im Voraus.',
+    ctaSubtitle: "Informéier dech iwwer Tandemspréng a Reservatiounsméiglechkeeten oder fro eis no der Sprongausbildung.",
     ctaPrimary: 'Tandem buchen',
     ctaSecondary: 'Kontakt',
   },
@@ -167,6 +171,7 @@ const aboutHref = `/${lang}/about`;
 const contactHref = `/${lang}/contact`;
 const galleryHref = `/${lang}/gallery`;
 const affHref = `/${lang}/aff`;
+const newsHref = `/${lang}/news`;
 
 const galleryAlt = {
   en: [
@@ -250,6 +255,9 @@ const reviews = await getGoogleReviews(lang);
       <p class="section__lead">{t.aboutText}</p>
       <p style="margin-top: var(--space-6)">
         <a href={pageHref(aboutHref)} class="btn btn--outline">{t.aboutCta}</a>
+      </p>
+      <p style="margin-top: var(--space-4)">
+        <a href={pageHref(newsHref)}>{t.newsCta}</a>
       </p>
     </header>
   </div>

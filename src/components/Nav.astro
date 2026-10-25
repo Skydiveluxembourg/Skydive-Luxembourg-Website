@@ -111,8 +111,10 @@ const isActive = (slug) => {
           </li>
         ))}
       </ul>
-      <LanguageSwitcher />
-      <ThemeToggle />
+      <div class="site-nav__utilities">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
     </div>
 
     <div class="site-nav__actions">
@@ -133,7 +135,8 @@ const isActive = (slug) => {
       aria-controls="site-nav-menu"
       data-nav-toggle
     >
-      <span></span><span></span><span></span>
+      <span class="site-nav__toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="site-nav__toggle-label">{t.menu}</span>
     </button>
 
   </div>
@@ -206,14 +209,19 @@ const isActive = (slug) => {
   .site-nav__inner {
     max-width: var(--content-max);
     margin: 0 auto;
-    padding: var(--space-3) max(var(--space-4), env(safe-area-inset-right)) var(--space-3) max(var(--space-4), env(safe-area-inset-left));
-    display: flex;
+    padding: var(--space-2) max(var(--space-4), env(safe-area-inset-right)) var(--space-1) max(var(--space-4), env(safe-area-inset-left));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "brand utilities booking"
+      "links links links";
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-2) var(--space-5);
     position: relative;
   }
 
   .site-nav__logo {
+    grid-area: brand;
     display: inline-flex;
     align-items: center;
     text-decoration: none;
@@ -222,7 +230,7 @@ const isActive = (slug) => {
 
   .site-nav__logo-img {
     display: block;
-    width: clamp(140px, 16vw, 190px);
+    width: 148px;
     height: auto;
   }
 
@@ -236,43 +244,68 @@ const isActive = (slug) => {
     min-width: 44px;
     min-height: 44px;
     background: none;
-    border: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     padding: var(--space-2);
     cursor: pointer;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-fg);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-medium);
+    flex-shrink: 0;
+  }
+  .site-nav__toggle-icon {
+    display: flex;
     flex-direction: column;
     gap: 4px;
   }
-  .site-nav__toggle span {
+  .site-nav__toggle-icon span {
     display: block;
     width: 24px;
     height: 2px;
-    background: var(--color-fg);
+    background: currentColor;
     transition: var(--transition-fast);
   }
 
   .site-nav__menu {
+    /* Keep one set of links and controls: CSS places them in separate desktop
+       rows, and the same elements form the expanded menu on smaller screens. */
+    display: contents;
+  }
+
+  .site-nav__utilities {
+    grid-area: utilities;
     display: flex;
     align-items: center;
-    gap: var(--space-4);
-    margin-left: auto; /* push nav links + actions to the right on desktop */
+    gap: var(--space-3);
   }
 
   .site-nav__list {
+    grid-area: links;
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     gap: var(--space-1);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-1);
   }
 
   .site-nav__link {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
     padding: var(--space-2);
     color: var(--color-fg);
     text-decoration: none;
     border-radius: var(--radius-sm);
     font-weight: var(--fw-medium);
+    white-space: nowrap;
     transition: background var(--transition-fast), color var(--transition-fast);
   }
   .site-nav__link:hover { background: var(--color-bg-alt); }
@@ -284,6 +317,7 @@ const isActive = (slug) => {
   /* ---------- persistent action: Book a tandem ------------------------- */
 
   .site-nav__actions {
+    grid-area: booking;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -297,16 +331,19 @@ const isActive = (slug) => {
     white-space: nowrap;
   }
 
-  /* Desktop default (nav links visible): keep the Book label compact ("Book")
-     so the links + language/theme + button all fit within the 1200px content
-     max. The full "Book a tandem" label appears once the links collapse into
-     the hamburger (below), where the bar has room to spare. */
-  .site-nav__book-full { display: none; }
-  .site-nav__book-short { display: inline; }
+  /* The dedicated control row has room for the complete booking label. */
+  .site-nav__book-full { display: inline; }
+  .site-nav__book-short { display: none; }
 
-  /* Tablet & mobile — collapse the nav links into the hamburger. The bar then
+  /* Tablet & mobile — collapse the nav links into the labelled menu. The bar then
      holds only logo + Book + toggle, so we surface the full booking label. */
-  @media (max-width: 1180px) {
+  @media (max-width: 900px) {
+    .site-nav__inner {
+      display: flex;
+      padding-block: var(--space-3);
+      gap: var(--space-4);
+    }
+    .site-nav__logo-img { width: clamp(140px, 16vw, 190px); }
     .site-nav__toggle { display: flex; }
     .site-nav__actions { margin-left: auto; }
     .site-nav__menu {
@@ -321,6 +358,10 @@ const isActive = (slug) => {
       background: var(--color-bg);
       border-bottom: 1px solid var(--color-border);
       box-shadow: var(--shadow-md);
+      max-height: calc(100vh - var(--site-nav-height, 100px));
+      max-height: calc(100dvh - var(--site-nav-height, 100px));
+      overflow-y: auto;
+      overscroll-behavior: contain;
       padding: var(--space-4) max(var(--space-4), env(safe-area-inset-right)) max(var(--space-4), env(safe-area-inset-bottom)) max(var(--space-4), env(safe-area-inset-left));
       gap: var(--space-3);
     }
@@ -329,8 +370,14 @@ const isActive = (slug) => {
       flex-direction: column;
       gap: 0;
       width: 100%;
+      border-top: 0;
+      padding-top: 0;
     }
-    .site-nav__link { padding: var(--space-3); }
+    .site-nav__link {
+      justify-content: flex-start;
+      padding: var(--space-3);
+      white-space: normal;
+    }
 
     .site-nav__book-full { display: inline; }
     .site-nav__book-short { display: none; }
@@ -346,5 +393,11 @@ const isActive = (slug) => {
 
     .site-nav__book-full { display: none; }
     .site-nav__book-short { display: inline; }
+  }
+
+  @media (max-width: 380px) {
+    .site-nav__logo-img { width: clamp(96px, 30vw, 112px); }
+    .site-nav__book { padding-inline: var(--space-2); }
+    .site-nav__toggle { gap: var(--space-1); font-size: var(--fs-sm); }
   }
 </style>

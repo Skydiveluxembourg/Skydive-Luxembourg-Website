@@ -1,0 +1,345 @@
+---
+import NewsGallery from '../NewsGallery.astro';
+import { newsCopy, pickNews, newsLang, formatNewsDate } from '../../utils/news.js';
+
+const { lang = 'en', post } = Astro.props;
+const t = newsCopy(lang);
+const labels = {
+  en: {
+    latest: 'Latest update',
+    updates: 'Refurbishment updates',
+    browse: 'Browse all updates',
+    backToUpdates: 'Back to updates',
+    top: 'Back to top',
+  },
+  fr: {
+    latest: 'Dernière mise à jour',
+    updates: 'Suivi des travaux',
+    browse: 'Parcourir toutes les mises à jour',
+    backToUpdates: 'Retour aux mises à jour',
+    top: 'Retour en haut',
+  },
+  de: {
+    latest: 'Letzte Aktualisierung',
+    updates: 'Berichte zu den Arbeiten',
+    browse: 'Alle Berichte ansehen',
+    backToUpdates: 'Zur Übersicht',
+    top: 'Nach oben',
+  },
+  lu: {
+    latest: 'Leschten Update',
+    updates: 'Updates zu den Aarbechten',
+    browse: "All d'Updates kucken",
+    backToUpdates: "Zréck bei d'Updates",
+    top: 'Zréck no uewen',
+  },
+};
+const ui = labels[lang] ?? labels.en;
+const pick = (field) => pickNews(field, lang);
+const updates = post.updates ?? [];
+const backHref = `/${lang}/news/#runway-refurbishment`;
+---
+
+<section class="section refurbishment-news">
+  <div class="section__inner section__inner--narrow">
+    <a class="refurbishment-news__back" href={backHref}>
+      <span aria-hidden="true">←</span> {t.back}
+    </a>
+
+    <article>
+      <header class="refurbishment-news__header" id="refurbishment-top" tabindex="-1">
+        <h1 lang={newsLang(post.title, lang)}>{pick(post.title)}</h1>
+        <p class="refurbishment-news__author">{t.author} <a rel="author" href={`/${lang}/about/`}>Skydive Luxembourg</a></p>
+        {pick(post.summary) && (
+          <p class="refurbishment-news__summary" lang={newsLang(post.summary, lang)}>{pick(post.summary)}</p>
+        )}
+        <p class="refurbishment-news__date">
+          {ui.latest}: <time datetime={post.date}>{formatNewsDate(post.date, lang)}</time>
+        </p>
+      </header>
+
+      <aside class="refurbishment-news__status" aria-labelledby="airfield-status">
+        <h2 id="airfield-status">{t.statusTitle}</h2>
+        <p>{t.statusBody}</p>
+        <div class="refurbishment-news__status-links">
+          {updates[0] && (
+            <a href={`#${updates[0].id}`}>
+              {t.latestWorks}: <time datetime={updates[0].date}>{formatNewsDate(updates[0].date, lang)}</time>
+            </a>
+          )}
+          <details class="refurbishment-news__booking">
+            <summary>{t.bookingLabel}</summary>
+            <p>{t.bookingBody} <a href={`/${lang}/tandem/#book`}>{t.bookingLink}</a></p>
+          </details>
+        </div>
+      </aside>
+
+      {updates.length > 0 && (
+        <nav class="refurbishment-news__index" id="updates-nav" aria-label={ui.updates} tabindex="-1">
+          <details>
+            <summary>{ui.browse} ({updates.length})</summary>
+            <ol role="list">
+              {updates.map((update) => (
+                <li>
+                  <a href={`#${update.id}`}>
+                    <time datetime={update.date}>{formatNewsDate(update.date, lang)}</time>
+                    <span lang={newsLang(update.title, lang)}>{pick(update.title)}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        </nav>
+      )}
+
+      <div class="refurbishment-news__timeline">
+        {updates.map((update) => (
+          <section class="refurbishment-news__update" id={update.id} aria-labelledby={`${update.id}-title`} tabindex="-1">
+            <header>
+              <time class="refurbishment-news__date" datetime={update.date}>{formatNewsDate(update.date, lang)}</time>
+              <h2 class="refurbishment-news__update-title" id={`${update.id}-title`} lang={newsLang(update.title, lang)}>
+                {pick(update.title)}
+              </h2>
+            </header>
+
+            <div class="refurbishment-news__body" lang={newsLang(update.body, lang)}>
+              {(pick(update.body) ?? []).map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+
+            {update.images?.length > 0 && (
+              <section class="refurbishment-news__photos" aria-labelledby={`${update.id}-photos`}>
+                <h3 id={`${update.id}-photos`}>{t.photos}</h3>
+                <NewsGallery photos={update.images} lang={lang} />
+              </section>
+            )}
+
+            <p class="refurbishment-news__jump-links">
+              <a href="#updates-nav">{ui.backToUpdates}</a>
+              <a href="#refurbishment-top"><span aria-hidden="true">↑</span> {ui.top}</a>
+            </p>
+          </section>
+        ))}
+      </div>
+    </article>
+
+    <footer class="refurbishment-news__footer">
+      <a class="refurbishment-news__back" href={backHref}>
+        <span aria-hidden="true">←</span> {t.back}
+      </a>
+    </footer>
+  </div>
+</section>
+
+<style>
+  .refurbishment-news {
+    padding-top: var(--space-8);
+    overflow-wrap: anywhere;
+  }
+
+  .refurbishment-news__back,
+  .refurbishment-news__jump-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+  }
+
+  .refurbishment-news__header {
+    margin-top: var(--space-5);
+  }
+
+  .refurbishment-news__header,
+  .refurbishment-news__index,
+  .refurbishment-news__update {
+    scroll-margin-top: calc(var(--site-nav-height, 120px) + 24px);
+  }
+
+  .refurbishment-news h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .refurbishment-news__summary {
+    margin-top: var(--space-5);
+    font-size: var(--fs-lg);
+    line-height: 1.65;
+  }
+
+  .refurbishment-news__author {
+    margin-top: var(--space-3);
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .refurbishment-news__date {
+    display: block;
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .refurbishment-news__header .refurbishment-news__date {
+    margin-top: var(--space-4);
+  }
+
+  .refurbishment-news__index {
+    margin-top: var(--space-6);
+  }
+
+  .refurbishment-news__status {
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-link);
+    border-radius: var(--radius-md);
+  }
+
+  .refurbishment-news__status h2 {
+    font-size: var(--fs-base);
+    line-height: var(--lh-base);
+  }
+
+  .refurbishment-news__status-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--space-5);
+    row-gap: var(--space-2);
+    margin-top: var(--space-2);
+    font-size: var(--fs-sm);
+  }
+
+  .refurbishment-news__booking { flex: 1 1 240px; }
+  .refurbishment-news__booking summary {
+    width: fit-content;
+    min-height: 44px;
+    padding-block: var(--space-2);
+    color: var(--color-link);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .refurbishment-news__booking p { margin-top: var(--space-2); font-size: var(--fs-base); }
+
+  .refurbishment-news__index summary {
+    width: fit-content;
+    min-height: 44px;
+    padding-block: var(--space-2);
+    color: var(--color-link);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .refurbishment-news__index details[open] summary {
+    margin-bottom: var(--space-2);
+  }
+
+  .refurbishment-news__index ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .refurbishment-news__index li {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .refurbishment-news__index a {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: var(--space-5);
+    min-height: 44px;
+    padding-block: var(--space-3);
+    text-decoration: none;
+  }
+
+  .refurbishment-news__index time {
+    color: var(--color-fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .refurbishment-news__index a span {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .refurbishment-news__index a:hover span {
+    text-decoration-thickness: 2px;
+  }
+
+  .refurbishment-news__update {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .refurbishment-news__update:first-child {
+    margin-top: var(--space-5);
+    padding-top: var(--space-6);
+  }
+
+  .refurbishment-news__update-title {
+    margin-top: var(--space-2);
+    font-size: clamp(1.375rem, 3vw, 1.75rem);
+    line-height: 1.25;
+  }
+
+  .refurbishment-news__body {
+    margin-top: var(--space-5);
+    line-height: 1.7;
+  }
+
+  .refurbishment-news__body p + p {
+    margin-top: var(--space-4);
+  }
+
+  .refurbishment-news__photos {
+    margin-top: var(--space-6);
+  }
+
+  .refurbishment-news__photos h3 {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-lg);
+  }
+
+  .refurbishment-news__jump-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--space-6);
+    row-gap: var(--space-1);
+    margin-top: var(--space-5);
+    font-size: var(--fs-sm);
+  }
+
+  .refurbishment-news__footer {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .refurbishment-news :is(a, summary):focus-visible,
+  .refurbishment-news__header:focus-visible,
+  .refurbishment-news__index:focus-visible,
+  .refurbishment-news__update:focus-visible {
+    outline: 3px solid var(--color-link);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 560px) {
+    .refurbishment-news__status { padding: var(--space-4); }
+    .refurbishment-news__index a {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-1);
+    }
+
+    .refurbishment-news__update {
+      margin-top: var(--space-8);
+      padding-top: var(--space-6);
+    }
+  }
+</style>
