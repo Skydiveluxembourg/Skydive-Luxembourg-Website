@@ -1,4 +1,5 @@
 ---
+import { pageHref } from '../../utils/urls.js';
 /**
  * AboutContent.astro - about page body. Picks copy by `lang` prop.
  */
@@ -15,9 +16,11 @@ const { lang = 'en' } = Astro.props;
 
 const t = {
   en: {
+    newsCta: "Follow our club news and events",
+    activityLinks: ["Explore tandem skydives", "Learn about AFF training", "Information for experienced jumpers"],
     bannerEyebrow: 'About us',
-    bannerTitle: 'A non-profit club, run by jumpers, for jumpers.',
-    bannerSubtitle: 'Skydive Luxembourg a.s.b.l., the Grand Duchy\'s only registered parachute club.',
+    bannerTitle: "Our skydiving club in Luxembourg.",
+    bannerSubtitle: "A non-profit club run by jumpers, for jumpers, at Noertrange airfield near Wiltz.",
 
     introEyebrow: 'Who we are',
     introTitle: 'More than 60 years of skydiving in Luxembourg.',
@@ -25,12 +28,12 @@ const t = {
 
     whatEyebrow: 'What we do',
     whatTitle: 'Three activities, one community.',
-    whatLead: 'We welcome complete beginners, students working towards their licence, and experienced jumpers from across Europe.',
+    whatLead: "From a first tandem jump to AFF training and sport skydiving, find the activity that fits your experience.",
 
     cards: [
-      { title: 'Tandem skydives', text: 'First-jump experiences for anyone aged 14 and over. A short briefing, then a freefall from 4,000 metres harnessed to a qualified tandem master.', image: tandemImg, alt: 'Tandem skydive in freefall' },
-      { title: 'AFF student training', text: 'Our Accelerated Freefall course is the modern, fast-track route to a solo skydiving licence. Seven levels of one-on-one instruction with two jumpmasters on your first dives.', image: affImg, alt: 'AFF student in freefall with instructors' },
-      { title: 'Sport jumpers', text: 'Licensed parachutists are welcome to manifest on our Airvan GA8. Wing-loading checks, formation coaching and friendly hosts every weekend in season.', image: funImg, alt: 'Sport jumpers exiting the aircraft' },
+      { title: 'Tandem skydives', text: "Discover skydiving with a tandem master. Read about the experience, participation requirements and booking options.", image: tandemImg, alt: 'Tandem skydive in freefall' },
+      { title: 'AFF student training', text: "Explore ground school and the seven AFF levels before continuing towards independent skydiving.", image: affImg, alt: 'AFF student in freefall with instructors' },
+      { title: 'Sport jumpers', text: "Practical information for licensed skydivers visiting Noertrange: requirements, dropzone facilities and coaching contacts.", image: funImg, alt: 'Sport jumpers exiting the aircraft' },
     ],
 
     historyEyebrow: 'Our history',
@@ -39,18 +42,20 @@ const t = {
 
     ethosEyebrow: 'Our ethos',
     ethosTitle: 'Safety first. Fun a very close second.',
-    ethosText: 'We believe skydiving should be safe, accessible, well-taught, and joyful. Our gear is maintained to the highest European standards, our instructors hold current international ratings, and our briefings never get cut short. We treat every visitor, first-timer or 5,000-jump wonder, as part of the family from the moment they step onto the dropzone.',
+    ethosText: "Skydiving is a club sport as well as an individual challenge. We value preparation, clear briefings, learning from one another and a welcoming atmosphere for newcomers and experienced jumpers.",
 
     ctaTitle: 'Come and meet us.',
-    ctaSubtitle: 'The hangar door is open every weekend from April to October. Drop in for a coffee, a chat, or your first jump.',
+    ctaSubtitle: "Interested in tandem skydiving, AFF training or club life? Contact us to plan your visit to Noertrange.",
     ctaPrimary: 'Book a tandem',
     ctaSecondary: 'Contact us',
   },
 
   fr: {
+    newsCta: "Suivre les actualités et la vie du club",
+    activityLinks: ["Découvrir le saut en tandem", "Découvrir la formation AFF", "Informations pour parachutistes confirmés"],
     bannerEyebrow: 'À propos',
-    bannerTitle: 'Une association sans but lucratif, gérée par et pour les parachutistes.',
-    bannerSubtitle: 'Skydive Luxembourg a.s.b.l. - le seul club de parachutisme déclaré du Grand-Duché.',
+    bannerTitle: "Notre club de parachutisme au Luxembourg.",
+    bannerSubtitle: "Un club sans but lucratif, géré par et pour les parachutistes, à l’aérodrome de Noertrange près de Wiltz.",
 
     introEyebrow: 'Qui sommes-nous',
     introTitle: 'Plus de 60 ans de parachutisme au Luxembourg.',
@@ -58,12 +63,12 @@ const t = {
 
     whatEyebrow: 'Nos activités',
     whatTitle: 'Trois activités, une seule communauté.',
-    whatLead: 'Nous accueillons les débutants complets, les élèves en formation et les parachutistes confirmés venus de toute l\'Europe.',
+    whatLead: "Du premier saut en tandem à la formation AFF et au parachutisme sportif, découvrez l’activité adaptée à votre expérience.",
 
     cards: [
-      { title: 'Sauts en tandem', text: 'Le saut découverte pour toute personne dès 14 ans. Un bref briefing, puis une chute libre depuis 4 000 mètres harnaché à un moniteur tandem qualifié.', image: tandemImg, alt: 'Saut en tandem en chute libre' },
-      { title: 'Formation AFF', text: 'Notre stage AFF est la voie moderne et rapide vers le brevet de parachutiste autonome. Sept niveaux d\'instruction individualisée, avec deux moniteurs sur vos premiers sauts.', image: affImg, alt: 'Élève AFF en chute libre avec moniteurs' },
-      { title: 'Parachutistes brevetés', text: 'Les parachutistes brevetés sont les bienvenus à bord de notre Airvan GA8. Contrôle de charge alaire, coaching de formation et accueil chaleureux chaque week-end en saison.', image: funImg, alt: 'Parachutistes confirmés à la sortie de l\'avion' },
+      { title: 'Sauts en tandem', text: "Découvrez le parachutisme avec un moniteur tandem. Consultez le déroulement du saut, les conditions de participation et les options de réservation.", image: tandemImg, alt: 'Saut en tandem en chute libre' },
+      { title: 'Formation AFF', text: "Découvrez la formation au sol et les sept niveaux AFF avant de poursuivre votre progression vers le parachutisme autonome.", image: affImg, alt: 'Élève AFF en chute libre avec moniteurs' },
+      { title: 'Parachutistes brevetés', text: "Informations pratiques pour les parachutistes brevetés à Noertrange : conditions, infrastructures et contacts pour le coaching.", image: funImg, alt: 'Parachutistes confirmés à la sortie de l\'avion' },
     ],
 
     historyEyebrow: 'Notre histoire',
@@ -72,18 +77,20 @@ const t = {
 
     ethosEyebrow: 'Notre philosophie',
     ethosTitle: 'La sécurité d\'abord. Le plaisir juste après.',
-    ethosText: 'Nous croyons que le parachutisme doit être accessible, bien enseigné et joyeux. Notre matériel est entretenu selon les standards européens les plus exigeants, nos moniteurs détiennent des qualifications internationales à jour, et nous ne bâclons jamais un briefing. Chaque visiteur - qu\'il en soit à son premier saut ou à son 5 000ᵉ - fait partie de la famille dès qu\'il pose le pied sur la DZ.',
+    ethosText: "Le parachutisme est un sport de club autant qu’un défi personnel. Nous tenons à la préparation, à des briefings clairs, à l’apprentissage entre parachutistes et à un accueil chaleureux pour les débutants comme pour les plus expérimentés.",
 
     ctaTitle: 'Venez nous rencontrer.',
-    ctaSubtitle: 'Le club-house est ouvert chaque week-end d\'avril à octobre. Passez prendre un café, discuter ou faire votre premier saut.',
+    ctaSubtitle: "Un saut en tandem, une formation AFF ou la vie du club vous intéresse ? Contactez-nous pour préparer votre visite à Noertrange.",
     ctaPrimary: 'Réserver un tandem',
     ctaSecondary: 'Nous contacter',
   },
 
   de: {
+    newsCta: "Neuigkeiten und Vereinsleben verfolgen",
+    activityLinks: ["Tandemsprünge entdecken", "Zur AFF-Ausbildung", "Informationen für erfahrene Springer"],
     bannerEyebrow: 'Über uns',
-    bannerTitle: 'Ein gemeinnütziger Verein - von Springern, für Springer.',
-    bannerSubtitle: 'Skydive Luxembourg a.s.b.l. - der einzige eingetragene Fallschirmverein des Großherzogtums.',
+    bannerTitle: "Unser Fallschirmsportverein in Luxemburg.",
+    bannerSubtitle: "Ein gemeinnütziger Verein von Springern für Springer am Flugplatz Noertrange bei Wiltz.",
 
     introEyebrow: 'Wer wir sind',
     introTitle: 'Mehr als 60 Jahre Fallschirmsport in Luxemburg.',
@@ -91,12 +98,12 @@ const t = {
 
     whatEyebrow: 'Was wir tun',
     whatTitle: 'Drei Aktivitäten, eine Gemeinschaft.',
-    whatLead: 'Wir begrüßen komplette Anfänger, Schüler auf dem Weg zur Lizenz und erfahrene Springer aus ganz Europa.',
+    whatLead: "Vom ersten Tandemsprung über die AFF-Ausbildung bis zum Fallschirmsport: Finde das passende Angebot für deine Erfahrung.",
 
     cards: [
-      { title: 'Tandemsprünge', text: 'Erstsprung-Erlebnisse ab 14 Jahren. Ein kurzes Briefing, dann freier Fall aus 4 000 Metern, angeschnallt an einen geprüften Tandemmaster.', image: tandemImg, alt: 'Tandemsprung im freien Fall' },
-      { title: 'AFF-Ausbildung', text: 'Unser Accelerated-Freefall-Kurs ist der moderne, schnelle Weg zur Solo-Sprunglizenz. Sieben Stufen Einzelunterricht, mit zwei Lehrern auf den ersten Sprüngen.', image: affImg, alt: 'AFF-Schüler im freien Fall mit Lehrern' },
-      { title: 'Sportspringer', text: 'Lizenzierte Fallschirmspringer sind in unserer Airvan GA8 herzlich willkommen. Flächenbelastungs-Checks, Formations-Coaching und freundliche Gastgeber an jedem Wochenende der Saison.', image: funImg, alt: 'Sportspringer beim Ausstieg' },
+      { title: 'Tandemsprünge', text: "Entdecke das Fallschirmspringen mit einem Tandemmaster. Informiere dich über den Ablauf, die Teilnahmevoraussetzungen und Buchungsoptionen.", image: tandemImg, alt: 'Tandemsprung im freien Fall' },
+      { title: 'AFF-Ausbildung', text: "Lerne die Bodenausbildung und die sieben AFF-Stufen kennen, bevor du deinen Weg zum selbstständigen Fallschirmspringen fortsetzt.", image: affImg, alt: 'AFF-Schüler im freien Fall mit Lehrern' },
+      { title: 'Sportspringer', text: "Praktische Informationen für lizenzierte Springer in Noertrange: Voraussetzungen, Einrichtungen und Coaching-Kontakte.", image: funImg, alt: 'Sportspringer beim Ausstieg' },
     ],
 
     historyEyebrow: 'Unsere Geschichte',
@@ -105,18 +112,20 @@ const t = {
 
     ethosEyebrow: 'Unsere Philosophie',
     ethosTitle: 'Sicherheit zuerst. Spaß ganz knapp dahinter.',
-    ethosText: 'Wir glauben, dass Fallschirmspringen zugänglich, gut unterrichtet und freudvoll sein soll. Unser Material wird nach den höchsten europäischen Standards gewartet, unsere Lehrer besitzen aktuelle internationale Lizenzen, und unsere Briefings werden nie abgekürzt. Jeden Besucher - ob beim ersten Sprung oder beim 5 000. - behandeln wir vom Moment des Eintreffens am Flugplatz als Teil der Familie.',
+    ethosText: "Fallschirmspringen ist Vereinssport und persönliche Herausforderung zugleich. Vorbereitung, klare Briefings, gemeinsames Lernen und eine offene Atmosphäre für Anfänger und erfahrene Springer sind uns wichtig.",
 
     ctaTitle: 'Komm vorbei.',
-    ctaSubtitle: 'Das Vereinsheim ist von April bis Oktober jedes Wochenende geöffnet. Auf einen Kaffee, ein Gespräch oder deinen ersten Sprung.',
+    ctaSubtitle: "Du interessierst dich für Tandemsprünge, AFF-Ausbildung oder das Vereinsleben? Kontaktiere uns, um deinen Besuch in Noertrange zu planen.",
     ctaPrimary: 'Tandem buchen',
     ctaSecondary: 'Kontakt',
   },
 
   lu: {
+    newsCta: "Neiegkeeten a Veräinsliewen nokucken",
+    activityLinks: ["Tandemspréng entdecken", "Iwwer d’AFF-Ausbildung", "Informatioune fir erfuerene Sprénger"],
     bannerEyebrow: 'Iwwer eis',
-    bannerTitle: 'Ein gemeinnütziger Veräin - vu Spréngern, fir Sprénger.',
-    bannerSubtitle: 'Skydive Luxembourg a.s.b.l. - der einzige eingetragene Fallschiermveräin des Großherzogtums.',
+    bannerTitle: "Eise Fallschiermsveräin zu Lëtzebuerg.",
+    bannerSubtitle: "E Veräin ouni Gewënnzweck, vu Sprénger fir Sprénger, op der Fluchplaz Noertrange bei Wolz.",
 
     introEyebrow: 'Wer mir sind',
     introTitle: 'Méi wéi 60 Joer Fallschiermsport in Lëtzebuerg.',
@@ -124,12 +133,12 @@ const t = {
 
     whatEyebrow: 'Was mir tun',
     whatTitle: 'Drei Aktivitäten, eine Communauté.',
-    whatLead: 'Mir begrüßen komplette Anfänger, Schüler auf dem Weg zur Lizenz an erfahrene Sprénger aus ganz Europa.',
+    whatLead: "Vum éischten Tandemsprong iwwer d’AFF-Ausbildung bis bei de Fallschiermsport: Entdeck dat, wat zu denger Erfarung passt.",
 
     cards: [
-      { title: 'Tandemspréng', text: 'Erstsprung-Erlebnisse ab 14 Joer. Ein kurzes Briefing, dann fräie Fall aus 4 000 Metern, angeschnallt an einen geprüften Tandemmaster.', image: tandemImg, alt: 'Tandemsprong im fräie Fall' },
-      { title: 'AFF-Ausbildung', text: 'Eise Accelerated-Freefall-Kurs ist der moderne, schnelle Weg zur Solo-Spronglizenz. Sieben Stufen Einzelunterricht, mat zwei Instrukterenn auf den ersten Spréngn.', image: affImg, alt: 'AFF-Schüler im fräie Fall mat Instrukterenn' },
-      { title: 'Sportsprénger', text: 'Lizenzierte Fallschirmspringer sind in eisr Airvan GA8 herzlich wëllkomm. Flächenbelastungs-Checks, Formations-Coaching an freundliche Gastgeber an jedem Wochenende der Saison.', image: funImg, alt: 'Sportsprénger beim Ausstieg' },
+      { title: 'Tandemspréng', text: "Entdeck d’Fallschiermsprange mat engem Tandemmaster. Informéier dech iwwer den Oflaf, d’Viraussetzungen an d’Reservatiounsméiglechkeeten.", image: tandemImg, alt: 'Tandemsprong im fräie Fall' },
+      { title: 'AFF-Ausbildung', text: "Léier d’Buedemausbildung an déi siwen AFF-Niveaue kennen, ier s du däi Wee beim selbststännege Fallschiermsprange weidergees.", image: affImg, alt: 'AFF-Schüler im fräie Fall mat Instrukterenn' },
+      { title: 'Sportsprénger', text: "Praktesch Informatioune fir lizenzéiert Sprénger zu Noertrange: Viraussetzungen, Ariichtungen a Coaching-Kontakter.", image: funImg, alt: 'Sportsprénger beim Ausstieg' },
     ],
 
     historyEyebrow: 'Eis Geschicht',
@@ -138,17 +147,25 @@ const t = {
 
     ethosEyebrow: 'Eis Philosophie',
     ethosTitle: 'Sécherheet zuerst. Spaass ganz knapp dahinter.',
-    ethosText: 'Mir glauben, dass Fallschiermsprangen zugänglich, gut unterrichtet an freudvoll sein soll. Eise Material mird nach den höchsten europäischen Standards gewartet, eis Instrukteren besitzen aktuelle internationale Lizenzen, an eis Briefings werden nie abgekürzt. Jeden Besichr - ob beim ersten Sprong oder beim 5 000. - behandeln mir vom Moment des Eintreffens am Flugplatz als Teil der Familie.',
+    ethosText: "Fallschiermsprangen ass e Veräinssport an eng perséinlech Erausfuerderung. Virbereedung, kloer Briefingen, zesumme léieren an e frëndlechen Empfang fir Ufänger an erfuerene Sprénger si fir eis wichteg.",
 
     ctaTitle: 'Komm vorbei.',
-    ctaSubtitle: 'Das Veräinsheim ist vu April bis Oktober jedes Wochenende geöffnet. Auf einen Kaffee, ein Gespräch oder dengen ersten Sprong.',
+    ctaSubtitle: "Du interesséiers dech fir Tandemspréng, AFF-Ausbildung oder d’Veräinsliewen? Kontaktéier eis, fir däi Besuch zu Noertrange ze plangen.",
     ctaPrimary: 'Tandem buchen',
     ctaSecondary: 'Kontakt',
   },
 }[lang];
 
+const activities = ['tandem', 'aff', 'fun-jumpers'];
+const cards = t.cards.map((card, index) => ({
+  ...card,
+  href: pageHref(`/${lang}/${activities[index]}`),
+  cta: t.activityLinks[index],
+}));
+
 const bookHref = `/${lang}/tandem#book`;
 const contactHref = `/${lang}/contact`;
+const newsHref = `/${lang}/news`;
 ---
 
 <PageBanner
@@ -176,7 +193,7 @@ const contactHref = `/${lang}/contact`;
       <h2 class="section__title">{t.whatTitle}</h2>
       <p class="section__lead">{t.whatLead}</p>
     </header>
-    <FeatureCards items={t.cards} />
+    <FeatureCards items={cards} />
   </div>
 </section>
 
@@ -186,6 +203,7 @@ const contactHref = `/${lang}/contact`;
       <p class="section__eyebrow">{t.historyEyebrow}</p>
       <h2 class="section__title">{t.historyTitle}</h2>
       <p class="section__lead">{t.historyText}</p>
+      <p style="margin-top: var(--space-4)"><a href={pageHref(newsHref)}>{t.newsCta}</a></p>
     </header>
   </div>
 </section>

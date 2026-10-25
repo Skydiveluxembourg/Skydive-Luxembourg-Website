@@ -21,11 +21,11 @@
   query = { page_id = "1590" }
   force = true
 
-# Redirect before serving the static-host fallback document at the root.
+# The default language is fixed: permanently consolidate the root into /en/.
 [[redirects]]
   from = "/"
   to = "/en/"
-  status = 302
+  status = 301
   force = true
 
 [[redirects]]

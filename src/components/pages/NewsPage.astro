@@ -1,0 +1,38 @@
+---
+import { getImage } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import NewsArticleContent from './NewsArticleContent.astro';
+import RefurbishmentNewsContent from './RefurbishmentNewsContent.astro';
+import { pickNews } from '../../utils/news.js';
+import { newsArticleSchema } from '../../utils/seo.js';
+
+const { post, lang = 'en' } = Astro.props;
+const headline = pickNews(post.title, lang);
+const description = pickNews(post.summary, lang) ?? pickNews(post.body, lang)?.[0];
+const siteUrl = Astro.site.toString().replace(/\/$/, '');
+const photo = post.images?.[0];
+// Keep the complete photograph, including everyone in a portrait group photo.
+const optimized = photo && await getImage({
+  src: photo.src, width: Math.min(photo.src.width, 1600), format: 'jpg', quality: 85,
+});
+const socialImage = optimized && {
+  url: new URL(optimized.src, Astro.site).href,
+  width: optimized.attributes.width,
+  height: optimized.attributes.height,
+  type: 'image/jpeg',
+  alt: pickNews(photo.alt, lang),
+};
+const article = newsArticleSchema({ post, headline, description, lang, siteUrl, image: socialImage });
+---
+<Layout
+  title={`${headline} | Skydive Luxembourg`}
+  description={description}
+  socialImage={socialImage}
+  ogType="article"
+  publishedAt={post.publishedAt}
+  modifiedAt={post.modifiedAt}
+  mainEntity={article['@id']}
+  structuredData={[article]}
+>
+  {post.updates ? <RefurbishmentNewsContent lang={lang} post={post} /> : <NewsArticleContent lang={lang} post={post} />}
+</Layout>

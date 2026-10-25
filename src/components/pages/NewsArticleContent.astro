@@ -1,0 +1,73 @@
+---
+import NewsGallery from '../NewsGallery.astro';
+import { newsEntries } from '../../data/clubNews.js';
+import { newsCopy, pickNews, newsLang, newsHref, formatNewsDate } from '../../utils/news.js';
+
+const { lang = 'en', post } = Astro.props;
+const t = newsCopy(lang);
+const pick = (field) => pickNews(field, lang);
+const index = newsEntries.findIndex((item) => item.id === post.id);
+const newer = newsEntries[index - 1];
+const older = newsEntries[index + 1];
+---
+
+<section class="section news-article">
+  <div class="section__inner section__inner--narrow">
+    <a class="news-article__back" href={`/${lang}/news/#${post.id}`}><span aria-hidden="true">← </span>{t.back}</a>
+    <article>
+      <header class="news-article__header">
+        <time class="news-article__date" datetime={post.date}>{formatNewsDate(post.date, lang)}</time>
+        <h1 lang={newsLang(post.title, lang)}>{pick(post.title)}</h1>
+        <p class="news-article__author">{t.author} <a rel="author" href={`/${lang}/about/`}>Skydive Luxembourg</a></p>
+        {pick(post.summary) && <p class="news-article__summary" lang={newsLang(post.summary, lang)}>{pick(post.summary)}</p>}
+      </header>
+      <div class="news-article__body" lang={newsLang(post.body, lang)}>
+        {(pick(post.body) ?? []).map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      {post.images?.length > 0 && (
+        <section class="news-article__photos" aria-labelledby="article-photos">
+          <h2 id="article-photos">{t.photos}</h2>
+          <NewsGallery photos={post.images} lang={lang} />
+        </section>
+      )}
+    </article>
+
+    <nav class="news-article__navigation" aria-label={t.articleNav}>
+      {newer && (
+        <a href={newsHref(lang, newer)}>
+          <span class="news-article__direction">← {t.newer}</span>
+          <span lang={newsLang(newer.title, lang)}>{pick(newer.title)}</span>
+        </a>
+      )}
+      {older && (
+        <a href={newsHref(lang, older)}>
+          <span class="news-article__direction">{t.older} →</span>
+          <span lang={newsLang(older.title, lang)}>{pick(older.title)}</span>
+        </a>
+      )}
+    </nav>
+    <a class="news-article__back" href={`/${lang}/news/#${post.id}`}><span aria-hidden="true">← </span>{t.back}</a>
+  </div>
+</section>
+
+<style>
+  .news-article { padding-top: var(--space-8); }
+  .news-article__back { display: inline-flex; align-items: center; min-height: 44px; gap: var(--space-2); }
+  .news-article__header { margin-top: var(--space-6); }
+  .news-article__date { color: var(--color-fg-muted); font-size: var(--fs-sm); }
+  .news-article h1 { margin-top: var(--space-3); font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; }
+  .news-article__author { margin-top: var(--space-3); color: var(--color-fg-muted); font-size: var(--fs-sm); }
+  .news-article__summary { margin-top: var(--space-5); font-size: var(--fs-lg); line-height: 1.65; }
+  .news-article__body { margin-top: var(--space-6); }
+  .news-article__body p + p { margin-top: var(--space-4); }
+  .news-article__photos { margin-top: var(--space-8); }
+  .news-article__photos h2 { margin-bottom: var(--space-4); font-size: var(--fs-xl); }
+  .news-article__navigation {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: var(--space-6); margin-top: var(--space-10); margin-bottom: var(--space-5);
+    padding-top: var(--space-6); border-top: 1px solid var(--color-border);
+  }
+  .news-article__navigation a { display: block; padding-block: var(--space-2); }
+  .news-article__direction { display: block; margin-bottom: var(--space-2); color: var(--color-fg-muted); font-size: var(--fs-sm); }
+  .news-article a:focus-visible { outline: 3px solid var(--color-link); outline-offset: 4px; border-radius: 2px; }
+</style>

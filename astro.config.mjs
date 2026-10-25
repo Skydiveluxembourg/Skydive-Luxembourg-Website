@@ -10,8 +10,8 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // The root page is a noindex redirect to /en/ - keep it out of the sitemap.
-      filter: (page) => page !== 'https://skydive.lu/',
+      // Include canonical, indexable content, not redirects or form receipts.
+      filter: (page) => page !== 'https://skydive.lu/' && !/\/thank-you\/?$/.test(new URL(page).pathname),
       // Emit hreflang alternate links for every URL in the sitemap.
       i18n: {
         defaultLocale: 'en',

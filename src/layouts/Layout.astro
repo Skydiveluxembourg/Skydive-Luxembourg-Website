@@ -15,15 +15,20 @@
 import '../styles/tokens.css';
 import '../styles/components.css';
 import Nav from '../components/Nav.astro';
-import NoticeBanner from '../components/NoticeBanner.astro';
 import Footer from '../components/Footer.astro';
 import { pageHref } from '../utils/urls.js';
+import { buildBreadcrumbSchema, serializeSchema } from '../utils/seo.js';
 
 const {
   title = 'Skydive Luxembourg',
   description = 'Official website of Skydive Luxembourg a.s.b.l. - tandem jumps, AFF courses, and the home of skydiving in Luxembourg.',
-  robots,
+  robots = 'index, follow, max-image-preview:large',
   structuredData = [],
+  socialImage,
+  ogType = 'website',
+  publishedAt,
+  modifiedAt,
+  mainEntity,
 } = Astro.props;
 
 const lang = Astro.currentLocale ?? 'en';
@@ -34,8 +39,23 @@ const ogLocales = { en: 'en_GB', fr: 'fr_FR', de: 'de_DE' };
 const ogLocale = ogLocales[lang] ?? 'en_GB';
 const ogAlternates = locales.filter((l) => l !== lang).map((l) => ogLocales[l]);
 const path = Astro.url.pathname;
-const canonicalUrl = new URL(pageHref(path), Astro.site).toString();
+// Astro emits its error document as 404.html, rather than a /404/ route.
+const canonicalPath = /^\/404(?:\/|\.html)?$/.test(path) ? '/404.html' : pageHref(path);
+const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://skydive.lu';
+const indexable = !/(?:^|[,\s])noindex(?:$|[,\s])/i.test(robots);
+const defaultImageAlt = {
+  en: 'Skydive Luxembourg skydiver in freefall',
+  fr: 'Parachutiste de Skydive Luxembourg en chute libre',
+  de: 'Fallschirmspringer von Skydive Luxembourg im freien Fall',
+};
+const image = socialImage ?? {
+  url: new URL('/img/og-image.jpg', Astro.site).href,
+  width: 1200,
+  height: 630,
+  type: 'image/jpeg',
+  alt: defaultImageAlt[lang] ?? defaultImageAlt.en,
+};
 
 // Strip the current locale prefix to compute hreflang URLs for the other languages
 const rawPathWithoutLocale = path.replace(/^\/(en|fr|de|lu)(?=\/|$)/, '') || '/';
@@ -45,10 +65,10 @@ const pathWithoutLocale = rawPathWithoutLocale === '/404.html' || rawPathWithout
 
 const organizationSchema = {
   '@context': 'https://schema.org',
-  '@type': ['Organization', 'SportsActivityLocation'],
+  '@type': ['SportsOrganization', 'SportsActivityLocation'],
   '@id': `${siteUrl}/#organization`,
   name: 'Skydive Luxembourg a.s.b.l.',
-  alternateName: 'Skydive Luxembourg',
+  alternateName: ['Skydive Luxembourg', 'Cercle Parachutiste Luxembourgeois'],
   url: siteUrl,
   logo: `${siteUrl}/img/logo.png`,
   image: `${siteUrl}/img/og-image.jpg`,
@@ -62,12 +82,6 @@ const organizationSchema = {
     addressLocality: 'Noertrange',
     addressCountry: 'LU',
   },
-  // Wiltz-Noertrange airfield (ELNT)
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 49.9811,
-    longitude: 5.9178,
-  },
   areaServed: ['Luxembourg', 'Greater Region', 'Belgium', 'France', 'Germany'],
   sport: 'Skydiving',
   sameAs: [
@@ -77,9 +91,12 @@ const organizationSchema = {
   ],
 };
 
+const breadcrumb = indexable && buildBreadcrumbSchema({ canonicalUrl, title, lang, siteUrl });
 const webPageSchema = {
   '@context': 'https://schema.org',
-  '@type': 'WebPage',
+  '@type': pathWithoutLocale === '/about/' ? 'AboutPage'
+    : pathWithoutLocale === '/contact/' ? 'ContactPage'
+    : pathWithoutLocale === '/news/' ? 'CollectionPage' : 'WebPage',
   '@id': `${canonicalUrl}#webpage`,
   url: canonicalUrl,
   name: title,
@@ -92,9 +109,11 @@ const webPageSchema = {
     url: siteUrl,
   },
   about: { '@id': `${siteUrl}/#organization` },
+  ...(mainEntity && { mainEntity: { '@id': mainEntity } }),
+  ...(breadcrumb && { breadcrumb: { '@id': breadcrumb['@id'] } }),
 };
 
-const allStructuredData = [organizationSchema, webPageSchema, ...structuredData];
+const allStructuredData = [organizationSchema, webPageSchema, ...(breadcrumb ? [breadcrumb] : []), ...structuredData];
 ---
 
 <!DOCTYPE html>
@@ -111,20 +130,20 @@ const allStructuredData = [organizationSchema, webPageSchema, ...structuredData]
 
     <link rel="canonical" href={canonicalUrl} />
 
-    {locales.map((loc) => (
+    {indexable && locales.map((loc) => (
       <link
         rel="alternate"
         hreflang={loc}
         href={new URL(pageHref(`/${loc}${pathWithoutLocale}`.replace(/\/+/g, '/')), Astro.site)}
       />
     ))}
-    <link
+    {indexable && <link
       rel="alternate"
       hreflang="x-default"
       href={new URL(pageHref(`/en${pathWithoutLocale}`.replace(/\/+/g, '/')), Astro.site)}
-    />
+    />}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -133,20 +152,22 @@ const allStructuredData = [organizationSchema, webPageSchema, ...structuredData]
     {ogAlternates.map((l) => (
       <meta property="og:locale:alternate" content={l} />
     ))}
-    <meta property="og:image" content={new URL('/img/og-image.jpg', Astro.site)} />
-    <meta property="og:image:secure_url" content={new URL('/img/og-image.jpg', Astro.site)} />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Skydive Luxembourg skydiver in freefall" />
+    <meta property="og:image" content={image.url} />
+    <meta property="og:image:secure_url" content={image.url} />
+    <meta property="og:image:type" content={image.type} />
+    <meta property="og:image:width" content={image.width} />
+    <meta property="og:image:height" content={image.height} />
+    <meta property="og:image:alt" content={image.alt} />
+    {ogType === 'article' && publishedAt && <meta property="article:published_time" content={publishedAt} />}
+    {ogType === 'article' && modifiedAt && <meta property="article:modified_time" content={modifiedAt} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('/img/og-image.jpg', Astro.site)} />
-    <meta name="twitter:image:alt" content="Skydive Luxembourg skydiver in freefall" />
+    <meta name="twitter:image" content={image.url} />
+    <meta name="twitter:image:alt" content={image.alt} />
 
     {allStructuredData.map((schema) => (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      <script type="application/ld+json" set:html={serializeSchema(schema)} />
     ))}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -178,8 +199,6 @@ const allStructuredData = [organizationSchema, webPageSchema, ...structuredData]
     <a href="#main" class="skip-link">Skip to content</a>
 
     <Nav />
-
-    <NoticeBanner />
 
     <main id="main">
       <slot />
@@ -251,6 +270,8 @@ const allStructuredData = [organizationSchema, webPageSchema, ...structuredData]
       h1, h2, h3, h4, h5, h6 {
         line-height: var(--lh-tight);
         font-weight: var(--fw-bold);
+        overflow-wrap: break-word;
+        hyphens: auto;
       }
       h1 { font-size: var(--fs-3xl); }
       h2 { font-size: var(--fs-2xl); }

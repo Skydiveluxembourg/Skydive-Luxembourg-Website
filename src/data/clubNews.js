@@ -1,6 +1,8 @@
 /**
- * refurbishmentNews.js - updates shown on the /news page while the runway is
- * being refurbished. The page is linked only from the site-wide NoticeBanner.
+ * clubNews.js - news shown on the /news page, reached from the main menu.
+ * Runway refurbishment updates, club activities, events and other club news
+ * share the same chronological feed. Refurbishment reports are grouped into
+ * one story on the index, with every dated update preserved inside it.
  *
  * ---------------------------------------------------------------------------
  * HOW TO ADD AN UPDATE
@@ -15,20 +17,39 @@
  *    follow in pairs, so list the photo you want to lead first.
  *    Astro optimises and resizes them automatically - no need to pre-scale.
  *
- * 2. Add a new object to the TOP of `posts`. The page renders them in array
- *    order, so newest first.
+ * 2. Add a new object to the TOP of `posts`, newest first. Ordinary club news
+ *    gets its own entry; refurbishment reports join the single project story.
  *
- * 3. `title`, `body` and `imageAlt` are keyed by language. English is the
- *    fallback: if `fr` or `de` is missing, the page shows `en` rather than an
- *    empty block, so it is safe to publish in English first and translate later.
+ * 3. `title`, `summary`, `body` and each image's `alt` are keyed by language.
+ *    English is the fallback: if a translation is missing, the page shows `en`
+ *    rather than an empty block, so it is safe to publish in English first and
+ *    translate later.
  *
- * 4. `body` is an array of paragraphs - add as many strings as you need.
+ * 4. `summary` is one or two short sentences covering the main takeaway. For
+ *    standalone stories it appears on the index and before the photographs.
+ *    Grouped refurbishment reports use the project introduction on the index.
  *
- * 5. `date` is ISO (YYYY-MM-DD). It is formatted per language on the page.
+ * 5. `body` is an array of paragraphs - add as many strings as you need.
+ *
+ * 6. `date` is the event/report date in ISO (YYYY-MM-DD), formatted per language.
+ *    Optional `publishedAt` and `modifiedAt` describe actual website publication
+ *    and substantive editing dates, once known. Do not copy the event date or
+ *    generate a fresh timestamp on every build: these feed article metadata.
+ *
+ * 7. Optional `category: 'refurbishment'` identifies runway updates, so the
+ *    reports appear in the grouped project story. Its date and thumbnail follow
+ *    the newest report automatically. Other club news can omit this category.
  * ---------------------------------------------------------------------------
  */
 
 // Photos, newest first. Add one import per photo.
+import partyGroupImg from '../assets/img/news/2026-10-24-end-of-season-group.jpeg';
+import partyConversationImg from '../assets/img/news/2026-10-24-end-of-season-conversation.jpeg';
+import partyTableImg from '../assets/img/news/2026-10-24-end-of-season-table.jpeg';
+import sownRunwayImg from '../assets/img/news/2026-10-17-prepared-runway.jpeg';
+import electricFenceImg from '../assets/img/news/2026-10-17-electric-fence.jpeg';
+import graderImg from '../assets/img/news/2026-10-17-grader.jpeg';
+import fencedRunwayImg from '../assets/img/news/2026-10-17-fenced-runway.jpeg';
 import treelineImg from '../assets/img/news/2026-09-24-machines-treeline.webp';
 import sunsetRunwayImg from '../assets/img/news/2026-09-24-runway-sunset-centreline.webp';
 import truckImg from '../assets/img/news/2026-09-24-truck-container.webp';
@@ -42,8 +63,158 @@ import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
   {
+    id: '2026-10-24-end-of-season-party',
+    date: '2026-10-24',
+    thumbnailFit: 'contain',
+
+    images: [
+      {
+        src: partyGroupImg,
+        alt: {
+          en: "A group smiling towards the camera around a long dinner table in the club hangar, with plates, glasses and flags visible",
+          fr: "Un groupe souriant à l'objectif autour d'une longue table de repas dans le hangar du club, avec des assiettes, des verres et des drapeaux",
+          de: "Eine Gruppe lächelt an einer langen gedeckten Tafel in der Vereinshalle zur Kamera, mit Tellern, Gläsern und Flaggen im Bild",
+          lu: "Eng Grupp, déi ronderëm e laangen Iessdësch am Clubhangar sëtzt an an d'Kamera laacht, mat Telleren, Glieser a Fändelen am Bild",
+        },
+      },
+      {
+        src: partyConversationImg,
+        alt: {
+          en: "People chatting and eating along a dinner table by candlelight",
+          fr: "Des convives discutant et mangeant autour d'une table à la lumière des bougies",
+          de: "Menschen unterhalten sich und essen an einem Tisch bei Kerzenlicht",
+          lu: "Leit, déi sech bei Käerzeliicht laanscht en Iessdësch ënnerhalen an iessen",
+        },
+      },
+      {
+        src: partyTableImg,
+        alt: {
+          en: "A close view along the dinner table with seated diners, plates and drinks",
+          fr: "Vue rapprochée dans la longueur de la table, avec des convives assis, des assiettes et des boissons",
+          de: "Naher Blick entlang der Tafel mit sitzenden Gästen, Tellern und Getränken",
+          lu: "Bléck vun no laanscht den Iessdësch, mat sëtzende Gäscht, Telleren a Gedrénks",
+        },
+      },
+    ],
+
+    title: {
+      en: 'Ending the 2026 season together',
+      fr: 'Terminer ensemble la saison 2026',
+      de: 'Gemeinsam die Saison 2026 ausklingen lassen',
+      lu: "D'Saison 2026 zesummen ofschléissen",
+    },
+
+    summary: {
+      en: "A shared meal and good company in Noertrange rounded off an afternoon of getting the dropzone ready for winter.",
+      fr: "Un repas partagé et le plaisir de se retrouver à Noertrange ont conclu un après-midi consacré à préparer la dropzone pour l'hiver.",
+      de: "Nach einem Nachmittag mit Wintervorbereitungen auf der Dropzone ließen wir die Saison bei einem gemeinsamen Essen in Noertrange ausklingen.",
+      lu: "No engem Nomëtteg, wou d'Dropzone fir de Wanter virbereet gouf, hu mir d'Saison mat engem Iessen a gudder Gesellschaft zu Noertrange ofgeschloss.",
+    },
+
+    body: {
+      en: [
+        "After an afternoon preparing the dropzone for winter, it was time to gather around the table. Our traditional end-of-season party brought members, friends and family together in Noertrange to share a meal, catch up and look back on the season.",
+        "Helping out, sharing stories and making everyone feel welcome are all part of life at Skydive Luxembourg. Thank you to everyone who lent a hand during the afternoon and joined us for the evening. It was a lovely way to close the season together.",
+      ],
+      fr: [
+        "Après un après-midi à préparer la dropzone pour l'hiver, il était temps de se retrouver autour de la table. Notre traditionnelle fête de fin de saison a réuni membres, amis et familles à Noertrange pour partager un repas, prendre des nouvelles et revenir sur la saison.",
+        "Donner un coup de main, partager des histoires et faire en sorte que chacun se sente le bienvenu font partie de la vie à Skydive Luxembourg. Merci à toutes celles et ceux qui ont aidé pendant l'après-midi et nous ont rejoints pour la soirée. C'était une belle façon de terminer la saison ensemble.",
+      ],
+      de: [
+        "Nach einem Nachmittag, an dem wir die Dropzone für den Winter vorbereitet hatten, war es Zeit, gemeinsam am Tisch Platz zu nehmen. Unsere traditionelle Saisonabschlussfeier brachte Mitglieder, Freunde und Familien in Noertrange zusammen, um gemeinsam zu essen, sich auszutauschen und auf die Saison zurückzublicken.",
+        "Mit anpacken, Geschichten teilen und dafür sorgen, dass sich alle willkommen fühlen: Das gehört zum Leben bei Skydive Luxembourg. Danke an alle, die am Nachmittag mitgeholfen haben und am Abend dabei waren. Es war ein schöner gemeinsamer Abschluss der Saison.",
+      ],
+      lu: [
+        "No engem Nomëtteg, wou mir d'Dropzone fir de Wanter virbereet haten, war et Zäit, eis ëm den Dësch ze versammelen. Eist traditionellt Fest zum Enn vun der Saison huet Memberen, Frënn a Familljen zu Noertrange zesummebruecht, fir zesummen z'iessen, Neiegkeeten auszetauschen an op d'Saison zeréckzekucken.",
+        "Mathëllefen, Geschichten deelen an dofir suergen, dass jidderee sech wëllkomm fillt: dat gehéiert zum Liewe bei Skydive Luxembourg. Merci u jiddereen, deen am Nomëtteg matgehollef huet an owes dobäi war. Et war eng flott Manéier, d'Saison zesummen ofzeschléissen.",
+      ],
+    },
+  },
+  {
+    id: '2026-10-17-grass-sown-and-fence-installed',
+    date: '2026-10-17',
+    category: 'refurbishment',
+
+    images: [
+      {
+        src: sownRunwayImg,
+        alt: {
+          en: "The prepared bare-earth runway looking straight towards the hangars and village at sunset",
+          fr: "La piste en terre préparée, vue dans l'axe vers les hangars et le village au coucher du soleil",
+          de: "Die vorbereitete Piste aus blankem Erdreich, Blick geradeaus zu den Hallen und zum Dorf bei Sonnenuntergang",
+          lu: "Déi preparéiert Piste aus blousem Buedem, riicht a Richtung vun den Halen an dem Duerf beim Sonnenënnergang gesinn",
+        },
+      },
+      {
+        src: electricFenceImg,
+        alt: {
+          en: "Electric fence posts and strands with a yellow warning sign beside the runway, with grass on the left and prepared soil on the right",
+          fr: "Piquets et fils d'une clôture électrique avec un panneau d'avertissement jaune à côté de la piste, de l'herbe à gauche et le sol préparé à droite",
+          de: "Pfosten und Drähte eines Elektrozauns mit gelbem Warnschild neben der Piste, links Gras und rechts vorbereiteter Boden",
+          lu: "Pinn an Dréit vun engem Elektrozaun mat engem giele Warnschëld nieft der Piste, lénks Gras a riets preparéierte Buedem",
+        },
+      },
+      {
+        src: graderImg,
+        alt: {
+          en: "A yellow grader parked on the grass beside the runway under a blue sky with clouds",
+          fr: "Une niveleuse jaune garée sur l'herbe à côté de la piste, sous un ciel bleu avec des nuages",
+          de: "Ein gelber Grader auf der Grasfläche neben der Piste unter blauem Himmel mit Wolken",
+          lu: "Eng giel Planéiermaschinn um Gras nieft der Piste ënner engem bloen Himmel mat Wolleken",
+        },
+      },
+      {
+        src: fencedRunwayImg,
+        alt: {
+          en: "The bare-earth runway behind white electric fence posts at the near end, with hangars in the distance under an overcast sky",
+          fr: "La piste en terre nue derrière les piquets blancs d'une clôture électrique au premier plan, les hangars au loin sous un ciel couvert",
+          de: "Die Piste aus blankem Erdreich hinter weißen Elektrozaunpfosten im Vordergrund, in der Ferne Hallen unter bedecktem Himmel",
+          lu: "D'Piste aus blousem Buedem hannert wäissen Elektrozaunpinn am Virdergrond, am Hannergrond d'Halen ënner engem bedeckten Himmel",
+        },
+      },
+    ],
+
+    title: {
+      en: 'Grass sown and electric fence installed',
+      fr: 'Gazon semé et clôture électrique installée',
+      de: 'Gras eingesät und Elektrozaun aufgestellt',
+      lu: 'Gras geséint an Elektrozaun opgestallt',
+    },
+
+    summary: {
+      en: "The final runway levelling and soil tilling are done, and grass seed has been sown. An electric fence has been installed to protect the area while the grass takes root.",
+      fr: "Le nivellement final et le fraisage du sol sont terminés, et le gazon a été semé. Une clôture électrique a été installée pour protéger la zone pendant que le gazon prend racine.",
+      de: "Die abschließenden Planier- und Fräsarbeiten an der Piste sind erledigt, und der Grassamen ist ausgesät. Ein Elektrozaun soll den Bereich schützen, während das Gras anwächst.",
+      lu: "Dat lescht Planéieren an d'Fräse vum Buedem si gemaach, an de Grassom ass geséint. En Elektrozaun soll de Beräich schützen, wärend d'Gras Zäit kritt fir unzewuessen.",
+    },
+
+    body: {
+      en: [
+        "The final levelling and soil tilling of the runway have been completed, and the grass seed has now been sown.",
+        "Ponts et Chaussées has installed an electric fence around the refurbished area to keep wildlife away from the newly sown ground.",
+        "The grass now needs time to grow and develop strong roots. We therefore expect the 2027 skydiving season to start a little later than usual. We’re looking forward to getting back in the air.",
+      ],
+      fr: [
+        "Le nivellement final et le fraisage du sol de la piste sont terminés. Le gazon a maintenant été semé.",
+        "Les Ponts et Chaussées ont installé une clôture électrique autour de la zone rénovée pour tenir la faune à l'écart du terrain fraîchement semé.",
+        "Le gazon a maintenant besoin de temps pour pousser et développer des racines solides. Nous prévoyons donc un début de saison de parachutisme 2027 un peu plus tardif que d'habitude. Nous avons hâte de reprendre les sauts.",
+      ],
+      de: [
+        "Die abschließenden Planier- und Fräsarbeiten an der Piste sind erledigt. Der Grassamen ist inzwischen ausgesät.",
+        "Um den sanierten Bereich wurde von Ponts et Chaussées ein Elektrozaun aufgestellt, der Wildtiere von der frisch eingesäten Fläche fernhalten soll.",
+        "Das Gras braucht jetzt Zeit zum Wachsen und für kräftige Wurzeln. Deshalb rechnen wir damit, dass die Sprungsaison 2027 etwas später als üblich beginnt. Wir freuen uns schon darauf, wieder in die Luft zu gehen.",
+      ],
+      lu: [
+        "Déi lescht Aarbechte fir d'Piste ze planéieren an de Buedem ze fräse si gemaach, an de Grassom ass elo geséint.",
+        "Ronderëm den erneierte Beräich ass vun de Ponts et Chaussées en Elektrozaun opgestallt ginn, fir Wëld vum frësch geséinten Terrain ewechzehalen.",
+        "D'Gras brauch elo Zäit fir ze wuessen a staark Wuerzelen ze entwéckelen. Dofir rechne mir domat, dass d'Saison 2027 fir d'Fallschiermsprangen e bësse méi spéit ufänkt wéi gewinnt. Mir freeën eis schonn drop, nees an d’Luucht ze goen.",
+      ],
+    },
+  },
+  {
     id: '2026-09-24-levelling-and-sowing',
     date: '2026-09-24',
+    category: 'refurbishment',
 
     images: [
       {
@@ -82,6 +253,13 @@ export const posts = [
       lu: "D'Planéiere geet weider, virum Wanter soll geséint ginn",
     },
 
+    summary: {
+      en: "Levelling continues ahead of grass sowing planned before winter. The soil still needs more water for compaction, and an electric fence is planned to keep wild boar off the new grass.",
+      fr: "Le nivellement se poursuit avant le semis prévu avant l'hiver. Le sol doit encore absorber de l'eau pour le compactage, et une clôture électrique est prévue pour protéger le nouveau gazon des sangliers.",
+      de: "Die Piste wird für die vor dem Winter geplante Einsaat weiter eingeebnet. Der Boden braucht mehr Wasser zum Verdichten; ein Elektrozaun soll das neue Gras vor Wildschweinen schützen.",
+      lu: "D'Piste gëtt weider planéiert, virum Wanter soll geséint ginn. De Buedem brauch nach méi Waasser fir d'Verdichtung; en Elektrozaun soll dat neit Gras virun de Wëllschwäin schützen.",
+    },
+
     body: {
       en: [
         "The next step for the runway is sowing: the grass seed is due to go into the ground before winter. The work on the airfield at the moment is preparing the ground for it.",
@@ -112,6 +290,7 @@ export const posts = [
   {
     id: '2026-09-17-ploughing-and-compaction',
     date: '2026-09-17',
+    category: 'refurbishment',
 
     images: [
       {
@@ -159,6 +338,13 @@ export const posts = [
       lu: 'Plouen a Verdichten am Gaang, gebremst vum dréchene Buedem',
     },
 
+    summary: {
+      en: "Ploughing is complete, and runway compaction is under way. Very dry soil is slowing progress; watering is planned with help from the Commune of Wiltz.",
+      fr: "Le labour est terminé et le compactage de la piste est en cours. Le sol très sec ralentit les travaux ; un arrosage est prévu avec l'aide de la Commune de Wiltz.",
+      de: "Die Piste ist gepflügt, die Verdichtung läuft. Der sehr trockene Boden bremst die Arbeiten; mit Unterstützung der Gemeinde Wiltz soll bewässert werden.",
+      lu: "D'Piste ass geplout an d'Verdichtung ass am Gaang. De ganz dréchene Buedem bremst d'Aarbechten; mat der Hëllef vun der Gemeng Wiltz soll beweessert ginn.",
+    },
+
     body: {
       en: [
         'In the swampy section in the forest, the contractor broke up the ground to a depth of 40 centimetres, loosening the soil in preparation for the next steps. On Monday the whole field was ploughed, and work continued through the rest of the week on compacting the whole runway.',
@@ -189,6 +375,7 @@ export const posts = [
   {
     id: '2026-09-14-runway-ground-work',
     date: '2026-09-14',
+    category: 'refurbishment',
 
     images: [
       {
@@ -218,6 +405,13 @@ export const posts = [
       lu: "D'Erdaarbechte fänken un: déi éischt 200 Meter vun der Piste opgebrach",
     },
 
+    summary: {
+      en: "Groundwork has begun on roughly 200 metres of runway, loosening the turf and soil before levelling. The airfield remains closed, and only the contractor's personnel may enter the fenced area.",
+      fr: "Les travaux préparatoires ont commencé sur environ 200 mètres de piste, avec l'ameublissement du gazon et du sol avant le nivellement. L'aérodrome reste fermé et seul le personnel de l'entreprise peut entrer dans la zone clôturée.",
+      de: "Auf rund 200 Metern Piste haben die Vorarbeiten begonnen: Grasnarbe und Boden werden vor dem Einebnen aufgelockert. Der Flugplatz bleibt geschlossen; nur das Personal der Baufirma darf den abgesperrten Bereich betreten.",
+      lu: "Op ronn 200 Meter vun der Piste hunn d'Viraarbechten ugefaangen: d'Grasnarb an de Buedem ginn opgelackert, ier planéiert gëtt. D'Fluchplaz bleift zou; nëmmen d'Personal vun der Baufirma dierf an den ofgespaarte Beräich.",
+    },
+
     body: {
       en: [
         'A tractor-towed machine was at work on 14 September, drawing parallel grooves along roughly 200 metres of the runway, on the section that runs between the trees. The turf has been lifted and the soil beneath opened up, leaving a ribbed pattern across the full width of the surface.',
@@ -244,6 +438,7 @@ export const posts = [
   {
     id: '2026-09-08-work-area-fenced',
     date: '2026-09-08',
+    category: 'refurbishment',
 
     images: [
       {
@@ -262,6 +457,13 @@ export const posts = [
       fr: "La zone de chantier est clôturée, la piste passe aux mains de l'entreprise",
       de: 'Baustelle abgesperrt - die Piste geht an die Baufirma über',
       lu: "D'Baustell ass ofgespaart - d'Piste geet un d'Baufirma iwwer",
+    },
+
+    summary: {
+      en: "The runway work area is now fenced off, and the club has removed the cones and markers. Access is restricted to the contractor's personnel, including evenings and weekends.",
+      fr: "La zone des travaux de la piste est désormais clôturée, et le club a retiré les cônes et balises. L'accès est réservé au personnel de l'entreprise, y compris le soir et le week-end.",
+      de: "Der Arbeitsbereich an der Piste ist abgesperrt, und der Club hat Kegel und Markierungen entfernt. Nur das Personal der Baufirma darf das Gelände betreten, auch abends und am Wochenende.",
+      lu: "D'Baustell un der Piste ass ofgespaart, an de Club huet d'Kegelen an d'Markéierungen ewechgeholl. Nëmmen d'Personal vun der Baufirma dierf eran, och owes an um Weekend.",
     },
 
     body: {
@@ -288,3 +490,38 @@ export const posts = [
     },
   },
 ];
+
+export const refurbishmentUpdates = posts.filter((post) => post.category === 'refurbishment');
+
+// Keep the project URL stable as more dated reports are added.
+const refurbishmentStory = {
+  id: 'runway-refurbishment',
+  date: refurbishmentUpdates[0]?.date,
+  title: {
+    en: 'Runway refurbishment at Noertrange',
+    fr: 'Réfection de la piste à Noertrange',
+    de: 'Pistensanierung in Noertrange',
+    lu: 'Erneierung vun der Piste zu Noertrange',
+  },
+  teaser: {
+    en: 'Updates and photos from the runway refurbishment at Noertrange.',
+    fr: 'Actualités et photos de la réfection de la piste à Noertrange.',
+    de: 'Berichte und Fotos zur Pistensanierung in Noertrange.',
+    lu: 'Neiegkeeten a Fotoe vun der Erneierung vun der Piste zu Noertrange.',
+  },
+  summary: {
+    en: 'Follow the runway refurbishment from ground preparation and grass sowing through the time needed for the new turf to establish. All dated progress reports and photos are collected here.',
+    fr: 'Suivez la réfection de la piste, de la préparation du sol au semis du gazon, puis au temps nécessaire à son enracinement. Tous les comptes rendus datés et les photos sont réunis ici.',
+    de: 'Verfolge die Pistensanierung von der Bodenvorbereitung und Einsaat bis zur Zeit, die das neue Gras zum Anwachsen braucht. Hier findest du alle datierten Berichte und Fotos.',
+    lu: "Verfolleg d'Erneierung vun der Piste, vun der Virbereedung vum Buedem an dem Séie vum Gras bis bei d'Zäit, déi dat neit Gras brauch fir unzewuessen. All datéiert Berichter a Fotoe sinn hei gesammelt.",
+  },
+  images: refurbishmentUpdates[0]?.images?.slice(0, 1) ?? [],
+  updates: refurbishmentUpdates,
+};
+
+// The single project entry takes the newest report's place in the feed;
+// unrelated club stories remain independent entries in their original order.
+export const newsEntries = posts.flatMap((post) => {
+  if (post.category !== 'refurbishment') return [post];
+  return post === refurbishmentUpdates[0] ? [refurbishmentStory] : [];
+});

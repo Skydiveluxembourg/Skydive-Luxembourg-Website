@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { pickNews, newsLang } from '../utils/news.js';
+
+const { photos = [], lang = 'en' } = Astro.props;
+// Show the full images without cropping. An odd collection starts with one
+// full-width image, followed by pairs sized by their aspect ratios.
+const rows = [];
+let start = 0;
+if (photos.length % 2 === 1) { rows.push([photos[0]]); start = 1; }
+for (let i = start; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
+---
+
+<div class="news-gallery">
+  {rows.map((row) => {
+    const rowAr = row.reduce((sum, photo) => sum + photo.src.width / photo.src.height, 0);
+    return (
+      <div class:list={['news-gallery__row', { 'news-gallery__row--single': row.length === 1 }]}>
+        {row.map((photo) => {
+          const ar = photo.src.width / photo.src.height;
+          const portrait = photo.src.height > photo.src.width;
+          const px = row.length === 1 && portrait ? 460 : Math.round((720 * ar) / rowAr);
+          return (
+            <Image
+              src={photo.src}
+              alt={pickNews(photo.alt, lang) ?? ''}
+              lang={newsLang(photo.alt, lang)}
+              class:list={['news-gallery__image', { 'news-gallery__image--portrait': portrait }]}
+              style={`--ar: ${ar.toFixed(4)}`}
+              widths={[400, 600, 900, 1200]}
+              sizes={`(max-width: 640px) calc(100vw - 32px), ${px}px`}
+              loading="lazy"
+            />
+          );
+        })}
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .news-gallery { display: grid; gap: var(--space-3); }
+  .news-gallery__row { display: flex; align-items: flex-start; gap: var(--space-3); }
+  .news-gallery__image {
+    width: 100%; height: auto; border-radius: var(--radius-md);
+    flex: var(--ar, 1) 1 0; min-width: 0;
+  }
+  .news-gallery__row--single .news-gallery__image--portrait { max-width: 460px; margin-inline: auto; }
+  @media (max-width: 640px) {
+    .news-gallery__row { flex-direction: column; }
+    .news-gallery__image { flex: 0 1 auto; }
+    .news-gallery__image--portrait { max-width: 460px; margin-inline: auto; }
+  }
+</style>
