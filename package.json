@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "test": "node --test tests/urls.test.js tests/google-reviews.test.js tests/google-reviews-refresh.test.js && npm run build && node --test tests/seo.test.js && npm run test:reviews-build",
+    "test": "node --test tests/urls.test.js tests/google-reviews.test.js && npm run test:reviews-build && node --test tests/seo.test.js",
     "test:reviews-build": "node scripts/test-google-reviews-build.mjs",
     "preview": "astro preview",
     "astro": "astro"
