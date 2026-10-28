@@ -1,36 +1,35 @@
-# Periodically rebuild the site so the build-time Google-reviews fetch
-# (src/data/googleReviews.js) refreshes the rating, count and review cards.
-#
-# Google's Maps Platform terms only allow caching review content for up to
-# 30 days, so a weekly rebuild keeps us comfortably compliant AND current.
-#
-# SETUP (one-time):
-#   1. In Netlify: Project configuration > Build & deploy > Build hooks >
-#      Add build hook (branch: main). Copy the URL it gives you.
-#   2. In GitHub: repo Settings > Secrets and variables > Actions > New
-#      repository secret, name it NETLIFY_BUILD_HOOK, paste the URL.
-# The workflow no-ops (does not fail) until that secret is set.
-
+# Requests a build; success here does not verify the import or published site.
+# Configure NETLIFY_BUILD_HOOK for the skydive.lu Netlify project. Missing or
+# invalid configuration must fail visibly, rather than silently skip refreshes.
 name: Refresh Google reviews
 
 on:
   schedule:
-    # Every Monday at 06:00 UTC. (GitHub cron can run a few minutes late.)
-    - cron: '0 6 * * 1'
-  workflow_dispatch: {} # allow manual "Run workflow" from the Actions tab
+    # Monday 06:17 UTC, away from the busiest start-of-hour scheduling period.
+    - cron: '17 6 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: google-reviews-refresh
+  cancel-in-progress: false
 
 jobs:
   trigger-rebuild:
     runs-on: ubuntu-latest
+    timeout-minutes: 3
     steps:
-      - name: Trigger Netlify rebuild
+      - name: Check out the refresh requester
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - name: Request the production-branch rebuild
         env:
-          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
-        run: |
-          if [ -z "$HOOK" ]; then
-            echo "NETLIFY_BUILD_HOOK secret is not set — skipping (no rebuild triggered)."
-            exit 0
-          fi
-          echo "Triggering Netlify build hook…"
-          curl -fsSL -X POST -d '{}' "$HOOK"
-          echo "Done."
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: node scripts/request-google-reviews-refresh.mjs

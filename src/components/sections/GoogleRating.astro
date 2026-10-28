@@ -11,25 +11,31 @@
  *   cta: string, url: string
  */
 const {
-  rating = 0,
-  count = 0,
+  rating = null,
+  count = null,
   countLabel = 'Google reviews',
   starsLabel = 'Rated {n} out of 5',
   cta = 'Read our reviews on Google',
   url = '#',
 } = Astro.props;
 
-const ratingText = rating.toFixed(1);
-const fillPct = Math.max(0, Math.min(100, (rating / 5) * 100));
+// An unavailable import is not a zero rating or a last-known verified score.
+const available = typeof rating === 'number' && Number.isFinite(rating) && rating >= 0 && rating <= 5 && Number.isSafeInteger(count) && count >= 0;
+const ratingText = available ? rating.toFixed(1) : '';
+const fillPct = available ? (rating / 5) * 100 : 0;
 ---
 
-<div class="google-rating">
-  <div class="google-rating__stars" role="img" aria-label={starsLabel.replace('{n}', ratingText)}>
-    <span class="google-rating__stars-track" aria-hidden="true">★★★★★</span>
-    <span class="google-rating__stars-fill" style={`width:${fillPct}%`} aria-hidden="true">★★★★★</span>
-  </div>
-  <p class="google-rating__score"><strong>{ratingText}</strong> / 5</p>
-  <p class="google-rating__count">{count} {countLabel}</p>
+<div class="google-rating" data-google-reviews-status={available ? 'available' : 'unavailable'}>
+  {available && (
+    <>
+      <div class="google-rating__stars" role="img" aria-label={starsLabel.replace('{n}', ratingText)}>
+        <span class="google-rating__stars-track" aria-hidden="true">★★★★★</span>
+        <span class="google-rating__stars-fill" style={`width:${fillPct}%`} aria-hidden="true">★★★★★</span>
+      </div>
+      <p class="google-rating__score"><strong>{ratingText}</strong> / 5</p>
+      <p class="google-rating__count">{count} {countLabel}</p>
+    </>
+  )}
   <a class="btn btn--outline" href={url} target="_blank" rel="noopener noreferrer">{cta}</a>
 </div>
 

@@ -22,6 +22,7 @@ const {
   attribution = 'Reviews from Google',
   url = '#',
   reviewCta = 'View on Google',
+  selectionNotice = '',
 } = Astro.props;
 
 const items = Array.isArray(reviews) ? reviews : [];
@@ -48,7 +49,7 @@ const fillPct = (rating) => Math.max(0, Math.min(100, (Number(rating) / 5) * 100
             >★★★★★</span>
           </div>
 
-          <blockquote class="review__text">{r.text}</blockquote>
+          <blockquote class="review__text" lang={r.textLanguage || undefined}>{r.text}</blockquote>
 
           <div class="review__footer">
             {r.photo && (
@@ -64,7 +65,7 @@ const fillPct = (rating) => Math.max(0, Math.min(100, (Number(rating) / 5) * 100
               />
             )}
             <div class="review__meta">
-              <span class="review__author">{r.author}</span>
+              {r.authorUrl ? <a class="review__author" href={r.authorUrl} target="_blank" rel="noopener noreferrer nofollow">{r.author}</a> : <span class="review__author">{r.author}</span>}
               {r.relativeTime && <span class="review__time">{r.relativeTime}</span>}
             </div>
           </div>
@@ -85,11 +86,13 @@ const fillPct = (rating) => Math.max(0, Math.min(100, (Number(rating) / 5) * 100
 
     <p class="reviews__attribution">
       <a href={url} target="_blank" rel="noopener noreferrer nofollow">{attribution}</a>
+      {selectionNotice && <span class="reviews__selection">{selectionNotice}</span>}
     </p>
   </div>
 )}
 
 <style>
+  .reviews__selection { display: block; margin-top: var(--space-2); }
   .reviews {
     margin-top: var(--space-10);
   }
