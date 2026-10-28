@@ -7,7 +7,6 @@ import Hero from '../sections/Hero.astro';
 import FeatureCards from '../sections/FeatureCards.astro';
 import Gallery from '../sections/Gallery.astro';
 import GoogleRating from '../sections/GoogleRating.astro';
-import GoogleReviewCards from '../sections/GoogleReviewCards.astro';
 import CTABanner from '../sections/CTABanner.astro';
 
 import { getGoogleReviews } from '../../data/googleReviews.js';
@@ -284,19 +283,8 @@ const reviews = await getGoogleReviews(lang);
       <p class="section__lead">{reviews.lead}</p>
     </header>
     <GoogleRating
-      rating={reviews.rating}
-      count={reviews.count}
-      countLabel={reviews.countLabel}
-      starsLabel={reviews.starsLabel}
       cta={reviews.cta}
       url={reviews.url}
-    />
-    <GoogleReviewCards
-      reviews={reviews.reviews}
-      label={reviews.reviewsLabel}
-      attribution={reviews.attribution}
-      url={reviews.url}
-      reviewCta={reviews.reviewCta}
     />
   </div>
 </section>
