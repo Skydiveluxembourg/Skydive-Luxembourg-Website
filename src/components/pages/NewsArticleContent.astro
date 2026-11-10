@@ -24,6 +24,12 @@ const older = newsEntries[index + 1];
       <div class="news-article__body" lang={newsLang(post.body, lang)}>
         {(pick(post.body) ?? []).map((paragraph) => <p>{paragraph}</p>)}
       </div>
+      {post.contact && (
+        <p class="news-article__contact" lang={newsLang(post.contact.label, lang)}>
+          {pick(post.contact.label)}{' '}
+          <a href={`mailto:${post.contact.email}`}>{post.contact.email}</a>
+        </p>
+      )}
       {post.images?.length > 0 && (
         <section class="news-article__photos" aria-labelledby="article-photos">
           <h2 id="article-photos">{t.photos}</h2>
@@ -60,6 +66,18 @@ const older = newsEntries[index + 1];
   .news-article__summary { margin-top: var(--space-5); font-size: var(--fs-lg); line-height: 1.65; }
   .news-article__body { margin-top: var(--space-6); }
   .news-article__body p + p { margin-top: var(--space-4); }
+  .news-article__contact {
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-warning-border);
+    border-left-width: 4px;
+    border-radius: var(--radius-sm);
+    background: var(--color-warning-bg);
+    color: var(--color-warning-fg);
+    font-size: var(--fs-lg);
+    overflow-wrap: anywhere;
+  }
+  .news-article__contact a { color: inherit; font-weight: var(--fw-bold); }
   .news-article__photos { margin-top: var(--space-8); }
   .news-article__photos h2 { margin-bottom: var(--space-4); font-size: var(--fs-xl); }
   .news-article__navigation {
