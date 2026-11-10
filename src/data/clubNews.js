@@ -39,10 +39,16 @@
  * 7. Optional `category: 'refurbishment'` identifies runway updates, so the
  *    reports appear in the grouped project story. Its date and thumbnail follow
  *    the newest report automatically. Other club news can omit this category.
+ *
+ * 8. Optional `contact: { email, label }` adds a highlighted "write to us"
+ *    box with a clickable address under the body. `label` is keyed by language.
  * ---------------------------------------------------------------------------
  */
 
+import { AFFECTED_EMAIL, FALLBACK_EMAIL, EMAIL_NOTICE_POST_ID } from './emailNotice.js';
+
 // Photos, newest first. Add one import per photo.
+import flagCanopyImg from '../assets/img/Contact-1.webp';
 import partyGroupImg from '../assets/img/news/2026-10-24-end-of-season-group.jpeg';
 import partyConversationImg from '../assets/img/news/2026-10-24-end-of-season-conversation.jpeg';
 import partyTableImg from '../assets/img/news/2026-10-24-end-of-season-table.jpeg';
@@ -62,6 +68,66 @@ import centrelineImg from '../assets/img/news/2026-09-14-runway-centreline.webp'
 import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
+  {
+    id: EMAIL_NOTICE_POST_ID,
+    date: '2026-11-10',
+
+    images: [
+      {
+        src: flagCanopyImg,
+        alt: {
+          en: "A parachute canopy in the red, white and light blue of the Luxembourg flag, with the red lion on its white centre cells, against a blue sky",
+          fr: "Une voile de parachute aux couleurs rouge, blanc et bleu clair du drapeau luxembourgeois, avec le lion rouge sur ses caissons blancs centraux, sur fond de ciel bleu",
+          de: "Ein Fallschirm in den Farben der luxemburgischen Flagge, Rot, Weiß und Hellblau, mit dem roten Löwen auf den weißen Mittelzellen, vor blauem Himmel",
+          lu: "E Fallschierm an de Faarwe vum Lëtzebuerger Fändel, Rout, Wäiss an Hellblo, mam roude Léiw op de wäissen Zellen an der Mëtt, virun engem bloen Himmel",
+        },
+      },
+    ],
+
+    title: {
+      en: `Email problems: please write to ${FALLBACK_EMAIL}`,
+      fr: `Problèmes de messagerie : écrivez-nous à ${FALLBACK_EMAIL}`,
+      de: `E-Mail-Probleme: Schreib uns an ${FALLBACK_EMAIL}`,
+      lu: `E-Mail-Problemer: Schreif eis op ${FALLBACK_EMAIL}`,
+    },
+
+    summary: {
+      en: `We are currently having problems with our email address ${AFFECTED_EMAIL}. Until they are fixed, please contact us at ${FALLBACK_EMAIL}.`,
+      fr: `Nous rencontrons actuellement des problèmes avec notre adresse e-mail ${AFFECTED_EMAIL}. En attendant leur résolution, merci de nous contacter à ${FALLBACK_EMAIL}.`,
+      de: `Mit unserer E-Mail-Adresse ${AFFECTED_EMAIL} gibt es derzeit Probleme. Bis sie behoben sind, erreichst du uns unter ${FALLBACK_EMAIL}.`,
+      lu: `Mat eiser E-Mail-Adress ${AFFECTED_EMAIL} gëtt et de Moment Problemer. Bis se behuewe sinn, erreechs du eis op ${FALLBACK_EMAIL}.`,
+    },
+
+    body: {
+      en: [
+        `Messages sent to ${AFFECTED_EMAIL} may not reach us at the moment. If you have emailed us recently and have not heard back, please send your message again to ${FALLBACK_EMAIL}.`,
+        `We are working on a fix and will let you know as soon as ${AFFECTED_EMAIL} is working normally again. Thank you for your patience.`,
+      ],
+      fr: [
+        `Les messages envoyés à ${AFFECTED_EMAIL} risquent actuellement de ne pas nous parvenir. Si vous nous avez écrit récemment sans recevoir de réponse, merci de renvoyer votre message à ${FALLBACK_EMAIL}.`,
+        `Nous travaillons à résoudre le problème et vous informerons dès que ${AFFECTED_EMAIL} fonctionnera de nouveau normalement. Merci de votre patience.`,
+      ],
+      de: [
+        `Nachrichten an ${AFFECTED_EMAIL} kommen derzeit möglicherweise nicht bei uns an. Falls du uns kürzlich geschrieben und noch keine Antwort bekommen hast, schick deine Nachricht bitte noch einmal an ${FALLBACK_EMAIL}.`,
+        `Wir arbeiten an einer Lösung und geben Bescheid, sobald ${AFFECTED_EMAIL} wieder normal funktioniert. Danke für deine Geduld.`,
+      ],
+      lu: [
+        `Messagen un ${AFFECTED_EMAIL} kommen de Moment eventuell net bei eis un. Wann s du eis viru Kuerzem geschriwwen an nach keng Äntwert kritt hues, schéck däi Message w.e.g. nach eng Kéier op ${FALLBACK_EMAIL}.`,
+        `Mir schaffen un enger Léisung a soen Bescheed, soubal ${AFFECTED_EMAIL} erëm normal funktionéiert. Merci fir deng Gedold.`,
+      ],
+    },
+
+    // Optional call-to-action box under the body, with a clickable address.
+    contact: {
+      email: FALLBACK_EMAIL,
+      label: {
+        en: 'Write to us at',
+        fr: 'Écrivez-nous à',
+        de: 'Schreib uns an',
+        lu: 'Schreif eis op',
+      },
+    },
+  },
   {
     id: '2026-10-24-end-of-season-party',
     date: '2026-10-24',

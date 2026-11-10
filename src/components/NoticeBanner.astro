@@ -1,0 +1,145 @@
+---
+/**
+ * NoticeBanner.astro - site-wide service notice.
+ * Rendered by Layout.astro directly below the nav, so it appears on every
+ * page in the visitor's language.
+ *
+ * TEMPORARY (November 2026): problems with the mail@skydive.lu mailbox.
+ * Turn it off with SHOW_EMAIL_NOTICE in src/data/emailNotice.js.
+ */
+import { pageHref } from '../utils/urls.js';
+import {
+  SHOW_EMAIL_NOTICE,
+  AFFECTED_EMAIL,
+  FALLBACK_EMAIL,
+  EMAIL_NOTICE_POST_ID,
+} from '../data/emailNotice.js';
+
+const lang = Astro.currentLocale ?? 'en';
+
+// `before` + linked fallback address + `after` form one sentence.
+const notices = {
+  en: {
+    label: 'Important notice',
+    title: 'Email problems.',
+    before: `We are currently having problems with our email address ${AFFECTED_EMAIL}. If you need to contact us, please write to `,
+    after: '.',
+    link: 'More information',
+  },
+  fr: {
+    label: 'Avis important',
+    title: 'Problèmes de messagerie.',
+    before: `Nous rencontrons actuellement des problèmes avec notre adresse e-mail ${AFFECTED_EMAIL}. Pour nous contacter, merci d'écrire à `,
+    after: '.',
+    link: 'En savoir plus',
+  },
+  de: {
+    label: 'Wichtiger Hinweis',
+    title: 'Probleme mit unserer E-Mail.',
+    before: `Mit unserer Adresse ${AFFECTED_EMAIL} gibt es derzeit Probleme. Wenn du uns kontaktieren möchtest, schreib bitte an `,
+    after: '.',
+    link: 'Mehr erfahren',
+  },
+  lu: {
+    label: 'Wichtegen Hiweis',
+    title: 'Problemer mat eiser E-Mail.',
+    before: `Mat eiser Adress ${AFFECTED_EMAIL} gëtt et de Moment Problemer. Wann s du eis kontaktéiere wëlls, schreif w.e.g. op `,
+    after: '.',
+    link: 'Méi gewuer ginn',
+  },
+};
+
+const t = notices[lang] ?? notices.en;
+const articleHref = pageHref(`/${lang}/news/${EMAIL_NOTICE_POST_ID}/`);
+// No "more information" link when the visitor is already reading the article.
+const onArticle = pageHref(Astro.url.pathname) === articleHref;
+---
+
+{SHOW_EMAIL_NOTICE && (
+  <aside class="notice-banner" aria-label={t.label}>
+    <div class="notice-banner__inner container">
+      <svg
+        class="notice-banner__icon"
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          fill="currentColor"
+          d="M12 2.5a1.6 1.6 0 0 1 1.39.81l9 15.6A1.6 1.6 0 0 1 21 21.3H3a1.6 1.6 0 0 1-1.39-2.39l9-15.6A1.6 1.6 0 0 1 12 2.5Zm0 5.4a1.1 1.1 0 0 0-1.1 1.18l.35 4.9a.75.75 0 0 0 1.5 0l.35-4.9A1.1 1.1 0 0 0 12 7.9Zm0 8.2a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3Z"
+        />
+      </svg>
+      <p class="notice-banner__text">
+        <strong class="notice-banner__title">{t.title}</strong>{' '}
+        {t.before}<a class="notice-banner__link notice-banner__email" href={`mailto:${FALLBACK_EMAIL}`}>{FALLBACK_EMAIL}</a>{t.after}
+        {!onArticle && <>{' '}<a class="notice-banner__link" href={articleHref}>{t.link}</a></>}
+      </p>
+    </div>
+  </aside>
+)}
+
+<style>
+  .notice-banner {
+    background: var(--color-warning-bg);
+    color: var(--color-warning-fg);
+    border-bottom: 1px solid var(--color-warning-border);
+  }
+
+  .notice-banner__inner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+  }
+
+  .notice-banner__icon {
+    flex-shrink: 0;
+    /* Nudge the icon onto the first line's optical centre. */
+    margin-top: 0.15em;
+  }
+
+  .notice-banner__text {
+    font-size: var(--fs-sm);
+    line-height: var(--lh-base);
+    max-width: 92ch;
+  }
+
+  .notice-banner__title,
+  .notice-banner__email {
+    font-weight: var(--fw-bold);
+  }
+
+  /* Inherit the amber foreground rather than the global link blue, which
+     would fail contrast on this background. */
+  .notice-banner__link,
+  .notice-banner__link:hover,
+  .notice-banner__link:focus {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .notice-banner__link:hover {
+    text-decoration-thickness: 2px;
+  }
+  .notice-banner__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Keep the address on one line where possible; break it only if it
+     would otherwise overflow a very narrow screen. */
+  .notice-banner__email {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 700px) {
+    .notice-banner__inner {
+      gap: var(--space-2);
+      padding-inline: max(var(--space-4), env(safe-area-inset-left)) max(var(--space-4), env(safe-area-inset-right));
+    }
+  }
+</style>
