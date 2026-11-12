@@ -45,10 +45,13 @@
  * ---------------------------------------------------------------------------
  */
 
-import { AFFECTED_EMAIL, FALLBACK_EMAIL, EMAIL_NOTICE_POST_ID } from './emailNotice.js';
+import { AFFECTED_EMAIL, FALLBACK_EMAIL, EMAIL_OUTAGE_POST_ID } from './emailNotice.js';
 
 // Photos, newest first. Add one import per photo.
-import flagCanopyImg from '../assets/img/Contact-1.webp';
+// Stock illustration by talhakhalil007, free under the Pixabay Content License,
+// centred on a sky-blue 4:3 background so the news card crop keeps it whole:
+// https://pixabay.com/illustrations/email-envelope-tick-check-icon-7263245/
+import emailCheckImg from '../assets/img/news/2026-11-12-email-check.png';
 import partyGroupImg from '../assets/img/news/2026-10-24-end-of-season-group.jpeg';
 import partyConversationImg from '../assets/img/news/2026-10-24-end-of-season-conversation.jpeg';
 import partyTableImg from '../assets/img/news/2026-10-24-end-of-season-table.jpeg';
@@ -69,57 +72,65 @@ import fencingImg from '../assets/img/news/2026-09-08-fence-line.webp';
 
 export const posts = [
   {
-    id: EMAIL_NOTICE_POST_ID,
-    date: '2026-11-10',
+    id: EMAIL_OUTAGE_POST_ID,
+    date: '2026-11-12',
 
     images: [
       {
-        src: flagCanopyImg,
+        src: emailCheckImg,
         alt: {
-          en: "A parachute canopy in the red, white and light blue of the Luxembourg flag, with the red lion on its white centre cells, against a blue sky",
-          fr: "Une voile de parachute aux couleurs rouge, blanc et bleu clair du drapeau luxembourgeois, avec le lion rouge sur ses caissons blancs centraux, sur fond de ciel bleu",
-          de: "Ein Fallschirm in den Farben der luxemburgischen Flagge, Rot, Weiß und Hellblau, mit dem roten Löwen auf den weißen Mittelzellen, vor blauem Himmel",
-          lu: "E Fallschierm an de Faarwe vum Lëtzebuerger Fändel, Rout, Wäiss an Hellblo, mam roude Léiw op de wäissen Zellen an der Mëtt, virun engem bloen Himmel",
+          en: "Illustration of an open orange envelope holding a letter marked with a green check mark, on a light blue background",
+          fr: "Illustration d'une enveloppe orange ouverte contenant une lettre marquée d'une coche verte, sur fond bleu clair",
+          de: "Illustration eines geöffneten orangefarbenen Umschlags mit einem Brief, der ein grünes Häkchen trägt, auf hellblauem Hintergrund",
+          lu: "Illustratioun vun enger opgemaachter orange Enveloppe mat engem Bréif, op deem e gréngen Haken ass, op hellbloem Hannergrond",
         },
       },
     ],
 
     title: {
-      en: `Email problems: please write to ${FALLBACK_EMAIL}`,
-      fr: `Problèmes de messagerie : écrivez-nous à ${FALLBACK_EMAIL}`,
-      de: `E-Mail-Probleme: Schreib uns an ${FALLBACK_EMAIL}`,
-      lu: `E-Mail-Problemer: Schreif eis op ${FALLBACK_EMAIL}`,
+      en: 'Email outage: problem solved',
+      fr: 'Panne de messagerie : problème résolu',
+      de: 'E-Mail-Störung: Problem behoben',
+      lu: 'E-Mail-Stéierung: Problem geléist',
     },
 
     summary: {
-      en: `We are currently having problems with our email address ${AFFECTED_EMAIL}. Until they are fixed, please contact us at ${FALLBACK_EMAIL}.`,
-      fr: `Nous rencontrons actuellement des problèmes avec notre adresse e-mail ${AFFECTED_EMAIL}. En attendant leur résolution, merci de nous contacter à ${FALLBACK_EMAIL}.`,
-      de: `Mit unserer E-Mail-Adresse ${AFFECTED_EMAIL} gibt es derzeit Probleme. Bis sie behoben sind, erreichst du uns unter ${FALLBACK_EMAIL}.`,
-      lu: `Mat eiser E-Mail-Adress ${AFFECTED_EMAIL} gëtt et de Moment Problemer. Bis se behuewe sinn, erreechs du eis op ${FALLBACK_EMAIL}.`,
+      en: `Our club address ${AFFECTED_EMAIL} was out of service for 15 days. The problem is now fixed and emails reach us normally again. If you are still waiting for a reply, please send your message again.`,
+      fr: `Notre adresse ${AFFECTED_EMAIL} a été hors service pendant 15 jours. Le problème est désormais résolu et les e-mails nous parviennent de nouveau normalement. Si vous attendez toujours une réponse, merci de nous renvoyer votre message.`,
+      de: `Unsere Vereinsadresse ${AFFECTED_EMAIL} war 15 Tage lang nicht erreichbar. Das Problem ist jetzt behoben, und E-Mails kommen wieder ganz normal bei uns an. Falls du noch auf eine Antwort wartest, schick deine Nachricht bitte noch einmal.`,
+      lu: `Eis Clubadress ${AFFECTED_EMAIL} war 15 Deeg laang net erreechbar. De Problem ass elo geléist, an d'E-Maile kommen erëm normal bei eis un. Wann s du nach op eng Äntwert waars, schéck eis däi Message w.e.g. nach eng Kéier.`,
     },
 
     body: {
       en: [
-        `Messages sent to ${AFFECTED_EMAIL} may not reach us at the moment. If you have emailed us recently and have not heard back, please send your message again to ${FALLBACK_EMAIL}.`,
-        `We are working on a fix and will let you know as soon as ${AFFECTED_EMAIL} is working normally again. Thank you for your patience.`,
+        `For 15 days, our club address ${AFFECTED_EMAIL} had a technical problem, and emails sent to it did not reliably reach us. While we worked on a fix, we asked you to write to ${FALLBACK_EMAIL} instead.`,
+        `The problem is now solved. ${AFFECTED_EMAIL} is working normally again, and you can write to us there as usual.`,
+        `If you emailed ${AFFECTED_EMAIL} during the outage and have not heard back, your message probably did not reach us. Please send it again and we will reply as soon as we can.`,
+        `We apologise for the inconvenience and thank you for your patience.`,
       ],
       fr: [
-        `Les messages envoyés à ${AFFECTED_EMAIL} risquent actuellement de ne pas nous parvenir. Si vous nous avez écrit récemment sans recevoir de réponse, merci de renvoyer votre message à ${FALLBACK_EMAIL}.`,
-        `Nous travaillons à résoudre le problème et vous informerons dès que ${AFFECTED_EMAIL} fonctionnera de nouveau normalement. Merci de votre patience.`,
+        `Pendant 15 jours, notre adresse ${AFFECTED_EMAIL} a connu un problème technique, et les e-mails qui y étaient envoyés ne nous parvenaient pas de manière fiable. Le temps de trouver une solution, nous vous avions demandé de nous écrire à ${FALLBACK_EMAIL}.`,
+        `Le problème est maintenant résolu. ${AFFECTED_EMAIL} fonctionne de nouveau normalement, et vous pouvez nous y écrire comme d'habitude.`,
+        `Si vous avez écrit à ${AFFECTED_EMAIL} pendant la panne sans recevoir de réponse, votre message ne nous est probablement pas parvenu. Merci de nous le renvoyer : nous vous répondrons dans les meilleurs délais.`,
+        `Nous vous prions de nous excuser pour la gêne occasionnée et vous remercions de votre patience.`,
       ],
       de: [
-        `Nachrichten an ${AFFECTED_EMAIL} kommen derzeit möglicherweise nicht bei uns an. Falls du uns kürzlich geschrieben und noch keine Antwort bekommen hast, schick deine Nachricht bitte noch einmal an ${FALLBACK_EMAIL}.`,
-        `Wir arbeiten an einer Lösung und geben Bescheid, sobald ${AFFECTED_EMAIL} wieder normal funktioniert. Danke für deine Geduld.`,
+        `15 Tage lang gab es ein technisches Problem mit unserer Vereinsadresse ${AFFECTED_EMAIL}, und E-Mails an diese Adresse kamen nicht zuverlässig bei uns an. Während wir an einer Lösung gearbeitet haben, haben wir dich gebeten, uns stattdessen an ${FALLBACK_EMAIL} zu schreiben.`,
+        `Das Problem ist jetzt behoben. ${AFFECTED_EMAIL} funktioniert wieder ganz normal, und du kannst uns dort wie gewohnt schreiben.`,
+        `Falls du während der Störung an ${AFFECTED_EMAIL} geschrieben und keine Antwort bekommen hast, ist deine Nachricht wahrscheinlich nicht bei uns angekommen. Schick sie bitte noch einmal, wir melden uns so schnell wie möglich.`,
+        `Wir entschuldigen uns für die Unannehmlichkeiten und danken dir für deine Geduld.`,
       ],
       lu: [
-        `Messagen un ${AFFECTED_EMAIL} kommen de Moment eventuell net bei eis un. Wann s du eis viru Kuerzem geschriwwen an nach keng Äntwert kritt hues, schéck däi Message w.e.g. nach eng Kéier op ${FALLBACK_EMAIL}.`,
-        `Mir schaffen un enger Léisung a soen Bescheed, soubal ${AFFECTED_EMAIL} erëm normal funktionéiert. Merci fir deng Gedold.`,
+        `15 Deeg laang hat eis Clubadress ${AFFECTED_EMAIL} en technesche Problem, an E-Mailen op dës Adress sinn net zouverlässeg bei eis ukomm. Wärend mir un enger Léisung geschafft hunn, hu mir dech gebieden, eis amplaz op ${FALLBACK_EMAIL} ze schreiwen.`,
+        `De Problem ass elo geléist. ${AFFECTED_EMAIL} funktionéiert erëm normal, an du kanns eis do wéi gewinnt schreiwen.`,
+        `Wann s du wärend der Stéierung op ${AFFECTED_EMAIL} geschriwwen an nach keng Äntwert kritt hues, ass däi Message wahrscheinlech net bei eis ukomm. Schéck en eis w.e.g. nach eng Kéier, mir mellen eis esou séier wéi méiglech.`,
+        `Mir entschëllegen eis fir d'Ëmstänn a soen dir Merci fir deng Gedold.`,
       ],
     },
 
-    // Optional call-to-action box under the body, with a clickable address.
+    // Call-to-action box under the body, with a clickable address.
     contact: {
-      email: FALLBACK_EMAIL,
+      email: AFFECTED_EMAIL,
       label: {
         en: 'Write to us at',
         fr: 'Écrivez-nous à',

@@ -38,6 +38,12 @@
   to = "/fr/about/"
   status = 301
 
+# The 10 November email-problems article was merged into the outage article.
+[[redirects]]
+  from = "/:lang/news/2026-11-10-email-problems/"
+  to = "/:lang/news/2026-11-12-email-outage-resolved/"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]

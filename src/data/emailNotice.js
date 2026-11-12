@@ -1,19 +1,16 @@
 /**
- * emailNotice.js - TEMPORARY notice about the club mailbox (November 2026).
+ * emailNotice.js - addresses from the mail@skydive.lu outage (November 2026).
  *
- * mail@skydive.lu is having problems, so the site asks visitors to write to
- * the fallback address instead. Used by the site-wide NoticeBanner and by the
- * matching club news article in clubNews.js.
- *
- * Once mail@skydive.lu works again, set SHOW_EMAIL_NOTICE to false to take
- * the banner down on every page. The news article stays as a dated record.
+ * mail@skydive.lu was out of service for 15 days, so visitors were asked to
+ * write to the fallback address in the meantime. The mailbox works again and
+ * the site-wide banner has been removed. These values are used by the club
+ * news article in clubNews.js that tells the story.
  */
-
-// Master switch - flip to false to hide the banner on every page.
-export const SHOW_EMAIL_NOTICE = true;
 
 export const AFFECTED_EMAIL = 'mail@skydive.lu';
 export const FALLBACK_EMAIL = 'mail@cerclepara.lu';
 
-// The club news article the banner links to.
-export const EMAIL_NOTICE_POST_ID = '2026-11-10-email-problems';
+// The single news article covering the outage and the fix. The earlier
+// announcement at /<lang>/news/2026-11-10-email-problems/ was merged into it
+// and is redirected here in netlify.toml.
+export const EMAIL_OUTAGE_POST_ID = '2026-11-12-email-outage-resolved';
