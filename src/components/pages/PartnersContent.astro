@@ -1,0 +1,1122 @@
+---
+/**
+ * PartnersContent.astro - partners & sponsoring page body. Picks copy by `lang`.
+ *
+ * Content follows the 2027 partnership brochure, without prices: the full
+ * brochure (levels, prices, reply form) is sent on request.
+ * The partner logos come from src/data/partners.js.
+ */
+import { Image } from 'astro:assets';
+import { pageHref } from '../../utils/urls.js';
+import PageBanner from '../sections/PageBanner.astro';
+import CTABanner from '../sections/CTABanner.astro';
+import { partners, PARTNER_TIERS, LAUNCH_PARTNER_SLOTS } from '../../data/partners.js';
+
+import bannerImg from '../../assets/img/Fun-2.webp';
+import aircraftImg from '../../assets/img/website-selection/aircraft/aircraft-004.webp';
+
+const { lang = 'en' } = Astro.props;
+
+const copy = {
+  en: {
+    bannerAlt: 'Wingsuit flyer high above the Luxembourg countryside',
+    bannerEyebrow: 'Partners',
+    bannerTitle: 'Your brand at altitude.',
+    bannerSubtitle: 'Partner with Skydive Luxembourg, the club of the National Parachuting Centre at Noertrange airfield (ELNT). Luxembourg’s only dropzone, since 1965.',
+
+    partnersEyebrow: 'Our partners',
+    partnersTitle: 'The partners who keep us flying.',
+    partnersLead: 'Skydive Luxembourg is a non-profit club run by volunteers. Our partners help fund flying hours and aircraft maintenance, instructor training, safety equipment and the events that bring the public to ELNT.',
+    launchTitle: 'Launch Partners 2027',
+    launchText: 'Partners who sign before the runway reopens are listed for ten years as Launch Partners of Skydive Luxembourg: here on skydive.lu and on the club’s partner board at the dropzone.',
+    placeholder: 'Your logo here',
+    placeholderCta: 'Become a partner',
+    tiers: {
+      title: 'Title partner', gold: 'Gold partners', silver: 'Silver partners', bronze: 'Bronze partners',
+      supporter: 'Supporters', event: 'Event partners', 'in-kind': 'In-kind partners',
+    },
+    institutions: [
+      { label: 'High Patronage', text: 'Under the High Patronage of HRH Prince Félix of Luxembourg.' },
+      { label: 'National Parachuting Centre', text: 'Under the convention of 19 December 2024 between the Luxembourg State, the Fédération Aéronautique Luxembourgeoise (FAL) and the club, ELNT is the National Parachuting Centre for ten renewable years.' },
+      { label: 'Our aircraft', text: 'The GippsAero GA8 Airvan LX-MDT has belonged to the club since 2012. It was acquired in cooperation with the Ministry of Tourism, hence its registration: MDT.' },
+    ],
+
+    reasonsEyebrow: 'Why partner with us?',
+    reasonsTitle: 'Five reasons to join us.',
+    reasonsLead: 'Supporting Skydive Luxembourg is not buying advertising space. It is joining something unique in the country.',
+    reasons: [
+      { title: 'The only one in the country', text: 'Luxembourg has a single dropzone: Noertrange airfield (ELNT), recognised as the National Parachuting Centre. Skydive Luxembourg is the only club authorised to organise jumps there.' },
+      { title: 'An enthusiastic, premium audience', text: 'More than 200 tandem passengers a year, mostly aged 25 to 55, from Luxembourg, the Belgian Ardennes, Lorraine and the Trier region. They bring family and friends, film everything and share it.' },
+      { title: '2027 is the moment', text: 'The State is renovating the ELNT runway. The club opens its season on the renovated runway by June 2027 at the latest, with the Ministry of Sport, the FAL and the press. New hangar facilities will follow.' },
+      { title: 'A name you can rely on', text: 'More than sixty years of skydiving, a member-run non-profit, EASA, DAC Luxembourg, USPA and FAI standards, and a safety organisation regularly audited by the Directorate of Civil Aviation.' },
+      { title: 'Visibility nobody else offers', text: 'The only skydiving aircraft based in Luxembourg carries your name over the Éislek and into every exit video. Add jumpsuits, helmets, dropzone banners, our website and our social channels.' },
+    ],
+
+    statsEyebrow: 'In numbers',
+    statsTitle: 'A season at ELNT in numbers.',
+    stats: [
+      { value: '1965', label: 'Founded' },
+      { value: '1,200+', label: 'Jumps per season' },
+      { value: '200+', label: 'Tandem passengers per year' },
+      { value: '800+', label: 'Guests on the landing area per year' },
+      { value: '3,800+', label: 'Facebook followers' },
+      { value: '1,100+', label: 'Instagram followers' },
+    ],
+    statsNote: 'Rounded estimates.',
+
+    placementEyebrow: 'Your brand in place',
+    placementTitle: 'Where your brand flies.',
+    placementLead: 'One aircraft, owned by the club, seen from the ground on every pass and filmed on every jump. The livery is applied during the closure in line with DAC and EASA rules; the registration and safety markings stay unchanged.',
+    aircraftAlt: 'The club’s GA8 Airvan LX-MDT in flight',
+    aircraftTitle: 'On the aircraft',
+    zones: [
+      { tier: 'title', label: 'Title partner', items: ['Tail fin, both sides', 'Underside of both wings'] },
+      { tier: 'gold', label: 'Gold', items: ['Rear fuselage, both sides', 'Engine cowling, both sides'] },
+      { tier: 'silver', label: 'Silver', items: ['Sliding door, visible in every exit video', 'Wing tips'] },
+    ],
+    zonesNote: 'Indicative placement concept. Final dimensions subject to technical approval.',
+    groundTitle: 'On the ground and online',
+    ground: [
+      { title: 'On the dropzone', text: 'The club’s partner board, flags and roll-ups where passengers, families and members spend the day.' },
+      { title: 'Jumpsuits and helmets', text: 'Your logo on the instructors who appear in the tandem videos.' },
+      { title: 'Web and social media', text: 'This partner page on skydive.lu, plus more than 3,800 followers on Facebook and 1,100 on Instagram.' },
+      { title: 'Aerial photo and video', text: 'Content in your colours, licensed for your own communication.' },
+      { title: 'Tandem vouchers', text: 'Jumps for your team or your customers: the reward nobody forgets.' },
+      { title: 'VIP day at the dropzone', text: 'A private day at ELNT: welcome, briefings, jumps and a barbecue.' },
+      { title: 'An event in your name', text: 'The Jumpweek, the Season Opening or the Season Closing carrying your name.' },
+      { title: 'Tailor-made', text: 'Sector exclusivity, multi-year commitment, product placement, charity initiatives.' },
+    ],
+
+    formatsEyebrow: 'Ways to partner',
+    formatsTitle: 'Choose your altitude.',
+    formatsLead: 'Annual partnerships, with multi-year commitments welcome. Every benefit is delivered by the club itself: aircraft, team, events and channels. Ask us for the full partnership brochure and conditions.',
+    levels: [
+      { tier: 'title', name: 'Title partner', tag: 'One only · 3 years', text: 'Tail fin and wing undersides, the Jumpweek and a partner cup in your name, a VIP day at the dropzone, a speaking slot at the Season Opening and full sector exclusivity.' },
+      { tier: 'gold', name: 'Gold', tag: 'Up to 3 · one per sector', text: 'Rear fuselage or engine cowling, your logo on jumpsuits and helmets, licensed aerial content, hospitality at club events and exclusivity in your sector.' },
+      { tier: 'silver', name: 'Silver', tag: 'Annual', text: 'Sliding door or wing tips, club banners at the dropzone on every activity day and a quarterly presence on our social channels.' },
+      { tier: 'bronze', name: 'Bronze', tag: 'Annual', text: 'Club banners on event days, a welcome post on our social channels and a tandem voucher every year.' },
+      { tier: 'supporter', name: 'Supporter', tag: 'Annual', text: 'The simplest way to show your support: your logo on skydive.lu and on the Launch Partners board, plus a welcome post.' },
+    ],
+    allLevels: 'Every level includes your logo on the skydive.lu partner page, ten years on the Launch Partners board at the dropzone, and an invitation to the Season Opening and Season Closing.',
+    othersTitle: 'More ways to get involved',
+    others: [
+      { title: 'Event partner', text: 'Put your name on the Season Opening, the Jumpweek or the Season Closing 2027, with club banners and flags on site, coverage on our social channels, tandem vouchers and hospitality.' },
+      { title: 'In-kind partner', text: 'Products or services the club would buy anyway: fuel, vehicles and tyres, water and drinks, insurance, IT and telecoms, printing, catering, workwear. Valued at list price, they earn you the benefits of the matching level.' },
+      { title: 'Corporate experiences', text: 'Outside sponsorship, the easiest way to start: tandem days for your team from five participants, customer events, or a VIP day with briefing, jumps and a barbecue.' },
+    ],
+
+    timelineEyebrow: 'The moment',
+    timelineTitle: '2027: the runway reopens.',
+    timelineLead: 'The national roads authority (Ponts et Chaussées) is renovating and realigning the ELNT grass runway, including its end safety areas. The State invests in the site; partners invest in the club that flies from it: flying hours and maintenance, instructor training, safety equipment, young people’s access to the sport, and events.',
+    timeline: [
+      { date: '9 Sept 2026', text: 'Runway works begin; the airfield closes.' },
+      { date: 'Nov 2026 – Jan 2027', text: 'Partners sign up; the livery and banners are designed.' },
+      { date: '31 January 2027', text: 'Deadline to commit for your brand to fly from reopening day.', highlight: true },
+      { date: 'Feb 2027', text: 'General assembly: the season’s partners are presented to the members.' },
+      { date: 'June 2027 at the latest', text: 'ELNT reopens. Season Opening with the Ministry of Sport, the FAL and the press.' },
+      { date: '10–18 July 2027', text: 'Jumpweek 2027: nine days, two aircraft, the busiest week of the year.' },
+      { date: 'Oct 2027', text: 'Season Closing, review with our partners, renewal.' },
+      { date: 'After 2027', text: 'New hangar facilities are planned; the club and its partners move in.' },
+    ],
+
+    stepsEyebrow: 'Next steps',
+    stepsTitle: 'On board in three steps.',
+    steps: [
+      { title: 'A 20-minute call', text: 'Tell us about your goals and budget; we tell you what fits and what does not.' },
+      { title: 'A visit to ELNT, or we come to you', text: 'Meet the aircraft, the team and the landing area, or we bring the file and mock-ups to your office.' },
+      { title: 'A one-page agreement', text: 'Level, placement, dates, invoicing. Your logo joins the livery plan the same week.' },
+    ],
+    contactTitle: 'Your contact for partnerships',
+    contactRole: 'President, Skydive Luxembourg a.s.b.l.',
+    phoneLabel: 'Phone',
+    phoneText: 'Calls by appointment only. Email us to arrange one.',
+    emailLabel: 'Email',
+    addressLabel: 'Address',
+    mailSubject: 'Partnership 2027',
+    brochureSubject: 'Partnership brochure 2027',
+    mailCta: 'Email us',
+    brochureCta: 'Request the brochure',
+
+    ctaTitle: 'Sign before the ribbon is cut.',
+    ctaSubtitle: 'Aircraft placements are limited. Commit before 31 January 2027 so your brand flies from the very first day of the reopening.',
+    ctaPrimary: 'Contact us',
+    ctaSecondary: 'About the club',
+  },
+
+  fr: {
+    bannerAlt: 'Wingsuiter en vol, très haut au-dessus de la campagne luxembourgeoise',
+    bannerEyebrow: 'Partenaires',
+    bannerTitle: 'Votre marque en altitude.',
+    bannerSubtitle: 'Associez-vous à Skydive Luxembourg, le club du Centre national de parachutisme à l’aérodrome de Noertrange (ELNT). La seule zone de saut du Luxembourg, depuis 1965.',
+
+    partnersEyebrow: 'Nos partenaires',
+    partnersTitle: 'Ceux qui nous font voler.',
+    partnersLead: 'Skydive Luxembourg est une association sans but lucratif portée par des bénévoles. Nos partenaires financent les heures de vol et l’entretien de l’avion, la formation des instructeurs, le matériel de sécurité et les événements qui amènent le public à ELNT.',
+    launchTitle: 'Launch Partners 2027',
+    launchText: 'Les partenaires qui signent avant la réouverture de la piste figurent pendant dix ans parmi les Launch Partners de Skydive Luxembourg : ici, sur skydive.lu, et sur le tableau des partenaires du club sur la zone de saut.',
+    placeholder: 'Votre logo ici',
+    placeholderCta: 'Devenir partenaire',
+    tiers: {
+      title: 'Partenaire titre', gold: 'Partenaires Gold', silver: 'Partenaires Silver', bronze: 'Partenaires Bronze',
+      supporter: 'Supporters', event: 'Partenaires événement', 'in-kind': 'Partenaires en nature',
+    },
+    institutions: [
+      { label: 'Haut Patronage', text: 'Sous le Haut Patronage de S.A.R. le Prince Félix de Luxembourg.' },
+      { label: 'Centre national de parachutisme', text: 'Par la convention du 19 décembre 2024 entre l’État luxembourgeois, la Fédération Aéronautique Luxembourgeoise (FAL) et le club, ELNT est le Centre national de parachutisme pour dix ans renouvelables.' },
+      { label: 'Notre avion', text: 'Le GippsAero GA8 Airvan LX-MDT appartient au club depuis 2012. Il a été acquis en coopération avec le ministère du Tourisme, d’où son immatriculation : MDT.' },
+    ],
+
+    reasonsEyebrow: 'Pourquoi nous rejoindre ?',
+    reasonsTitle: 'Cinq raisons de nous rejoindre.',
+    reasonsLead: 'Soutenir Skydive Luxembourg, ce n’est pas acheter de l’espace publicitaire. C’est rejoindre quelque chose d’unique dans le pays.',
+    reasons: [
+      { title: 'La seule du pays', text: 'Le Grand-Duché ne compte qu’une zone de saut : l’aérodrome ELNT, reconnu Centre national de parachutisme. Skydive Luxembourg est le seul club autorisé à y organiser des sauts.' },
+      { title: 'Un public haut de gamme et enthousiaste', text: 'Plus de 200 passagers tandem par an, pour la plupart âgés de 25 à 55 ans, venus du Luxembourg, de l’Ardenne belge, de Lorraine et de la région de Trèves. Ils amènent famille et amis, filment et partagent tout.' },
+      { title: '2027, c’est maintenant', text: 'L’État rénove la piste d’ELNT. Le club ouvrira sa saison sur la piste rénovée au plus tard en juin 2027, en présence du ministère des Sports, de la FAL et de la presse. De nouvelles infrastructures de hangar suivront.' },
+      { title: 'Un nom sur lequel compter', text: 'Plus de soixante ans de parachutisme, une association gérée par ses membres, les normes EASA, DAC Luxembourg, USPA et FAI, et une organisation de sécurité régulièrement auditée par la Direction de l’aviation civile.' },
+      { title: 'Une visibilité que personne d’autre n’offre', text: 'Le seul avion de parachutisme basé au Luxembourg porte votre nom dans le ciel de l’Éislek et dans chaque vidéo de sortie. S’y ajoutent combinaisons, casques, banderoles sur la zone de saut, notre site web et nos réseaux sociaux.' },
+    ],
+
+    statsEyebrow: 'En chiffres',
+    statsTitle: 'Une saison à ELNT en chiffres.',
+    stats: [
+      { value: '1965', label: 'Fondation' },
+      { value: '1 200+', label: 'Sauts par saison' },
+      { value: '200+', label: 'Passagers tandem par an' },
+      { value: '800+', label: 'Accompagnateurs sur la zone d’atterrissage par an' },
+      { value: '3 800+', label: 'Abonnés Facebook' },
+      { value: '1 100+', label: 'Abonnés Instagram' },
+    ],
+    statsNote: 'Chiffres arrondis.',
+
+    placementEyebrow: 'Votre marque en place',
+    placementTitle: 'Où vole votre marque.',
+    placementLead: 'Un seul avion, propriété du club, vu du sol à chaque passage et filmé à chaque saut. La livrée est posée pendant la fermeture, conformément aux règles de la DAC et de l’EASA ; l’immatriculation et les marquages de sécurité restent inchangés.',
+    aircraftAlt: 'Le GA8 Airvan LX-MDT du club en vol',
+    aircraftTitle: 'Sur l’avion',
+    zones: [
+      { tier: 'title', label: 'Partenaire titre', items: ['Dérive, des deux côtés', 'Dessous des deux ailes'] },
+      { tier: 'gold', label: 'Gold', items: ['Arrière du fuselage, des deux côtés', 'Capot moteur, des deux côtés'] },
+      { tier: 'silver', label: 'Silver', items: ['Porte coulissante, visible dans chaque vidéo de sortie', 'Saumons d’aile'] },
+    ],
+    zonesNote: 'Concept d’emplacement indicatif. Dimensions définitives sous réserve de validation technique.',
+    groundTitle: 'Au sol et en ligne',
+    ground: [
+      { title: 'Sur la zone de saut', text: 'Le tableau des partenaires du club, drapeaux et roll-ups, là où passagers, familles et membres passent la journée.' },
+      { title: 'Combinaisons et casques', text: 'Votre logo sur les instructeurs qui apparaissent dans les vidéos tandem.' },
+      { title: 'Web et réseaux sociaux', text: 'Cette page partenaires sur skydive.lu, plus de 3 800 abonnés sur Facebook et 1 100 sur Instagram.' },
+      { title: 'Photo et vidéo aériennes', text: 'Des contenus à vos couleurs, sous licence, pour votre propre communication.' },
+      { title: 'Bons tandem', text: 'Des sauts pour vos équipes ou vos clients : la récompense que personne n’oublie.' },
+      { title: 'Journée VIP sur la zone de saut', text: 'Une journée privée à ELNT : accueil, briefings, sauts et barbecue.' },
+      { title: 'Un événement à votre nom', text: 'La Jumpweek, le Season Opening ou le Season Closing à votre nom.' },
+      { title: 'Sur mesure', text: 'Exclusivité sectorielle, engagement pluriannuel, placement de produit, actions caritatives.' },
+    ],
+
+    formatsEyebrow: 'Formules de partenariat',
+    formatsTitle: 'Choisissez votre altitude.',
+    formatsLead: 'Des partenariats annuels, et les engagements pluriannuels sont les bienvenus. Chaque avantage est fourni par le club lui-même : avion, équipe, événements et canaux. Demandez-nous la brochure de partenariat complète et les conditions.',
+    levels: [
+      { tier: 'title', name: 'Partenaire titre', tag: 'Un seul · 3 ans', text: 'Dérive et dessous des ailes, la Jumpweek et une coupe partenaire à votre nom, une journée VIP sur la zone de saut, une prise de parole au Season Opening et l’exclusivité sectorielle totale.' },
+      { tier: 'gold', name: 'Gold', tag: '3 max. · un par secteur', text: 'Arrière du fuselage ou capot moteur, votre logo sur les combinaisons et les casques, des contenus aériens sous licence, l’accès hospitalité aux événements du club et l’exclusivité dans votre secteur.' },
+      { tier: 'silver', name: 'Silver', tag: 'Annuel', text: 'Porte coulissante ou saumons d’aile, banderoles du club sur la zone de saut chaque jour d’activité et une présence trimestrielle sur nos réseaux sociaux.' },
+      { tier: 'bronze', name: 'Bronze', tag: 'Annuel', text: 'Banderoles du club les jours d’événement, un post de bienvenue sur nos réseaux sociaux et un bon tandem chaque année.' },
+      { tier: 'supporter', name: 'Supporter', tag: 'Annuel', text: 'La façon la plus simple de montrer votre soutien : votre logo sur skydive.lu et sur le tableau des Launch Partners, et un post de bienvenue.' },
+    ],
+    allLevels: 'Chaque niveau comprend votre logo sur la page partenaires de skydive.lu, dix ans sur le tableau des Launch Partners de la zone de saut et une invitation au Season Opening et au Season Closing.',
+    othersTitle: 'Autres façons de s’engager',
+    others: [
+      { title: 'Partenaire événement', text: 'Votre nom associé au Season Opening, à la Jumpweek ou au Season Closing 2027 : banderoles et drapeaux du club sur place, couverture sur nos réseaux, bons tandem et hospitalité.' },
+      { title: 'Partenaire en nature', text: 'Des produits ou services que le club achèterait de toute façon : carburant, véhicule et pneus, eau et boissons, assurance, informatique et télécoms, impression, restauration, vêtements de travail. Valorisés au prix catalogue, ils vous donnent les avantages du niveau correspondant.' },
+      { title: 'Expériences entreprise', text: 'Hors sponsoring, la façon la plus simple de commencer : journées tandem pour vos équipes dès cinq participants, événements clients, ou journée VIP avec briefing, sauts et barbecue.' },
+    ],
+
+    timelineEyebrow: 'Le moment',
+    timelineTitle: '2027 : la piste rouvre.',
+    timelineLead: 'Les Ponts et Chaussées rénovent et rectifient la piste en herbe d’ELNT, aires de sécurité d’extrémité de piste comprises. L’État investit dans le site ; les partenaires investissent dans le club qui s’y envole : heures de vol et entretien de l’avion, formation des instructeurs, matériel de sécurité, accès des jeunes à ce sport et événements.',
+    timeline: [
+      { date: '9 sept. 2026', text: 'Début des travaux de piste, aérodrome fermé.' },
+      { date: 'Nov. 2026 – janv. 2027', text: 'Engagement des partenaires ; conception de la livrée et des banderoles.' },
+      { date: '31 janvier 2027', text: 'Date limite d’engagement pour que votre marque vole dès la réouverture.', highlight: true },
+      { date: 'Févr. 2027', text: 'Assemblée générale : les partenaires de la saison sont présentés aux membres.' },
+      { date: 'Juin 2027 au plus tard', text: 'Réouverture d’ELNT et Season Opening en présence du ministère des Sports, de la FAL et de la presse.' },
+      { date: '10–18 juil. 2027', text: 'Jumpweek 2027 : neuf jours, deux avions, la plus forte affluence de l’année.' },
+      { date: 'Oct. 2027', text: 'Season Closing, bilan avec les partenaires, renouvellement.' },
+      { date: 'Après 2027', text: 'Nouvelles infrastructures de hangar prévues : le club et ses partenaires s’y installent.' },
+    ],
+
+    stepsEyebrow: 'Prochaines étapes',
+    stepsTitle: 'Embarquez en trois étapes.',
+    steps: [
+      { title: 'Un appel de 20 minutes', text: 'Vous nous parlez de vos objectifs et de votre budget ; nous vous disons ce qui convient et ce qui ne convient pas.' },
+      { title: 'Une visite à ELNT, ou nous venons à vous', text: 'Découvrez l’avion, l’équipe et la zone d’atterrissage, ou nous apportons le dossier et les maquettes dans vos bureaux.' },
+      { title: 'Une convention d’une page', text: 'Niveau, emplacement, dates, facturation. Votre logo rejoint le plan de livrée la même semaine.' },
+    ],
+    contactTitle: 'Votre contact partenariats',
+    contactRole: 'Président, Skydive Luxembourg a.s.b.l.',
+    phoneLabel: 'Téléphone',
+    phoneText: 'Appels sur rendez-vous uniquement. Écrivez-nous pour en convenir.',
+    emailLabel: 'E-mail',
+    addressLabel: 'Adresse',
+    mailSubject: 'Partenariat 2027',
+    brochureSubject: 'Brochure de partenariat 2027',
+    mailCta: 'Nous écrire',
+    brochureCta: 'Demander la brochure',
+
+    ctaTitle: 'Signez avant que le ruban soit coupé.',
+    ctaSubtitle: 'Les emplacements sur l’avion sont limités : engagez-vous avant le 31 janvier 2027 pour que votre marque vole dès le premier jour de la réouverture.',
+    ctaPrimary: 'Nous contacter',
+    ctaSecondary: 'Découvrir le club',
+  },
+
+  de: {
+    bannerAlt: 'Wingsuit-Flieger hoch über der luxemburgischen Landschaft',
+    bannerEyebrow: 'Partner',
+    bannerTitle: 'Ihre Marke in der Höhe.',
+    bannerSubtitle: 'Werden Sie Partner von Skydive Luxembourg, dem Verein des Nationalen Fallschirmsprungzentrums am Flugplatz Noertrange (ELNT). Luxemburgs einzige Dropzone, seit 1965.',
+
+    partnersEyebrow: 'Unsere Partner',
+    partnersTitle: 'Die Partner, mit denen wir abheben.',
+    partnersLead: 'Skydive Luxembourg ist ein gemeinnütziger Verein, der von Ehrenamtlichen getragen wird. Unsere Partner finanzieren Flugstunden und Wartung des Flugzeugs, die Ausbildung der Instruktoren, Sicherheitsausrüstung und die Veranstaltungen, die Besucher nach ELNT bringen.',
+    launchTitle: 'Launch Partners 2027',
+    launchText: 'Partner, die vor der Wiedereröffnung der Piste unterschreiben, werden zehn Jahre lang als Launch Partners von Skydive Luxembourg geführt: hier auf skydive.lu und auf der Partnertafel des Vereins an der Dropzone.',
+    placeholder: 'Ihr Logo hier',
+    placeholderCta: 'Partner werden',
+    tiers: {
+      title: 'Titelpartner', gold: 'Gold-Partner', silver: 'Silver-Partner', bronze: 'Bronze-Partner',
+      supporter: 'Supporter', event: 'Eventpartner', 'in-kind': 'Sachpartner',
+    },
+    institutions: [
+      { label: 'Hohe Schirmherrschaft', text: 'Unter der Hohen Schirmherrschaft S.K.H. Prinz Félix von Luxemburg.' },
+      { label: 'Nationales Fallschirmsprungzentrum', text: 'Mit der Konvention vom 19. Dezember 2024 zwischen dem luxemburgischen Staat, der Fédération Aéronautique Luxembourgeoise (FAL) und dem Verein ist ELNT für zehn Jahre, verlängerbar, das Nationale Fallschirmsprungzentrum.' },
+      { label: 'Unser Flugzeug', text: 'Die GippsAero GA8 Airvan LX-MDT gehört dem Verein seit 2012. Sie wurde in Zusammenarbeit mit dem Tourismusministerium angeschafft, daher das Kennzeichen: MDT.' },
+    ],
+
+    reasonsEyebrow: 'Warum Partner werden?',
+    reasonsTitle: 'Fünf Gründe, dabei zu sein.',
+    reasonsLead: 'Wer Skydive Luxembourg unterstützt, kauft keine Werbefläche, sondern wird Teil von etwas, das es im Land nur einmal gibt.',
+    reasons: [
+      { title: 'Die einzige im Land', text: 'Das Großherzogtum hat eine einzige Dropzone: den Flugplatz ELNT, anerkannt als Nationales Fallschirmsprungzentrum. Skydive Luxembourg ist der einzige Verein, der dort Sprünge organisieren darf.' },
+      { title: 'Ein begeistertes, anspruchsvolles Publikum', text: 'Mehr als 200 Tandempassagiere pro Jahr, meist zwischen 25 und 55 Jahre alt, aus Luxemburg, den belgischen Ardennen, Lothringen und der Region Trier. Sie bringen Familie und Freunde mit, filmen alles und teilen es.' },
+      { title: '2027 ist der Moment', text: 'Der Staat erneuert die Piste von ELNT. Spätestens im Juni 2027 eröffnet der Verein seine Saison auf der erneuerten Piste, im Beisein des Sportministeriums, der FAL und der Presse. Neue Hangar-Infrastruktur folgt.' },
+      { title: 'Ein Name, auf den man zählen kann', text: 'Mehr als sechzig Jahre Fallschirmsport, ein von seinen Mitgliedern geführter gemeinnütziger Verein, die Standards von EASA, DAC Luxembourg, USPA und FAI und eine Sicherheitsorganisation, die regelmäßig von der luxemburgischen Luftfahrtbehörde auditiert wird.' },
+      { title: 'Sichtbarkeit, die sonst niemand bietet', text: 'Das einzige in Luxemburg stationierte Absetzflugzeug trägt Ihren Namen über das Éislek und in jedes Ausstiegsvideo. Dazu kommen Sprunganzüge, Helme, Banner an der Dropzone, unsere Website und unsere sozialen Netzwerke.' },
+    ],
+
+    statsEyebrow: 'In Zahlen',
+    statsTitle: 'Eine Saison in ELNT in Zahlen.',
+    stats: [
+      { value: '1965', label: 'Gründung' },
+      { value: '1.200+', label: 'Sprünge pro Saison' },
+      { value: '200+', label: 'Tandempassagiere pro Jahr' },
+      { value: '800+', label: 'Begleitpersonen auf dem Landeplatz pro Jahr' },
+      { value: '3.800+', label: 'Facebook-Follower' },
+      { value: '1.100+', label: 'Instagram-Follower' },
+    ],
+    statsNote: 'Gerundete Schätzwerte.',
+
+    placementEyebrow: 'Ihre Marke im Einsatz',
+    placementTitle: 'Wo Ihre Marke fliegt.',
+    placementLead: 'Ein einziges Flugzeug im Besitz des Vereins, bei jedem Überflug vom Boden aus sichtbar und bei jedem Sprung gefilmt. Die Folierung wird während der Schließung nach den Regeln von DAC und EASA angebracht; Kennzeichen und Sicherheitsmarkierungen bleiben unverändert.',
+    aircraftAlt: 'Die GA8 Airvan LX-MDT des Vereins im Flug',
+    aircraftTitle: 'Auf dem Flugzeug',
+    zones: [
+      { tier: 'title', label: 'Titelpartner', items: ['Seitenleitwerk, beidseitig', 'Unterseite beider Tragflächen'] },
+      { tier: 'gold', label: 'Gold', items: ['Hinterer Rumpf, beidseitig', 'Motorhaube, beidseitig'] },
+      { tier: 'silver', label: 'Silver', items: ['Schiebetür, in jedem Ausstiegsvideo zu sehen', 'Flügelspitzen'] },
+    ],
+    zonesNote: 'Unverbindliches Platzierungskonzept. Endgültige Maße vorbehaltlich technischer Freigabe.',
+    groundTitle: 'Am Boden und online',
+    ground: [
+      { title: 'An der Dropzone', text: 'Die Partnertafel des Vereins, Fahnen und Roll-ups dort, wo Passagiere, Familien und Mitglieder den Tag verbringen.' },
+      { title: 'Sprunganzüge und Helme', text: 'Ihr Logo auf den Instruktoren, die in den Tandemvideos zu sehen sind.' },
+      { title: 'Web und soziale Netzwerke', text: 'Diese Partnerseite auf skydive.lu, dazu mehr als 3.800 Follower auf Facebook und 1.100 auf Instagram.' },
+      { title: 'Luftaufnahmen', text: 'Fotos und Videos in Ihren Farben, lizenziert für Ihre eigene Kommunikation.' },
+      { title: 'Tandemgutscheine', text: 'Sprünge für Ihr Team oder Ihre Kunden: die Belohnung, die niemand vergisst.' },
+      { title: 'VIP-Tag an der Dropzone', text: 'Ein privater Tag in ELNT: Empfang, Briefings, Sprünge und Barbecue.' },
+      { title: 'Ein Event unter Ihrem Namen', text: 'Die Jumpweek, das Season Opening oder das Season Closing unter Ihrem Namen.' },
+      { title: 'Maßgeschneidert', text: 'Branchenexklusivität, mehrjähriges Engagement, Produktplatzierung, Charity-Aktionen.' },
+    ],
+
+    formatsEyebrow: 'Partnerschaftsmodelle',
+    formatsTitle: 'Wählen Sie Ihre Höhe.',
+    formatsLead: 'Jährliche Partnerschaften; mehrjährige Engagements sind willkommen. Jede Leistung erbringt der Verein selbst: Flugzeug, Team, Veranstaltungen und Kanäle. Fordern Sie unsere vollständige Partnerschaftsbroschüre mit allen Konditionen an.',
+    levels: [
+      { tier: 'title', name: 'Titelpartner', tag: 'Nur einer · 3 Jahre', text: 'Seitenleitwerk und Tragflächenunterseiten, die Jumpweek und ein Partnerpokal unter Ihrem Namen, ein VIP-Tag an der Dropzone, ein Redebeitrag beim Season Opening und vollständige Branchenexklusivität.' },
+      { tier: 'gold', name: 'Gold', tag: 'Max. 3 · einer pro Branche', text: 'Hinterer Rumpf oder Motorhaube, Ihr Logo auf Sprunganzügen und Helmen, lizenzierte Luftaufnahmen, Hospitality bei Vereinsevents und Exklusivität in Ihrer Branche.' },
+      { tier: 'silver', name: 'Silver', tag: 'Jährlich', text: 'Schiebetür oder Flügelspitzen, Vereinsbanner an der Dropzone an jedem Sprungtag und eine vierteljährliche Präsenz in unseren sozialen Netzwerken.' },
+      { tier: 'bronze', name: 'Bronze', tag: 'Jährlich', text: 'Vereinsbanner an Eventtagen, ein Willkommenspost in unseren sozialen Netzwerken und ein Tandemgutschein pro Jahr.' },
+      { tier: 'supporter', name: 'Supporter', tag: 'Jährlich', text: 'Der einfachste Weg, Ihre Unterstützung zu zeigen: Ihr Logo auf skydive.lu und auf der Launch-Partners-Tafel sowie ein Willkommenspost.' },
+    ],
+    allLevels: 'Jede Stufe beinhaltet Ihr Logo auf der Partnerseite von skydive.lu, zehn Jahre auf der Launch-Partners-Tafel an der Dropzone und eine Einladung zum Season Opening und zum Season Closing.',
+    othersTitle: 'Weitere Möglichkeiten',
+    others: [
+      { title: 'Eventpartner', text: 'Ihr Name auf dem Season Opening, der Jumpweek oder dem Season Closing 2027: Vereinsbanner und Fahnen vor Ort, Präsenz in unseren sozialen Netzwerken, Tandemgutscheine und Hospitality.' },
+      { title: 'Sachpartner', text: 'Produkte oder Dienstleistungen, die der Verein ohnehin einkaufen würde: Treibstoff, Fahrzeuge und Reifen, Wasser und Getränke, Versicherungen, IT und Telekom, Druck, Catering, Arbeitskleidung. Zum Listenpreis bewertet, erhalten Sie dafür die Leistungen der entsprechenden Stufe.' },
+      { title: 'Firmenerlebnisse', text: 'Außerhalb des Sponsorings der einfachste Einstieg: Tandemtage für Ihr Team ab fünf Teilnehmenden, Kundenevents oder ein VIP-Tag mit Briefing, Sprüngen und Barbecue.' },
+    ],
+
+    timelineEyebrow: 'Der Moment',
+    timelineTitle: '2027: Die Piste öffnet wieder.',
+    timelineLead: 'Die Straßenbauverwaltung (Ponts et Chaussées) erneuert und begradigt die Graspiste von ELNT, einschließlich der Sicherheitsflächen an den Pistenenden. Der Staat investiert in den Standort; die Partner investieren in den Verein, der dort abhebt: Flugstunden und Wartung, Ausbildung der Instruktoren, Sicherheitsausrüstung, den Zugang junger Menschen zum Sport und Veranstaltungen.',
+    timeline: [
+      { date: '9. Sept. 2026', text: 'Beginn der Pistenarbeiten, Flugplatz geschlossen.' },
+      { date: 'Nov. 2026 – Jan. 2027', text: 'Partner unterschreiben; Folierung und Banner werden gestaltet.' },
+      { date: '31. Januar 2027', text: 'Anmeldeschluss, damit Ihre Marke ab der Wiedereröffnung mitfliegt.', highlight: true },
+      { date: 'Feb. 2027', text: 'Generalversammlung: Die Partner der Saison werden den Mitgliedern vorgestellt.' },
+      { date: 'Spätestens Juni 2027', text: 'Wiedereröffnung von ELNT und Season Opening im Beisein des Sportministeriums, der FAL und der Presse.' },
+      { date: '10.–18. Juli 2027', text: 'Jumpweek 2027: neun Tage, zwei Flugzeuge, die besucherstärkste Woche des Jahres.' },
+      { date: 'Okt. 2027', text: 'Season Closing, Bilanz mit den Partnern, Verlängerung.' },
+      { date: 'Nach 2027', text: 'Neue Hangar-Infrastruktur geplant: Verein und Partner ziehen ein.' },
+    ],
+
+    stepsEyebrow: 'Nächste Schritte',
+    stepsTitle: 'In drei Schritten an Bord.',
+    steps: [
+      { title: 'Ein Gespräch von 20 Minuten', text: 'Sie erzählen uns von Ihren Zielen und Ihrem Budget; wir sagen Ihnen, was passt und was nicht.' },
+      { title: 'Ein Besuch in ELNT, oder wir kommen zu Ihnen', text: 'Lernen Sie Flugzeug, Team und Landeplatz kennen, oder wir bringen Unterlagen und Entwürfe in Ihr Büro.' },
+      { title: 'Eine einseitige Vereinbarung', text: 'Stufe, Platzierung, Termine, Rechnung. Ihr Logo kommt noch in derselben Woche in den Folierungsplan.' },
+    ],
+    contactTitle: 'Ihr Ansprechpartner für Partnerschaften',
+    contactRole: 'Präsident, Skydive Luxembourg a.s.b.l.',
+    phoneLabel: 'Telefon',
+    phoneText: 'Anrufe nur nach Vereinbarung. Schreiben Sie uns für einen Termin.',
+    emailLabel: 'E-Mail',
+    addressLabel: 'Adresse',
+    mailSubject: 'Partnerschaft 2027',
+    brochureSubject: 'Partnerschaftsbroschüre 2027',
+    mailCta: 'Schreiben Sie uns',
+    brochureCta: 'Broschüre anfordern',
+
+    ctaTitle: 'Unterschreiben, bevor das Band durchschnitten wird.',
+    ctaSubtitle: 'Die Plätze auf dem Flugzeug sind begrenzt: Sagen Sie bis zum 31. Januar 2027 zu, damit Ihre Marke ab dem ersten Tag der Wiedereröffnung mitfliegt.',
+    ctaPrimary: 'Kontakt aufnehmen',
+    ctaSecondary: 'Den Verein kennenlernen',
+  },
+};
+
+// Luxembourgish is not published yet; fall back to English like the nav does.
+const t = copy[lang] ?? copy.en;
+
+const contact = {
+  name: 'Fränz Hardt',
+  email: 'mail@skydive.lu',
+  addressLines: ['Aérodrome ELNT', '32, op der Louh', 'L-9676 Noertrange'],
+};
+const mailHref = (subject) => `mailto:${contact.email}?subject=${encodeURIComponent(subject)}`;
+
+const partnerGroups = PARTNER_TIERS
+  .map((tier) => ({ tier, label: t.tiers[tier], items: partners.filter((partner) => partner.tier === tier) }))
+  .filter((group) => group.items.length > 0);
+const placeholderSlots = Array.from({ length: LAUNCH_PARTNER_SLOTS });
+const contactAnchor = '#partner-contact';
+---
+
+<PageBanner
+  image={bannerImg}
+  alt={t.bannerAlt}
+  imagePosition="center 45%"
+  eyebrow={t.bannerEyebrow}
+  title={t.bannerTitle}
+  subtitle={t.bannerSubtitle}
+/>
+
+<!-- Our partners ---------------------------------------------------------->
+<section class="section">
+  <div class="section__inner">
+    <header class="section__header">
+      <p class="section__eyebrow">{t.partnersEyebrow}</p>
+      <h2 class="section__title">{t.partnersTitle}</h2>
+      <p class="section__lead">{t.partnersLead}</p>
+    </header>
+
+    <div class="partners-launch">
+      <h3 class="partners-launch__title">{t.launchTitle}</h3>
+      <p class="partners-launch__text">{t.launchText}</p>
+
+      {partnerGroups.length === 0 ? (
+        <ul class="partners-logos" role="list">
+          {placeholderSlots.map(() => (
+            <li>
+              <a href={contactAnchor} class="partners-logo partners-logo--placeholder">
+                <span class="partners-logo__placeholder-label">{t.placeholder}</span>
+                <span class="partners-logo__placeholder-cta">{t.placeholderCta} →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <>
+          {partnerGroups.map((group) => (
+            <div class="partners-group">
+              <h4 class="partners-group__title">{group.label}</h4>
+              <ul class="partners-logos" role="list">
+                {group.items.map((partner) => (
+                  <li>
+                    {partner.url ? (
+                      <a href={partner.url} class="partners-logo" target="_blank" rel="sponsored noopener noreferrer">
+                        <img src={partner.logo} alt={partner.name} loading="lazy" decoding="async" />
+                      </a>
+                    ) : (
+                      <div class="partners-logo">
+                        <img src={partner.logo} alt={partner.name} loading="lazy" decoding="async" />
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <ul class="partners-logos partners-logos--invite" role="list">
+            <li>
+              <a href={contactAnchor} class="partners-logo partners-logo--placeholder">
+                <span class="partners-logo__placeholder-label">{t.placeholder}</span>
+                <span class="partners-logo__placeholder-cta">{t.placeholderCta} →</span>
+              </a>
+            </li>
+          </ul>
+        </>
+      )}
+    </div>
+
+    <ul class="grid grid--3 partners-institutions" role="list">
+      {t.institutions.map((item) => (
+        <li class="partners-institution">
+          <p class="partners-institution__label">{item.label}</p>
+          <p class="partners-institution__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- Five reasons ---------------------------------------------------------->
+<section class="section section--alt">
+  <div class="section__inner">
+    <header class="section__header">
+      <p class="section__eyebrow">{t.reasonsEyebrow}</p>
+      <h2 class="section__title">{t.reasonsTitle}</h2>
+      <p class="section__lead">{t.reasonsLead}</p>
+    </header>
+    <ol class="partners-reasons" role="list">
+      {t.reasons.map((reason, index) => (
+        <li class="partners-reason">
+          <span class="partners-reason__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <h3 class="partners-reason__title">{reason.title}</h3>
+          <p class="partners-reason__text">{reason.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- Key figures ----------------------------------------------------------->
+<section class="section section--dark section--tight">
+  <div class="section__inner">
+    <header class="section__header partners-stats__header">
+      <p class="section__eyebrow">{t.statsEyebrow}</p>
+      <h2 class="section__title">{t.statsTitle}</h2>
+    </header>
+    <dl class="partners-stats">
+      {t.stats.map((stat) => (
+        <div class="partners-stat">
+          <dt class="partners-stat__label">{stat.label}</dt>
+          <dd class="partners-stat__value">{stat.value}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="partners-stats__note">{t.statsNote}</p>
+  </div>
+</section>
+
+<!-- Where your brand flies ------------------------------------------------>
+<section class="section">
+  <div class="section__inner">
+    <header class="section__header">
+      <p class="section__eyebrow">{t.placementEyebrow}</p>
+      <h2 class="section__title">{t.placementTitle}</h2>
+      <p class="section__lead">{t.placementLead}</p>
+    </header>
+
+    <div class="grid grid--2 partners-aircraft">
+      <div class="partners-aircraft__media">
+        <Image
+          src={aircraftImg}
+          alt={t.aircraftAlt}
+          widths={[480, 720, 960]}
+          sizes="(max-width: 600px) 100vw, 50vw"
+          quality={78}
+        />
+      </div>
+      <div>
+        <h3 class="partners-subtitle">{t.aircraftTitle}</h3>
+        <ul class="partners-zones" role="list">
+          {t.zones.map((zone) => (
+            <li class:list={['partners-zone', `partners-zone--${zone.tier}`]}>
+              <p class="partners-zone__label">{zone.label}</p>
+              <ul class="partners-zone__items">
+                {zone.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ul>
+        <p class="partners-note">{t.zonesNote}</p>
+      </div>
+    </div>
+
+    <h3 class="partners-subtitle partners-subtitle--center">{t.groundTitle}</h3>
+    <ul class="grid grid--4 partners-ground" role="list">
+      {t.ground.map((item, index) => (
+        <li class="partners-ground__item">
+          <span class="partners-ground__number" aria-hidden="true">{String(index + 7).padStart(2, '0')}</span>
+          <h4 class="partners-ground__title">{item.title}</h4>
+          <p class="partners-ground__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- Ways to partner ------------------------------------------------------->
+<section class="section section--alt">
+  <div class="section__inner">
+    <header class="section__header">
+      <p class="section__eyebrow">{t.formatsEyebrow}</p>
+      <h2 class="section__title">{t.formatsTitle}</h2>
+      <p class="section__lead">{t.formatsLead}</p>
+    </header>
+
+    <ul class="partners-levels" role="list">
+      {t.levels.map((level) => (
+        <li class:list={['partners-level', `partners-level--${level.tier}`]}>
+          <h3 class="partners-level__name">{level.name}</h3>
+          <p class="partners-level__tag">{level.tag}</p>
+          <p class="partners-level__text">{level.text}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="partners-all-levels">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <span>{t.allLevels}</span>
+    </p>
+
+    <h3 class="partners-subtitle partners-subtitle--center">{t.othersTitle}</h3>
+    <ul class="grid grid--3 partners-others" role="list">
+      {t.others.map((item) => (
+        <li class="partners-card">
+          <h4 class="partners-card__title">{item.title}</h4>
+          <p class="partners-card__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- 2027 timeline --------------------------------------------------------->
+<section class="section">
+  <div class="section__inner">
+    <header class="section__header">
+      <p class="section__eyebrow">{t.timelineEyebrow}</p>
+      <h2 class="section__title">{t.timelineTitle}</h2>
+      <p class="section__lead">{t.timelineLead}</p>
+    </header>
+    <ol class="partners-timeline" role="list">
+      {t.timeline.map((item) => (
+        <li class:list={['partners-timeline__item', { 'is-highlight': item.highlight }]}>
+          <p class="partners-timeline__date">{item.date}</p>
+          <p class="partners-timeline__text">{item.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<!-- Next steps and contact ------------------------------------------------>
+<section class="section section--alt" id="partner-contact">
+  <div class="section__inner">
+    <div class="grid grid--2 partners-next">
+      <div>
+        <p class="section__eyebrow">{t.stepsEyebrow}</p>
+        <h2 class="section__title">{t.stepsTitle}</h2>
+        <ol class="partners-steps" role="list">
+          {t.steps.map((step, index) => (
+            <li class="partners-step">
+              <span class="partners-step__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 class="partners-step__title">{step.title}</h3>
+                <p class="partners-step__text">{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="partners-contact">
+        <p class="partners-contact__eyebrow">{t.contactTitle}</p>
+        <p class="partners-contact__name">{contact.name}</p>
+        <p class="partners-contact__role">{t.contactRole}</p>
+        <dl class="partners-contact__list">
+          <dt>{t.phoneLabel}</dt>
+          <dd>{t.phoneText}</dd>
+          <dt>{t.emailLabel}</dt>
+          <dd><a href={mailHref(t.mailSubject)}>{contact.email}</a></dd>
+          <dt>{t.addressLabel}</dt>
+          <dd>
+            {contact.addressLines.map((line, i) => (
+              <>{line}{i < contact.addressLines.length - 1 && <br />}</>
+            ))}
+          </dd>
+        </dl>
+        <div class="partners-contact__actions">
+          <a class="btn btn--primary" href={mailHref(t.mailSubject)}>{t.mailCta}</a>
+          <a class="btn btn--outline" href={mailHref(t.brochureSubject)}>{t.brochureCta}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<CTABanner
+  title={t.ctaTitle}
+  subtitle={t.ctaSubtitle}
+  primaryCta={{ label: t.ctaPrimary, href: mailHref(t.mailSubject) }}
+  secondaryCta={{ label: t.ctaSecondary, href: pageHref(`/${lang}/about`) }}
+/>
+
+<style>
+  /* Tier accents, shared by the aircraft zones and the partnership levels. */
+  .partners-zone--title, .partners-level--title         { --tier-color: var(--color-red); }
+  .partners-zone--gold, .partners-level--gold           { --tier-color: #C9971C; }
+  .partners-zone--silver, .partners-level--silver       { --tier-color: #8F9AA5; }
+  .partners-level--bronze                               { --tier-color: #A8693D; }
+  .partners-level--supporter                            { --tier-color: var(--color-blue); }
+
+  /* :where() keeps this reset at zero specificity, so the margins set on the
+     lists' own classes (e.g. the space above the institution boxes) apply. */
+  :where(ul[role="list"], ol[role="list"]) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .partners-subtitle {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-4);
+  }
+  .partners-subtitle--center {
+    text-align: center;
+    margin-top: var(--space-16);
+    margin-bottom: var(--space-8);
+  }
+
+  .partners-note {
+    margin-top: var(--space-4);
+    font-size: var(--fs-sm);
+    color: var(--color-fg-muted);
+  }
+
+  /* ---------- Partner logos ------------------------------------------- */
+
+  .partners-launch {
+    text-align: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .partners-launch__title {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-2);
+  }
+  .partners-launch__text {
+    color: var(--color-fg-muted);
+    max-width: 60ch;
+    margin: 0 auto var(--space-8);
+  }
+
+  .partners-group + .partners-group { margin-top: var(--space-8); }
+  .partners-group__title {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-fg-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .partners-logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-4);
+  }
+  .partners-logos--invite {
+    margin-top: var(--space-8);
+    grid-template-columns: minmax(160px, 220px);
+    justify-content: center;
+  }
+
+  .partners-logo {
+    aspect-ratio: 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    /* Logos are designed for light backgrounds, so the tile stays white in both themes. */
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+  a.partners-logo:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .partners-logo img {
+    max-width: 100%;
+    max-height: 72px;
+    object-fit: contain;
+  }
+
+  .partners-logo--placeholder {
+    flex-direction: column;
+    gap: var(--space-2);
+    background: transparent;
+    border: 2px dashed var(--color-border);
+    color: var(--color-fg-muted);
+    text-decoration: none;
+  }
+  .partners-logo--placeholder:hover,
+  .partners-logo--placeholder:focus-visible {
+    border-color: var(--color-link);
+    color: var(--color-link);
+  }
+  .partners-logo__placeholder-label {
+    font-size: var(--fs-sm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .partners-logo__placeholder-cta {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--color-link-accent);
+  }
+
+  .partners-institutions { margin-top: var(--space-16); }
+  .partners-institution {
+    padding: var(--space-5) var(--space-6);
+    border-left: 3px solid var(--color-blue);
+    background: var(--color-bg-alt);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+  .partners-institution:nth-child(2) { border-left-color: var(--color-red); }
+  .partners-institution__label {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-link);
+    margin-bottom: var(--space-2);
+  }
+  .partners-institution__text { color: var(--color-fg); }
+
+  /* ---------- Five reasons -------------------------------------------- */
+
+  /* Five cards: three across, then two wider ones, so no card is left alone. */
+  .partners-reasons {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-6);
+  }
+  .partners-reason { grid-column: span 2; }
+  .partners-reason:nth-child(n + 4) { grid-column: span 3; }
+  @media (max-width: 900px) {
+    .partners-reasons { grid-template-columns: repeat(2, 1fr); }
+    .partners-reason,
+    .partners-reason:nth-child(n + 4) { grid-column: auto; }
+    .partners-reason:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 600px) {
+    .partners-reasons { grid-template-columns: 1fr; }
+  }
+  .partners-reason {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-top: 4px solid var(--color-red);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+  .partners-reason:nth-child(even) { border-top-color: var(--color-blue); }
+  .partners-reason__number {
+    display: block;
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    color: var(--color-link);
+    margin-bottom: var(--space-3);
+  }
+  .partners-reason__title {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-2);
+  }
+  .partners-reason__text { color: var(--color-fg-muted); }
+
+  /* ---------- Key figures --------------------------------------------- */
+
+  .partners-stats__header { margin-bottom: var(--space-8); }
+  .partners-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-6);
+    margin: 0;
+    text-align: center;
+  }
+  /* The figure is shown above its label (column-reverse keeps dt before dd in
+     the markup). flex-end is the top in a reversed column, so every figure
+     starts on the same line however many lines its label wraps to. */
+  .partners-stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--space-2);
+  }
+  .partners-stat__value {
+    margin: 0;
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    color: var(--color-on-inverse);
+  }
+  .partners-stat__label {
+    font-size: var(--fs-sm);
+    color: var(--color-on-inverse-muted);
+  }
+  .partners-stats__note {
+    margin-top: var(--space-8);
+    text-align: center;
+    font-size: var(--fs-sm);
+    color: var(--color-on-inverse-muted);
+  }
+
+  /* ---------- Where your brand flies ---------------------------------- */
+
+  .partners-aircraft {
+    gap: var(--space-10);
+    align-items: center;
+  }
+  .partners-aircraft__media {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--color-bg-alt);
+  }
+  .partners-aircraft__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .partners-zones {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .partners-zone {
+    padding-left: var(--space-4);
+    border-left: 4px solid var(--tier-color);
+  }
+  .partners-zone__label {
+    font-weight: var(--fw-bold);
+    margin-bottom: var(--space-1);
+  }
+  .partners-zone__items {
+    margin: 0;
+    padding-left: var(--space-5);
+    color: var(--color-fg-muted);
+  }
+
+  .partners-ground__item {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+  .partners-ground__number {
+    display: block;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+    color: var(--color-link);
+    margin-bottom: var(--space-2);
+  }
+  .partners-ground__title {
+    font-size: var(--fs-base);
+    margin-bottom: var(--space-2);
+  }
+  .partners-ground__text {
+    font-size: var(--fs-sm);
+    color: var(--color-fg-muted);
+  }
+
+  /* ---------- Ways to partner ----------------------------------------- */
+
+  .partners-levels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+  .partners-level {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-top: 5px solid var(--tier-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-6) var(--space-5);
+  }
+  .partners-level__name {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-1);
+  }
+  .partners-level__tag {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-fg-muted);
+    margin-bottom: var(--space-4);
+  }
+  .partners-level__text {
+    font-size: var(--fs-sm);
+    color: var(--color-fg-muted);
+  }
+
+  .partners-all-levels {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    max-width: 760px;
+    margin: var(--space-8) auto 0;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .partners-all-levels svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--color-success);
+  }
+
+  .partners-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+  .partners-card__title {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-2);
+  }
+  .partners-card__text { color: var(--color-fg-muted); }
+
+  /* ---------- Timeline ------------------------------------------------ */
+
+  .partners-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-6) var(--space-5);
+  }
+  .partners-timeline__item {
+    padding-top: var(--space-3);
+    border-top: 3px solid var(--color-blue);
+  }
+  .partners-timeline__item.is-highlight { border-top-color: var(--color-red); }
+  .partners-timeline__date {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-link);
+    margin-bottom: var(--space-1);
+  }
+  .is-highlight .partners-timeline__date { color: var(--color-link-accent); }
+  .partners-timeline__text { color: var(--color-fg-muted); }
+  .is-highlight .partners-timeline__text {
+    color: var(--color-fg);
+    font-weight: var(--fw-medium);
+  }
+
+  /* ---------- Next steps and contact ---------------------------------- */
+
+  .partners-next {
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  .partners-steps {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+  .partners-step {
+    display: flex;
+    gap: var(--space-4);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .partners-step__number {
+    flex-shrink: 0;
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    color: var(--color-link-accent);
+  }
+  .partners-step__title {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-1);
+  }
+  .partners-step__text { color: var(--color-fg-muted); }
+
+  .partners-contact {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-sm);
+  }
+  .partners-contact__eyebrow {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-link);
+    margin-bottom: var(--space-3);
+  }
+  .partners-contact__name {
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-bold);
+    line-height: var(--lh-tight);
+  }
+  .partners-contact__role {
+    color: var(--color-fg-muted);
+    margin-bottom: var(--space-6);
+  }
+  .partners-contact__list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-3) var(--space-6);
+    margin: 0 0 var(--space-6);
+  }
+  .partners-contact__list dt { font-weight: var(--fw-medium); }
+  .partners-contact__list dd {
+    margin: 0;
+    color: var(--color-fg-muted);
+  }
+  .partners-contact__list a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+  .partners-contact__list a:hover,
+  .partners-contact__list a:focus-visible {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+  }
+  .partners-contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 600px) {
+    .partners-contact { padding: var(--space-6); }
+    .partners-contact__list { grid-template-columns: 1fr; gap: var(--space-1); }
+    .partners-contact__list dd + dt { margin-top: var(--space-3); }
+  }
+</style>
